@@ -76,6 +76,8 @@
 	newUser.username = [jsonUser valueForKey:@"username"];
 	newUser.snowflake = [jsonUser valueForKey:@"id"];
 	
+    newUser.profileImage = [UIImage imageNamed:@"Icon"];
+    
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
 	[DCTools processImageDataWithURLString:avatarURL andBlock:^(NSData *imageData){
@@ -222,8 +224,14 @@
 	NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@",
 											 newGuild.snowflake, [jsonGuild valueForKey:@"icon"]];
 	
+    newGuild.icon = [UIImage imageNamed:@"Icon"];
+    
 	[DCTools processImageDataWithURLString:iconURL andBlock:^(NSData *imageData) {
-		newGuild.icon = [UIImage imageWithData:imageData];
+        UIImage* icon = [UIImage imageWithData:imageData];
+        
+        if (icon != nil) {
+            newGuild.icon = icon;
+        }
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD GUILD LIST" object:DCServerCommunicator.sharedInstance];
@@ -322,7 +330,7 @@
 + (void)joinGuild:(NSString*)inviteCode {
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:1];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:240];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		

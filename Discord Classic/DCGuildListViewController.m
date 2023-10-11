@@ -58,6 +58,12 @@
 	//Guild name and icon
 	[cell.textLabel setText:guildAtRowIndex.name];
 	[cell.imageView setImage:guildAtRowIndex.icon];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    cell.imageView.clipsToBounds = YES;
+    cell.imageView.frame = CGRectMake(cell.imageView.frame.origin.x, cell.imageView.frame.origin.y, cell.frame.size.height, cell.frame.size.height);
+    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
+    cell.imageView.layer.masksToBounds = YES;
+    [cell.imageView setNeedsDisplay];
 	
 	return cell;
 }
