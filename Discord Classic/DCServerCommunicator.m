@@ -172,6 +172,7 @@
 						//The user's DMs are treated like a guild, where the channels are different DM/groups
 						DCGuild* privateGuild = DCGuild.new;
 						privateGuild.name = @"Direct Messages";
+                        privateGuild.icon = [UIImage imageNamed:@"Icon"];
 						privateGuild.channels = NSMutableArray.new;
 						
 						for(NSDictionary* privateChannel in [d valueForKey:@"private_channels"]){
@@ -198,6 +199,12 @@
 										[fullChannelName appendString:@", @"];
 									
 									NSString* memberName = [privateChannelMember valueForKey:@"username"];
+                                    @try {
+                                        if ([privateChannelMember objectForKey:@"global_name"] &&  [[privateChannelMember valueForKey:@"global_name"] isKindOfClass:[NSString class]])
+                                            memberName = [privateChannelMember valueForKey:@"global_name"];
+                                    } @catch (NSException* e) {}
+                                    NSLog(memberName);
+                                    
 									[fullChannelName appendString:memberName];
 									
 									newChannel.name = fullChannelName;

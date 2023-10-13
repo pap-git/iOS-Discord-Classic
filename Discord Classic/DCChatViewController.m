@@ -108,20 +108,43 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 	//static NSString *guildCellIdentifier = @"Channel Cell";
 	
-	[tableView registerNib:[UINib nibWithNibName:@"DCChatTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
-	DCChatTableCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Message Cell"];
+	DCChatTableCell* cell;
 	
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
-	
-	[cell.authorLabel setText:messageAtRowIndex.author.username];
+    DCMessage* previousMessage;
+    
+    BOOL isFirstMessage = NO;
+    BOOL isGrouped = NO;
+    
+    if (indexPath.row < 1)
+        isFirstMessage = YES;
+    
+    if (!isFirstMessage) {
+        previousMessage = [self.messages objectAtIndex:indexPath.row-1];
+        isGrouped = messageAtRowIndex.author.username == previousMessage.author.username;
+    }
+    
+    isGrouped = NO;
+    
+    if (isGrouped)
+        [tableView registerNib:[UINib nibWithNibName:@"DCChatGroupedTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
+    else
+        [tableView registerNib:[UINib nibWithNibName:@"DCChatTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
+    
+    cell = [tableView dequeueReusableCellWithIdentifier:@"Message Cell"];
+    
+    if (!isGrouped)
+        [cell.authorLabel setText:messageAtRowIndex.author.globalName];
 	
 	[cell.contentTextView setText:messageAtRowIndex.content];
 	
 	[cell.contentTextView setHeight:[cell.contentTextView sizeThatFits:CGSizeMake(cell.contentTextView.width, MAXFLOAT)].height];
 	
-	[cell.profileImage setImage:messageAtRowIndex.author.profileImage];
-    cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height / 2;
-    cell.profileImage.layer.masksToBounds = YES;
+    if (!isGrouped) {
+        [cell.profileImage setImage:messageAtRowIndex.author.profileImage];
+        cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height / 2;
+        cell.profileImage.layer.masksToBounds = YES;
+    }
 	
 	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor redColor] : [UIColor clearColor]];
 	
@@ -131,7 +154,7 @@
 		}
 	}
 	
-	int imageViewOffset = cell.contentTextView.height + 37;
+	int imageViewOffset = cell.contentTextView.height + (isGrouped ? 12 : 36);
 	
 	for(UIImage* image in messageAtRowIndex.embeddedImages){
 		UIImageView* imageView = UIImageView.new;
@@ -154,8 +177,27 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
-	
-	return messageAtRowIndex.contentHeight + messageAtRowIndex.embeddedImageCount * 220;
+	DCMessage* previousMessage;
+    
+    int contentHeightChange = 0;
+    
+    BOOL isFirstMessage = NO;
+    BOOL isGrouped = NO;
+    
+    if (indexPath.row < 1)
+        isFirstMessage = YES;
+    
+    if (!isFirstMessage) {
+        previousMessage = [self.messages objectAtIndex:indexPath.row-1];
+        isGrouped = messageAtRowIndex.author.username == previousMessage.author.username;
+    }
+    
+    isGrouped = NO;
+    
+    if (isGrouped)
+        contentHeightChange -= 24;
+    
+	return messageAtRowIndex.contentHeight + contentHeightChange + messageAtRowIndex.embeddedImageCount * (isGrouped ? 200 : 224);
 }
 
 
@@ -191,7 +233,7 @@
 	//thx to Pierre Legrain
 	//http://pyl.io/2015/08/17/animating-in-sync-with-ios-keyboard/
 	
-	int keyboardHeight = [[notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
+	int keyboardHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
 	float keyboardAnimationDuration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
 	int keyboardAnimationCurve = [[notification.userInfo objectForKey: UIKeyboardAnimationCurveUserInfoKey] integerValue];
 	

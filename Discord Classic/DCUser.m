@@ -11,6 +11,6 @@
 @implementation DCUser
 
 -(NSString *)description{
-	return [NSString stringWithFormat:@"[User] Snowflake: %@, Username: %@", self.snowflake, self.username];
+	return [NSString stringWithFormat:@"[User] Snowflake: %@, Username: %@, Display name %@", self.snowflake, self.username, self.globalName];
 }
 @end

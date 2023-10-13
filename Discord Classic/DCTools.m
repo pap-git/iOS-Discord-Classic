@@ -74,6 +74,11 @@
 	
 	DCUser* newUser = DCUser.new;
 	newUser.username = [jsonUser valueForKey:@"username"];
+    newUser.globalName = newUser.username;
+    @try {
+        if ([jsonUser objectForKey:@"global_name"] && [[jsonUser valueForKey:@"global_name"] isKindOfClass:[NSString class]])
+            newUser.globalName = [jsonUser valueForKey:@"global_name"];
+    } @catch (NSException* e) {}
 	newUser.snowflake = [jsonUser valueForKey:@"id"];
 	
     newUser.profileImage = [UIImage imageNamed:@"Icon"];
@@ -191,7 +196,7 @@
 	//contentHeight does NOT include height of the embeded images
 	float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
 	
-	CGSize authorNameSize = [newMessage.author.username sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+	CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
 	CGSize contentSize = [newMessage.content sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
 	
 	newMessage.contentHeight = authorNameSize.height + contentSize.height + 10;

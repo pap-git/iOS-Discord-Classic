@@ -11,6 +11,7 @@
 @interface DCUser : NSObject
 @property NSString* snowflake;
 @property NSString* username;
+@property NSString* globalName;
 @property UIImage* profileImage;
 
 -(NSString *)description;
