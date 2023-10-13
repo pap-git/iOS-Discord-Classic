@@ -132,10 +132,7 @@
     dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZZZ";
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
     
-    NSDate *testDate = [NSDate date];
     newMessage.timestamp = [dateFormatter dateFromString: [jsonMessage valueForKey:@"timestamp"]];
-    
-    NSLog(@"%@, %@, %@", [dateFormatter stringFromDate:testDate], (NSString*)[jsonMessage valueForKey:@"timestamp"], newMessage.timestamp);
     
     NSDateFormatter *prettyDateFormatter = [NSDateFormatter new];
     
@@ -225,7 +222,7 @@
 	CGSize contentSize = [newMessage.content sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
     
     newMessage.contentHeight = authorNameSize.height + contentSize.height + 10;
-    newMessage.authorNameWidth = 64 + authorNameSize.width;
+    newMessage.authorNameWidth = 60 + authorNameSize.width;
 	
 	return newMessage;
 }

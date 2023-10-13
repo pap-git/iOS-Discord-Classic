@@ -159,13 +159,22 @@
             else
                 prevMessage = messages[i-1];
             DCMessage* currentMessage = messages[i];
-            if (prevMessage != nil && (prevMessage.author.snowflake == currentMessage.author.snowflake)) {
-                currentMessage.isGrouped = YES;
+            if (prevMessage != nil) {
+                NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:currentMessage.timestamp];
+                NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
                 
-                float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
-                CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
-                
-                currentMessage.contentHeight -= authorNameSize.height + 4;
+                if (prevMessage.author.snowflake == currentMessage.author.snowflake
+                    && curComponents.hour == prevComponents.hour
+                    && curComponents.day == prevComponents.day
+                    && curComponents.month == prevComponents.month
+                    && curComponents.year == prevComponents.year) {
+                    currentMessage.isGrouped = YES;
+                    
+                    float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                    CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                    
+                    currentMessage.contentHeight -= authorNameSize.height + 4;
+                }
             }
         }
         

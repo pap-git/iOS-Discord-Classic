@@ -71,7 +71,7 @@
     
     // make guild icons a fixed size
     
-    CGSize itemSize = CGSizeMake(88, 88);
+    CGSize itemSize = CGSizeMake(40, 40);
     UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
     CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
     [cell.imageView.image drawInRect:imageRect];
@@ -80,6 +80,7 @@
     
     cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
     cell.imageView.layer.masksToBounds = YES;
+    cell.imageView.frame = CGRectMake(2.0, 2.0, itemSize.width, itemSize.height);
     [cell.imageView setNeedsDisplay];
 	
 	return cell;

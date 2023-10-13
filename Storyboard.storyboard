@@ -11,7 +11,7 @@
                 <navigationController definesPresentationContext="YES" id="I1M-Vv-1nm" customClass="DCViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QVn-au-26c">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.27058824896812439" green="0.35294118523597717" blue="0.70588237047195435" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="0.45098039215686275" green="0.53333333333333333" blue="0.85098039215686272" alpha="1" colorSpace="deviceRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="sL2-AC-FA3" kind="relationship" relationship="rootViewController" id="ZXP-vw-Cuk"/>
