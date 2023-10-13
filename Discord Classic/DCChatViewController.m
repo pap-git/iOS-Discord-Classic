@@ -151,6 +151,9 @@
     }
 	
 	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor orangeColor] : [UIColor clearColor]];
+    
+    cell.contentView.layer.cornerRadius = 4;
+    cell.contentView.layer.masksToBounds = YES;
 	
 	for (UIView *subView in cell.subviews) {
 		if ([subView isKindOfClass:[UIImageView class]]) {
