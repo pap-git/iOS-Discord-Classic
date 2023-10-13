@@ -127,7 +127,25 @@
 	newMessage.snowflake = [jsonMessage valueForKey:@"id"];
 	newMessage.embeddedImages = NSMutableArray.new;
 	newMessage.embeddedImageCount = 0;
-	
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZZZ";
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    
+    NSDate *testDate = [NSDate date];
+    newMessage.timestamp = [dateFormatter dateFromString: [jsonMessage valueForKey:@"timestamp"]];
+    
+    NSLog(@"%@, %@, %@", [dateFormatter stringFromDate:testDate], (NSString*)[jsonMessage valueForKey:@"timestamp"], newMessage.timestamp);
+    
+    NSDateFormatter *prettyDateFormatter = [NSDateFormatter new];
+    
+    prettyDateFormatter.dateStyle = NSDateFormatterShortStyle;
+    prettyDateFormatter.timeStyle = NSDateFormatterShortStyle;
+    
+    prettyDateFormatter.doesRelativeDateFormatting = YES;
+    
+    newMessage.prettyTimestamp = [prettyDateFormatter stringFromDate:newMessage.timestamp];
+    
 	//Load embeded images from both links and attatchments
 	NSArray* embeds = [jsonMessage objectForKey:@"embeds"];
 	if(embeds)
@@ -200,13 +218,14 @@
 	}
 	
 	//Calculate height of content to be used when showing messages in a tableview
-	//contentHeight does NOT include height of the embeded images
+	//contentHeight does NOT include height of the embeded images or account for height of a grouped message
 	float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
 	
 	CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
 	CGSize contentSize = [newMessage.content sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
-	
-	newMessage.contentHeight = authorNameSize.height + contentSize.height + 10;
+    
+    newMessage.contentHeight = authorNameSize.height + contentSize.height + 10;
+    newMessage.authorNameWidth = 64 + authorNameSize.width;
 	
 	return newMessage;
 }

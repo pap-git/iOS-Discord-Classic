@@ -62,8 +62,20 @@
 
 
 - (void)handleMessageCreate:(NSNotification*)notification {
-  DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
+    DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
 	
+    if (self.messages.count > 0) {
+        DCMessage* prevMessage = self.messages[self.messages.count - 1];
+        if (prevMessage != nil && (prevMessage.author.snowflake == newMessage.author.snowflake)) {
+            newMessage.isGrouped = YES;
+            
+            float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+            CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+            
+            newMessage.contentHeight -= authorNameSize.height + 4;
+        }
+    }
+    
 	[self.messages addObject:newMessage];
 	[self.chatTableView reloadData];
 	
@@ -95,7 +107,7 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
-				scrollOffset += newMessage.contentHeight + newMessage.embeddedImageCount * 220;
+				scrollOffset += newMessage.contentHeight + newMessage.embeddedImageCount * (newMessage.isGrouped ? 200 : 224);
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
 		});
@@ -111,36 +123,26 @@
 	DCChatTableCell* cell;
 	
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
-    DCMessage* previousMessage;
+
+    [tableView registerNib:[UINib nibWithNibName:@"DCChatGroupedTableCell" bundle:nil] forCellReuseIdentifier:@"Grouped Message Cell"];
+    [tableView registerNib:[UINib nibWithNibName:@"DCChatTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
     
-    BOOL isFirstMessage = NO;
-    BOOL isGrouped = NO;
-    
-    if (indexPath.row < 1)
-        isFirstMessage = YES;
-    
-    if (!isFirstMessage) {
-        previousMessage = [self.messages objectAtIndex:indexPath.row-1];
-        isGrouped = messageAtRowIndex.author.username == previousMessage.author.username;
-    }
-    
-    isGrouped = NO;
-    
-    if (isGrouped)
-        [tableView registerNib:[UINib nibWithNibName:@"DCChatGroupedTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
+    if (!messageAtRowIndex.isGrouped)
+        cell = [tableView dequeueReusableCellWithIdentifier:@"Message Cell"];
     else
-        [tableView registerNib:[UINib nibWithNibName:@"DCChatTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"Grouped Message Cell"];
     
-    cell = [tableView dequeueReusableCellWithIdentifier:@"Message Cell"];
-    
-    if (!isGrouped)
+    if (!messageAtRowIndex.isGrouped) {
         [cell.authorLabel setText:messageAtRowIndex.author.globalName];
+        [cell.timestampLabel setText:messageAtRowIndex.prettyTimestamp];
+        [cell.timestampLabel setFrame:CGRectMake(messageAtRowIndex.authorNameWidth, cell.timestampLabel.y, self.chatTableView.width-messageAtRowIndex.authorNameWidth, cell.timestampLabel.height)];
+    }
 	
 	[cell.contentTextView setText:messageAtRowIndex.content];
 	
 	[cell.contentTextView setHeight:[cell.contentTextView sizeThatFits:CGSizeMake(cell.contentTextView.width, MAXFLOAT)].height];
 	
-    if (!isGrouped) {
+    if (!messageAtRowIndex.isGrouped) {
         [cell.profileImage setImage:messageAtRowIndex.author.profileImage];
         cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height / 2;
         cell.profileImage.layer.masksToBounds = YES;
@@ -148,7 +150,7 @@
         cell.profileImage.layer.rasterizationScale = 2;
     }
 	
-	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor redColor] : [UIColor clearColor]];
+	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor orangeColor] : [UIColor clearColor]];
 	
 	for (UIView *subView in cell.subviews) {
 		if ([subView isKindOfClass:[UIImageView class]]) {
@@ -156,7 +158,7 @@
 		}
 	}
 	
-	int imageViewOffset = cell.contentTextView.height + (isGrouped ? 12 : 36);
+	int imageViewOffset = cell.contentTextView.height + (messageAtRowIndex.isGrouped ? 12 : 36);
 	
 	for(UIImage* image in messageAtRowIndex.embeddedImages){
 		UIImageView* imageView = UIImageView.new;
@@ -168,7 +170,13 @@
 		
 		UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedImage:)];
 		singleTap.numberOfTapsRequired = 1;
-    imageView.userInteractionEnabled = YES;
+        imageView.userInteractionEnabled = YES;
+        
+        imageView.layer.cornerRadius = 8;
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.shouldRasterize = YES;
+        imageView.layer.rasterizationScale = 2;
+        
 		[imageView addGestureRecognizer:singleTap];
 		
 		[cell addSubview:imageView];
@@ -179,27 +187,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
-	DCMessage* previousMessage;
     
-    int contentHeightChange = 0;
-    
-    BOOL isFirstMessage = NO;
-    BOOL isGrouped = NO;
-    
-    if (indexPath.row < 1)
-        isFirstMessage = YES;
-    
-    if (!isFirstMessage) {
-        previousMessage = [self.messages objectAtIndex:indexPath.row-1];
-        isGrouped = messageAtRowIndex.author.username == previousMessage.author.username;
-    }
-    
-    isGrouped = NO;
-    
-    if (isGrouped)
-        contentHeightChange -= 24;
-    
-	return messageAtRowIndex.contentHeight + contentHeightChange + messageAtRowIndex.embeddedImageCount * (isGrouped ? 200 : 224);
+	return messageAtRowIndex.contentHeight + messageAtRowIndex.embeddedImageCount * (messageAtRowIndex.isGrouped ? 200 : 224);
 }
 
 

@@ -10,6 +10,7 @@
 
 @interface DCChatTableCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (strong, nonatomic) IBOutlet UITextView *contentTextView;
 @end

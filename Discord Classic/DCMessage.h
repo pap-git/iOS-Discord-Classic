@@ -16,7 +16,11 @@
 @property int embeddedImageCount;
 @property NSMutableArray* embeddedImages;
 @property int contentHeight;
+@property int authorNameWidth;
+@property NSDate* timestamp;
+@property NSString* prettyTimestamp;
 @property bool pingingUser;
+@property bool isGrouped;
 
 - (void)deleteMessage;
 - (BOOL)isEqual:(id)other;

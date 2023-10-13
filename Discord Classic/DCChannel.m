@@ -151,6 +151,24 @@
 			for(NSDictionary* jsonMessage in parsedResponse)
 				[messages insertObject:[DCTools convertJsonMessage:jsonMessage] atIndex:0];
 		
+        for (int i=0; i < messages.count; i++)
+        {
+            DCMessage* prevMessage;
+            if (i==0)
+                prevMessage = message;
+            else
+                prevMessage = messages[i-1];
+            DCMessage* currentMessage = messages[i];
+            if (prevMessage != nil && (prevMessage.author.snowflake == currentMessage.author.snowflake)) {
+                currentMessage.isGrouped = YES;
+                
+                float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                
+                currentMessage.contentHeight -= authorNameSize.height + 4;
+            }
+        }
+        
 		if(messages.count > 0)
 			return messages;
 		

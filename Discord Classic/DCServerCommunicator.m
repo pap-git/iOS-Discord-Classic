@@ -203,7 +203,6 @@
                                         if ([privateChannelMember objectForKey:@"global_name"] &&  [[privateChannelMember valueForKey:@"global_name"] isKindOfClass:[NSString class]])
                                             memberName = [privateChannelMember valueForKey:@"global_name"];
                                     } @catch (NSException* e) {}
-                                    NSLog(memberName);
                                     
 									[fullChannelName appendString:memberName];
 									

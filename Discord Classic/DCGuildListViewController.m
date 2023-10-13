@@ -54,10 +54,9 @@
 		if([first compare:@"Direct Messages"] == 0) return false; // DMs at the top
 		return [first compare:second];
 	}];
-    
 
 	DCGuild* guildAtRowIndex = [DCServerCommunicator.sharedInstance.guilds objectAtIndex:indexPath.row];
-	
+    
 	//Show blue indicator if guild has any unread messages
 	if(guildAtRowIndex.unread)
 		[cell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
