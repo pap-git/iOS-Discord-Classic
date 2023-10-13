@@ -47,6 +47,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Guild Cell"];
 	
+    //Sorts guilds alphabetically, Note that this code may not yield the best results, and should be modified in the future. It can crash the app sometimes.
+	DCServerCommunicator.sharedInstance.guilds = [DCServerCommunicator.sharedInstance.guilds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+		NSString *first = [(DCGuild*)a name];
+		NSString *second = [(DCGuild*)b name];
+		if([first compare:@"Direct Messages"] == 0) return false; // DMs at the top
+		return [first compare:second];
+	}];
+    
+
 	DCGuild* guildAtRowIndex = [DCServerCommunicator.sharedInstance.guilds objectAtIndex:indexPath.row];
 	
 	//Show blue indicator if guild has any unread messages

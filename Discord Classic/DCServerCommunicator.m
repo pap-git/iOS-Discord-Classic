@@ -212,8 +212,14 @@
 							}
 							
 							[privateGuild.channels addObject:newChannel];
-							[weakSelf.channels setObject:newChannel forKey:newChannel.snowflake];
+                            }
+                            // Sort the DMs list by most recent...
+                            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastMessageId" ascending:NO selector:@selector(localizedStandardCompare:)];
+                            [privateGuild.channels sortUsingDescriptors:@[sortDescriptor]];
+                            for (DCChannel *channel in privateGuild.channels) {
+                                [weakSelf.channels setObject:channel forKey:channel.snowflake];
 						}
+                        
 						[weakSelf.guilds addObject:privateGuild];
 						
 						
