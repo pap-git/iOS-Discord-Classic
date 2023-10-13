@@ -47,7 +47,7 @@
 		[cell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
 	else
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-	
+    
 	//Channel name
 	[cell.textLabel setText:channelAtRowIndex.name];
 	

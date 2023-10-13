@@ -81,7 +81,14 @@
     } @catch (NSException* e) {}
 	newUser.snowflake = [jsonUser valueForKey:@"id"];
 	
-    newUser.profileImage = [UIImage imageNamed:@"Icon"];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber * longId = [f numberFromString:newUser.snowflake];
+    NSLog(@"longlong: %llu", [longId longLongValue]);
+    
+    int selector = (int)(([longId longLongValue] >> 22) % 6);
+    
+    newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"PlaceholderAvatar%d", selector]];
     
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
@@ -229,7 +236,15 @@
 	NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@",
 											 newGuild.snowflake, [jsonGuild valueForKey:@"icon"]];
 	
-    newGuild.icon = [UIImage imageNamed:@"Icon"];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber * longId = [f numberFromString:newGuild.snowflake];
+    NSLog(@"longlong: %llu", [longId longLongValue]);
+    
+    int selector = (int)(([longId longLongValue] >> 22) % 6);
+    
+    newGuild.icon = [UIImage imageNamed:[NSString stringWithFormat:@"PlaceholderAvatar%d", selector]];
+
     
 	[DCTools processImageDataWithURLString:iconURL andBlock:^(NSData *imageData) {
         UIImage* icon = [UIImage imageWithData:imageData];

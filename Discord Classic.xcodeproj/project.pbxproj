@@ -47,6 +47,12 @@
 		09FF02F7205EF9DD00BCBA8D /* DCGuildListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E183BC205EF65000FE90E8 /* DCGuildListViewController.m */; };
 		09FF02F8205EF9DF00BCBA8D /* DCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E183B9205EF64700FE90E8 /* DCViewController.m */; };
 		09FF0301205EFB8800BCBA8D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FF0300205EFB8800BCBA8D /* Default-568h@2x.png */; };
+		2CB8B3BC2AD9AC7200A5AF98 /* PlaceholderAvatar0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB8B3B62AD9AC7200A5AF98 /* PlaceholderAvatar0.png */; };
+		2CB8B3BD2AD9AC7200A5AF98 /* PlaceholderAvatar1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB8B3B72AD9AC7200A5AF98 /* PlaceholderAvatar1.png */; };
+		2CB8B3BE2AD9AC7200A5AF98 /* PlaceholderAvatar2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB8B3B82AD9AC7200A5AF98 /* PlaceholderAvatar2.png */; };
+		2CB8B3BF2AD9AC7200A5AF98 /* PlaceholderAvatar3.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB8B3B92AD9AC7200A5AF98 /* PlaceholderAvatar3.png */; };
+		2CB8B3C02AD9AC7200A5AF98 /* PlaceholderAvatar4.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB8B3BA2AD9AC7200A5AF98 /* PlaceholderAvatar4.png */; };
+		2CB8B3C12AD9AC7200A5AF98 /* PlaceholderAvatar5.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB8B3BB2AD9AC7200A5AF98 /* PlaceholderAvatar5.png */; };
 		2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */; };
 /* End PBXBuildFile section */
 
@@ -121,6 +127,12 @@
 		09F4C6ED21A6EBD40018F312 /* UIColor+BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BButton.h"; sourceTree = "<group>"; };
 		09F4C6EE21A6EBD40018F312 /* UIColor+BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BButton.m"; sourceTree = "<group>"; };
 		09FF0300205EFB8800BCBA8D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2CB8B3B62AD9AC7200A5AF98 /* PlaceholderAvatar0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderAvatar0.png; sourceTree = "<group>"; };
+		2CB8B3B72AD9AC7200A5AF98 /* PlaceholderAvatar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderAvatar1.png; sourceTree = "<group>"; };
+		2CB8B3B82AD9AC7200A5AF98 /* PlaceholderAvatar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderAvatar2.png; sourceTree = "<group>"; };
+		2CB8B3B92AD9AC7200A5AF98 /* PlaceholderAvatar3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderAvatar3.png; sourceTree = "<group>"; };
+		2CB8B3BA2AD9AC7200A5AF98 /* PlaceholderAvatar4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderAvatar4.png; sourceTree = "<group>"; };
+		2CB8B3BB2AD9AC7200A5AF98 /* PlaceholderAvatar5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlaceholderAvatar5.png; sourceTree = "<group>"; };
 		2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatGroupedTableCell.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -167,6 +179,12 @@
 				09FF0300205EFB8800BCBA8D /* Default-568h@2x.png */,
 				09E2DB7A20789C9700267A62 /* UINavigationBarTexture.png */,
 				09E2DB7B20789C9700267A62 /* UINavigationBarTexture@2x.png */,
+				2CB8B3B62AD9AC7200A5AF98 /* PlaceholderAvatar0.png */,
+				2CB8B3B72AD9AC7200A5AF98 /* PlaceholderAvatar1.png */,
+				2CB8B3B82AD9AC7200A5AF98 /* PlaceholderAvatar2.png */,
+				2CB8B3B92AD9AC7200A5AF98 /* PlaceholderAvatar3.png */,
+				2CB8B3BA2AD9AC7200A5AF98 /* PlaceholderAvatar4.png */,
+				2CB8B3BB2AD9AC7200A5AF98 /* PlaceholderAvatar5.png */,
 				095284622055EFDA00760073 /* Etc */,
 				09C6B92A204A0F54007EAC26 /* Discord Classic */,
 				09C6B923204A0F54007EAC26 /* Frameworks */,
@@ -335,14 +353,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				09C6B92F204A0F54007EAC26 /* InfoPlist.strings in Resources */,
+				2CB8B3C02AD9AC7200A5AF98 /* PlaceholderAvatar4.png in Resources */,
 				09C8E2ED204C3B64006A1422 /* Storyboard.storyboard in Resources */,
 				2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */,
 				09FF0301205EFB8800BCBA8D /* Default-568h@2x.png in Resources */,
+				2CB8B3BF2AD9AC7200A5AF98 /* PlaceholderAvatar3.png in Resources */,
 				09A2A3122072674000F3D98C /* Icon@2x.png in Resources */,
 				09A2A3142072674500F3D98C /* Icon.png in Resources */,
 				09E2DB7C20789C9700267A62 /* UINavigationBarTexture.png in Resources */,
+				2CB8B3BD2AD9AC7200A5AF98 /* PlaceholderAvatar1.png in Resources */,
 				09E2DB7D20789C9700267A62 /* UINavigationBarTexture@2x.png in Resources */,
+				2CB8B3BC2AD9AC7200A5AF98 /* PlaceholderAvatar0.png in Resources */,
+				2CB8B3C12AD9AC7200A5AF98 /* PlaceholderAvatar5.png in Resources */,
 				09A4EA672079220E00DECFD6 /* DCChatTableCell.xib in Resources */,
+				2CB8B3BE2AD9AC7200A5AF98 /* PlaceholderAvatar2.png in Resources */,
 				09F4C6F121A6EBD40018F312 /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

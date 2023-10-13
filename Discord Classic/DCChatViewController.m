@@ -144,6 +144,8 @@
         [cell.profileImage setImage:messageAtRowIndex.author.profileImage];
         cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height / 2;
         cell.profileImage.layer.masksToBounds = YES;
+        cell.profileImage.layer.shouldRasterize = YES;
+        cell.profileImage.layer.rasterizationScale = 2;
     }
 	
 	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor redColor] : [UIColor clearColor]];

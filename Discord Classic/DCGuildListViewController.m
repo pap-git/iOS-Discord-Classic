@@ -60,7 +60,16 @@
 	[cell.imageView setImage:guildAtRowIndex.icon];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
     cell.imageView.clipsToBounds = YES;
-    cell.imageView.frame = CGRectMake(cell.imageView.frame.origin.x, cell.imageView.frame.origin.y, cell.frame.size.height, cell.frame.size.height);
+    
+    // make guild icons a fixed size
+    
+    CGSize itemSize = CGSizeMake(88, 88);
+    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+    [cell.imageView.image drawInRect:imageRect];
+    cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
     cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
     cell.imageView.layer.masksToBounds = YES;
     [cell.imageView setNeedsDisplay];
