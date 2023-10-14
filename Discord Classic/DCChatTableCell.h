@@ -13,4 +13,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *timestampLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (strong, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIImageView *referencedProfileImage;
+@property (strong, nonatomic) IBOutlet UILabel *referencedAuthorLabel;
+@property (strong, nonatomic) IBOutlet UILabel *referencedMessage;
 @end

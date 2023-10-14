@@ -21,6 +21,7 @@
 @property NSString* prettyTimestamp;
 @property bool pingingUser;
 @property bool isGrouped;
+@property DCMessage* referencedMessage;
 
 - (void)deleteMessage;
 - (BOOL)isEqual:(id)other;

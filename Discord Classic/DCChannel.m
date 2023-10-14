@@ -168,12 +168,14 @@
                     && curComponents.day == prevComponents.day
                     && curComponents.month == prevComponents.month
                     && curComponents.year == prevComponents.year) {
-                    currentMessage.isGrouped = YES;
+                    currentMessage.isGrouped = currentMessage.referencedMessage == nil;
                     
-                    float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
-                    CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                    if (currentMessage.isGrouped) {
+                        float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                        CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
                     
-                    currentMessage.contentHeight -= authorNameSize.height + 4;
+                        currentMessage.contentHeight -= authorNameSize.height + 4;
+                    }
                 }
             }
         }

@@ -121,6 +121,31 @@
 	if(![DCServerCommunicator.sharedInstance.loadedUsers objectForKey:authorId])
 		[DCTools convertJsonUser:[jsonMessage valueForKeyPath:@"author"] cache:true];
 	
+    // load referenced message if it exists
+    float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+    
+    NSDictionary* referencedJsonMessage = [jsonMessage objectForKey:@"referenced_message"];
+    if ([[jsonMessage valueForKey:@"referenced_message"] isKindOfClass:[NSDictionary class]]) {
+        DCMessage* referencedMessage = DCMessage.new;
+        
+        NSString* referencedAuthorId = [jsonMessage valueForKeyPath:@"referenced_message.author.id"];
+        
+        if(![DCServerCommunicator.sharedInstance.loadedUsers objectForKey:referencedAuthorId])
+            [DCTools convertJsonUser:[jsonMessage valueForKeyPath:@"referenced_message.author"] cache:true];
+        
+        referencedMessage.author = [DCServerCommunicator.sharedInstance.loadedUsers valueForKey:referencedAuthorId];
+        if ([[referencedJsonMessage valueForKey:@"content"] isKindOfClass:[NSString class]]) {
+            referencedMessage.content = [referencedJsonMessage valueForKey:@"content"];
+        } else {
+            referencedMessage.content = @"";
+        }
+        referencedMessage.snowflake = [referencedJsonMessage valueForKey:@"id"];
+        CGSize authorNameSize = [referencedMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:10] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+        referencedMessage.authorNameWidth = 80 + authorNameSize.width;
+        
+        newMessage.referencedMessage = referencedMessage;
+    }
+    
 	newMessage.author = [DCServerCommunicator.sharedInstance.loadedUsers valueForKey:authorId];
 	
 	newMessage.content = [jsonMessage valueForKey:@"content"];
@@ -216,12 +241,11 @@
 	
 	//Calculate height of content to be used when showing messages in a tableview
 	//contentHeight does NOT include height of the embeded images or account for height of a grouped message
-	float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
 	
 	CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
 	CGSize contentSize = [newMessage.content sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
     
-    newMessage.contentHeight = authorNameSize.height + contentSize.height + 10;
+    newMessage.contentHeight = authorNameSize.height + contentSize.height + 10 + (newMessage.referencedMessage != nil ? 16 : 0);
     newMessage.authorNameWidth = 60 + authorNameSize.width;
 	
 	return newMessage;

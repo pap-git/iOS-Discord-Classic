@@ -75,12 +75,14 @@
                 && curComponents.day == prevComponents.day
                 && curComponents.month == prevComponents.month
                 && curComponents.year == prevComponents.year) {
-                newMessage.isGrouped = YES;
+                newMessage.isGrouped = newMessage.referencedMessage == nil;
                 
-                float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
-                CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
-                
-                newMessage.contentHeight -= authorNameSize.height + 4;
+                if (newMessage.isGrouped ) {
+                    float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                    CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                    
+                    newMessage.contentHeight -= authorNameSize.height + 4;
+                }
             }
         }
     }
@@ -116,7 +118,7 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
-				scrollOffset += newMessage.contentHeight + newMessage.embeddedImageCount * (newMessage.isGrouped ? 200 : 224);
+				scrollOffset += newMessage.contentHeight + newMessage.embeddedImageCount * 224;
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
 		});
@@ -135,11 +137,27 @@
 
     [tableView registerNib:[UINib nibWithNibName:@"DCChatGroupedTableCell" bundle:nil] forCellReuseIdentifier:@"Grouped Message Cell"];
     [tableView registerNib:[UINib nibWithNibName:@"DCChatTableCell" bundle:nil] forCellReuseIdentifier:@"Message Cell"];
+    [tableView registerNib:[UINib nibWithNibName:@"DCChatReplyTableCell" bundle:nil] forCellReuseIdentifier:@"Reply Message Cell"];
     
-    if (!messageAtRowIndex.isGrouped)
-        cell = [tableView dequeueReusableCellWithIdentifier:@"Message Cell"];
-    else
+    if (messageAtRowIndex.isGrouped)
         cell = [tableView dequeueReusableCellWithIdentifier:@"Grouped Message Cell"];
+    else if (messageAtRowIndex.referencedMessage != nil)
+        cell = [tableView dequeueReusableCellWithIdentifier:@"Reply Message Cell"];
+    else
+        cell = [tableView dequeueReusableCellWithIdentifier:@"Message Cell"];
+    
+    if (messageAtRowIndex.referencedMessage != nil) {
+        [cell.referencedAuthorLabel setText:messageAtRowIndex.referencedMessage.author.globalName];
+        [cell.referencedMessage setText:messageAtRowIndex.referencedMessage.content];
+        [cell.referencedMessage setFrame:CGRectMake(messageAtRowIndex.referencedMessage.authorNameWidth, cell.referencedMessage.y, self.chatTableView.width-messageAtRowIndex.authorNameWidth, cell.referencedMessage.height)];
+        
+        [cell.referencedProfileImage setImage:messageAtRowIndex.referencedMessage.author.profileImage];
+        cell.referencedProfileImage.layer.cornerRadius = cell.referencedProfileImage.frame.size.height / 2;
+        cell.referencedProfileImage.layer.masksToBounds = YES;
+        cell.referencedProfileImage.layer.shouldRasterize = YES;
+        cell.referencedProfileImage.layer.rasterizationScale = 2;
+
+    }
     
     if (!messageAtRowIndex.isGrouped) {
         [cell.authorLabel setText:messageAtRowIndex.author.globalName];
@@ -200,7 +218,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
     
-	return messageAtRowIndex.contentHeight + messageAtRowIndex.embeddedImageCount * (messageAtRowIndex.isGrouped ? 200 : 224);
+	return messageAtRowIndex.contentHeight + messageAtRowIndex.embeddedImageCount * 224;
 }
 
 
