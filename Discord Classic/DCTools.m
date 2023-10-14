@@ -28,7 +28,7 @@
 			processImage(imageData);
 		});
 	});
-	dispatch_release(downloadQueue);
+	//dispatch_release(downloadQueue);
 }
 
 //Returns a parsed NSDictionary from a json string or nil if something goes wrong
@@ -88,7 +88,7 @@
     
     int selector = (int)(([longId longLongValue] >> 22) % 6);
     
-    newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"PlaceholderAvatar%d", selector]];
+    newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
     
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
@@ -259,7 +259,7 @@
     
     int selector = (int)(([longId longLongValue] >> 22) % 6);
     
-    newGuild.icon = [UIImage imageNamed:[NSString stringWithFormat:@"PlaceholderAvatar%d", selector]];
+    newGuild.icon = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
 
     
 	[DCTools processImageDataWithURLString:iconURL andBlock:^(NSData *imageData) {
