@@ -28,7 +28,7 @@
 			processImage(imageData);
 		});
 	});
-	//dispatch_release(downloadQueue);
+	dispatch_release(downloadQueue);
 }
 
 //Returns a parsed NSDictionary from a json string or nil if something goes wrong
@@ -390,7 +390,7 @@
 + (void)joinGuild:(NSString*)inviteCode {
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:240];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:40];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
