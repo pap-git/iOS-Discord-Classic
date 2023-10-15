@@ -91,12 +91,23 @@
     newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
     
 	//Load profile image
-	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
+	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
 	[DCTools processImageDataWithURLString:avatarURL andBlock:^(NSData *imageData){
 		UIImage *retrievedImage = [UIImage imageWithData:imageData];
 		
 		if(retrievedImage != nil){
 			newUser.profileImage = retrievedImage;
+			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+		}
+		
+	}];
+    
+    NSString* avatarDecorationURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatar-decoration-presets/%@.png?size=96&passthrough=false", [jsonUser valueForKeyPath:@"avatar_decoration_data.asset"]];
+	[DCTools processImageDataWithURLString:avatarDecorationURL andBlock:^(NSData *imageData){
+		UIImage *retrievedImage = [UIImage imageWithData:imageData];
+		
+		if(retrievedImage != nil){
+			newUser.avatarDecoration = retrievedImage;
 			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
 		}
 		
@@ -273,7 +284,7 @@
 	newGuild.snowflake = [jsonGuild valueForKey:@"id"];
 	newGuild.channels = NSMutableArray.new;
 	
-	NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@",
+	NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@.png?size=80",
 											 newGuild.snowflake, [jsonGuild valueForKey:@"icon"]];
 	
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
@@ -390,7 +401,7 @@
 + (void)joinGuild:(NSString*)inviteCode {
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:40];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		

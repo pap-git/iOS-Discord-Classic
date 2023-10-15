@@ -154,8 +154,6 @@
         [cell.referencedProfileImage setImage:messageAtRowIndex.referencedMessage.author.profileImage];
         cell.referencedProfileImage.layer.cornerRadius = cell.referencedProfileImage.frame.size.height / 2;
         cell.referencedProfileImage.layer.masksToBounds = YES;
-        cell.referencedProfileImage.layer.shouldRasterize = YES;
-        cell.referencedProfileImage.layer.rasterizationScale = 2;
 
     }
     
@@ -170,11 +168,16 @@
 	[cell.contentTextView setHeight:[cell.contentTextView sizeThatFits:CGSizeMake(cell.contentTextView.width, MAXFLOAT)].height];
 	
     if (!messageAtRowIndex.isGrouped) {
+        if(messageAtRowIndex.author.avatarDecoration) {
+            [cell.avatarDecoration setImage:messageAtRowIndex.author.avatarDecoration];
+            cell.avatarDecoration.layer.hidden = NO;
+            cell.avatarDecoration.opaque = NO;
+        } else {
+            cell.avatarDecoration.layer.hidden = YES;
+        }
         [cell.profileImage setImage:messageAtRowIndex.author.profileImage];
         cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height / 2;
         cell.profileImage.layer.masksToBounds = YES;
-        cell.profileImage.layer.shouldRasterize = YES;
-        cell.profileImage.layer.rasterizationScale = 2;
     }
 	
 	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor orangeColor] : [UIColor clearColor]];

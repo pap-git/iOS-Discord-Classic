@@ -13,6 +13,7 @@
 @property NSString* username;
 @property NSString* globalName;
 @property UIImage* profileImage;
+@property UIImage* avatarDecoration;
 
 -(NSString *)description;
 @end
