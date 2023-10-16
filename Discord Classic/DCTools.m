@@ -57,7 +57,7 @@
 //Used when making http requests
 + (NSData*)checkData:(NSData*)response withError:(NSError*)error{
 	if(!response){
-		[DCTools alert:error.localizedDescription withMessage:error.localizedRecoverySuggestion];
+		//[DCTools alert:error.localizedDescription withMessage:error.localizedRecoverySuggestion];
 		return nil;
 	}
 	return response;
@@ -90,14 +90,17 @@
     
     newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
 	[DCTools processImageDataWithURLString:avatarURL andBlock:^(NSData *imageData){
 		UIImage *retrievedImage = [UIImage imageWithData:imageData];
 		
 		if(retrievedImage != nil){
-			newUser.profileImage = retrievedImage;
-			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                newUser.profileImage = retrievedImage;
+                [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+            });
 		}
 		
 	}];
@@ -107,11 +110,14 @@
 		UIImage *retrievedImage = [UIImage imageWithData:imageData];
 		
 		if(retrievedImage != nil){
-			newUser.avatarDecoration = retrievedImage;
-			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                newUser.avatarDecoration = retrievedImage;
+                [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+            });
 		}
 		
 	}];
+    });
 	
 	//Save to DCServerCOmmunicator.loadedUsers
 	if(cache)
@@ -284,13 +290,13 @@
 	newGuild.snowflake = [jsonGuild valueForKey:@"id"];
 	newGuild.channels = NSMutableArray.new;
 	
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 	NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@.png?size=80",
 											 newGuild.snowflake, [jsonGuild valueForKey:@"icon"]];
 	
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
     NSNumber * longId = [f numberFromString:newGuild.snowflake];
-    NSLog(@"longlong: %llu", [longId longLongValue]);
     
     int selector = (int)(([longId longLongValue] >> 22) % 6);
     
@@ -309,6 +315,7 @@
 		});
 		
 	}];
+    });
 	
 	for(NSDictionary* jsonChannel in [jsonGuild valueForKey:@"channels"]){
 		
@@ -399,9 +406,10 @@
 
 
 + (void)joinGuild:(NSString*)inviteCode {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
-		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+        
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -409,11 +417,17 @@
 		[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		
-		
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-		
-		[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        int attempts = 0;
+        while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
+            attempts++;
+            error = nil;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+        }
+    });
 }
 
 @end

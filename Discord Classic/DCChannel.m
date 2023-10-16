@@ -32,17 +32,15 @@
 
 
 - (void)sendMessage:(NSString*)message {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
         
         NSString* escapedMessage = [message mutableCopy];
         
         CFStringRef transform = CFSTR("Any-Hex/Java");
         CFStringTransform((__bridge CFMutableStringRef)escapedMessage, NULL, transform, NO);
-        
-        NSLog(escapedMessage);
 		
 		NSString* messageString = [NSString stringWithFormat:@"{\"content\":\"%@\"}", escapedMessage];
 		
@@ -51,22 +49,26 @@
 		[urlRequest setHTTPBody:[NSData dataWithBytes:[messageString UTF8String] length:[messageString length]]];
 		[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-		
-		
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-		
-		[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        int attempts = 0;
+        while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
+            attempts++;
+            error = nil;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+        }
 	});
 }
 
 
 
 - (void)sendImage:(UIImage*)image {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -87,11 +89,15 @@
 		
 		[urlRequest setHTTPBody:postbody];
 		
-		
-		NSError *error = nil;
+        NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-		
-		[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        int attempts = 0;
+        while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
+            attempts++;
+            error = nil;
+            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+        }
 	});
 }
 
@@ -100,22 +106,25 @@
 - (void)ackMessage:(NSString*)messageId{
 	self.lastReadMessageId = messageId;
 	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:80];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
 		[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-		
-		
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-		
-		[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        int attempts = 0;
+        while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
+            attempts++;
+            error = nil;
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible--;
+        }
 	});
 }
 
@@ -134,57 +143,63 @@
 		[getChannelAddress appendString:@"&"];
 	if(message)
 		[getChannelAddress appendString:[NSString stringWithFormat:@"before=%@", message.snowflake]];
-	
-	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
+    
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
 	
 	[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 	[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 	
-	NSError *error;
-	NSHTTPURLResponse *responseCode;
-	NSData *response = [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
-	
-	if(response){
-		NSArray* parsedResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:&error];
+	NSError *error = nil;
+    NSHTTPURLResponse *responseCode = nil;
+    int attempts = 0;
+    while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
+        attempts++;
+        error = nil;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        NSData *response = [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+        if(response){
+            NSArray* parsedResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:&error];
 		
-		if(parsedResponse.count > 0)
-			for(NSDictionary* jsonMessage in parsedResponse)
-				[messages insertObject:[DCTools convertJsonMessage:jsonMessage] atIndex:0];
+            if(parsedResponse.count > 0)
+                for(NSDictionary* jsonMessage in parsedResponse)
+                    [messages insertObject:[DCTools convertJsonMessage:jsonMessage] atIndex:0];
 		
-        for (int i=0; i < messages.count; i++)
-        {
-            DCMessage* prevMessage;
-            if (i==0)
-                prevMessage = message;
-            else
-                prevMessage = messages[i-1];
-            DCMessage* currentMessage = messages[i];
-            if (prevMessage != nil) {
-                NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:currentMessage.timestamp];
-                NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
-                
-                if (prevMessage.author.snowflake == currentMessage.author.snowflake
-                    && curComponents.hour == prevComponents.hour
-                    && curComponents.day == prevComponents.day
-                    && curComponents.month == prevComponents.month
-                    && curComponents.year == prevComponents.year) {
-                    currentMessage.isGrouped = currentMessage.referencedMessage == nil;
-                    
-                    if (currentMessage.isGrouped) {
-                        float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
-                        CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
-                    
-                        currentMessage.contentHeight -= authorNameSize.height + 4;
+            for (int i=0; i < messages.count; i++)
+            {
+                DCMessage* prevMessage;
+                if (i==0)
+                    prevMessage = message;
+                else
+                    prevMessage = messages[i-1];
+                DCMessage* currentMessage = messages[i];
+                if (prevMessage != nil) {
+                    NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:currentMessage.timestamp];
+                    NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
+               
+                    if (prevMessage.author.snowflake == currentMessage.author.snowflake
+                        && curComponents.hour == prevComponents.hour
+                        && curComponents.day == prevComponents.day
+                        && curComponents.month == prevComponents.month
+                        && curComponents.year == prevComponents.year) {
+                        currentMessage.isGrouped = currentMessage.referencedMessage == nil;
+                   
+                        if (currentMessage.isGrouped) {
+                            float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                            CGSize authorNameSize = [currentMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                       
+                            currentMessage.contentHeight -= authorNameSize.height + 4;
+                        }
                     }
                 }
             }
+            
+            if(messages.count > 0)
+                return messages;
+            
+            [DCTools alert:@"No messages!" withMessage:@"No further messages could be found"];
         }
-        
-		if(messages.count > 0)
-			return messages;
-		
-		[DCTools alert:@"No messages!" withMessage:@"No further messages could be found"];
-	}
+    }
 	
 	return nil;
 }

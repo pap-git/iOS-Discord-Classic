@@ -107,7 +107,7 @@
 						 @"op":@2,
 						 @"d":@{
 						 @"token":weakSelf.token,
-						 @"properties":@{ @"$browser" : @"peble" },
+						 @"properties":@{ @"$browser" : @"Discord iOS" },
 						 @"large_threshold":@"50",
 						 }
 						 }];

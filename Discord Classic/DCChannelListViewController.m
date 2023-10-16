@@ -34,7 +34,9 @@
 
 
 - (void)handleMessageAck {
-	[self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 
@@ -88,9 +90,8 @@
 			[chatViewController.navigationItem setTitle:formattedChannelName];
 			
 			//Populate the message view with the last 50 messages
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                [chatViewController getMessages:50 beforeMessage:nil];
-            });
+            
+			[chatViewController getMessages:50 beforeMessage:nil];
 			
 			//Chat view is watching the present conversation (auto scroll with new messages)
 			[chatViewController setViewingPresentTime:true];

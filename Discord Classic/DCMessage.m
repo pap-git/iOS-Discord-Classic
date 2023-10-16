@@ -13,10 +13,10 @@
 @implementation DCMessage
 
 - (void)deleteMessage{
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:120];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
 		
 		[urlRequest setHTTPMethod:@"DELETE"];
 		
@@ -26,8 +26,14 @@
 		
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-		
-		[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        int attempts = 0;
+        while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
+            attempts++;
+            error = nil;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+        }
 	});
 }
 

@@ -31,7 +31,7 @@
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageDelete:) name:@"MESSAGE DELETE" object:nil];
 	
-	[NSNotificationCenter.defaultCenter addObserver:self.chatTableView selector:@selector(reloadData) name:@"RELOAD CHAT DATA" object:nil];
+	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleAsyncReload) name:@"RELOAD CHAT DATA" object:nil];
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleReady) name:@"READY" object:nil];
 	
@@ -46,8 +46,31 @@
 	[self.chatTableView addSubview:self.refreshControl];
 	
 	[self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.inputField setDelegate:self];
+    self.inputFieldPlaceholder.text = [NSString stringWithFormat:@"Message %@", self.navigationItem.title];
+    self.inputFieldPlaceholder.hidden = NO;
 }
 
+- (BOOL) textViewShouldBeginEditing:(UITextView *)textView {
+    self.inputFieldPlaceholder.hidden = YES;
+    return YES;
+}
+
+-(void) textViewDidChange:(UITextView *)textView {
+    self.inputFieldPlaceholder.hidden = YES;
+}
+
+-(void) textViewShouldEndEditing:(UITextView *)textView {
+    self.inputFieldPlaceholder.hidden = self.inputField.text.length != 0;
+}
+
+- (void) handleAsyncReload {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"async reload!");
+        [self.chatTableView reloadData];
+    });
+}
 
 - (void)handleReady {
 	
@@ -106,6 +129,7 @@
 
 
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 	NSArray* newMessages = [DCServerCommunicator.sharedInstance.selectedChannel getMessages:numberOfMessages beforeMessage:message];
 	
 	if(newMessages){
@@ -113,9 +137,9 @@
 		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
 		[self.messages insertObjects:newMessages atIndexes:indexSet];
 		
-		[self.chatTableView reloadData];
-		
-		dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.chatTableView reloadData];
+
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
 				scrollOffset += newMessage.contentHeight + newMessage.embeddedImageCount * 224;
@@ -125,6 +149,7 @@
 	}
 	
 	[self.refreshControl endRefreshing];
+    });
 }
 
 
@@ -154,7 +179,6 @@
         [cell.referencedProfileImage setImage:messageAtRowIndex.referencedMessage.author.profileImage];
         cell.referencedProfileImage.layer.cornerRadius = cell.referencedProfileImage.frame.size.height / 2;
         cell.referencedProfileImage.layer.masksToBounds = YES;
-
     }
     
     if (!messageAtRowIndex.isGrouped) {
@@ -350,5 +374,9 @@
 }
 
 
--(void)get50MoreMessages:(UIRefreshControl *)control {[self getMessages:50 beforeMessage:[self.messages objectAtIndex:0]];}
+-(void)get50MoreMessages:(UIRefreshControl *)control {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [self getMessages:50 beforeMessage:[self.messages objectAtIndex:0]];
+    });
+}
 @end
