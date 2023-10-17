@@ -13,10 +13,10 @@
 @implementation DCMessage
 
 - (void)deleteMessage{
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:1];
 		
 		[urlRequest setHTTPMethod:@"DELETE"];
 		
@@ -30,11 +30,17 @@
         while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
             attempts++;
             error = nil;
-            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            /*[UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
+            NSLog(@"Showing network indicator (deleteMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
+                NSLog(@"Showing network indicator (deleteMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            }];
         }
-	});
+	//});
 }
 
 - (BOOL)isEqual:(id)other{

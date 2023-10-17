@@ -31,7 +31,7 @@
 
 - (void)handleReady {
 	//Refresh tableView data on READY notification
-    dispatch_async(dispatch_get_main_queue(), ^{
+    //dispatch_async(dispatch_get_main_queue(), ^{
     [self.tableView reloadData];
 	
 	if(!self.refreshControl){
@@ -42,7 +42,7 @@
 	
 	[self.refreshControl addTarget:self action:@selector(reconnect) forControlEvents:UIControlEventValueChanged];
 	}
-    });
+    //});
 }
 
 

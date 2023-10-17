@@ -24,7 +24,8 @@
 @property int type;
 @property DCGuild* parentGuild;
 
--(void)checkIfRead;
+- (void)checkIfRead;
+- (void)sendTypingIndicator;
 - (void)sendMessage:(NSString*)message;
 - (void)ackMessage:(NSString*)message;
 - (void)sendImage:(UIImage*)image;

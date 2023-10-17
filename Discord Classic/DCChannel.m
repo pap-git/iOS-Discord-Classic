@@ -32,10 +32,10 @@
 
 
 - (void)sendMessage:(NSString*)message {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
         
         NSString* escapedMessage = [message mutableCopy];
         
@@ -51,24 +51,25 @@
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-        int attempts = 0;
-        while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
-            attempts++;
-            error = nil;
-            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
-            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        /*[UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
+        NSLog(@"Showing network indicator (sendMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
+            NSLog(@"Hiding network indicator (sendMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
-        }
-	});
+        }];
+	//});
 }
 
 
 
 - (void)sendImage:(UIImage*)image {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:1];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -95,21 +96,39 @@
         while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
             attempts++;
             error = nil;
-            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            //[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            NSLog(@"Showing network indicator (sendImage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
+                NSLog(@"Hiding network indicator (sendImage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            }];
         }
-	});
+	//});
 }
 
-
+- (void)sendTypingIndicator{
+    NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/typing", self.snowflake]];
+    
+    NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    [urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
+    [urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
+        //[UIApplication sharedApplication].networkActivityIndicatorVisible--;
+    }];
+}
 
 - (void)ackMessage:(NSString*)messageId{
 	self.lastReadMessageId = messageId;
 	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -122,10 +141,15 @@
             attempts++;
             error = nil;
             //[UIApplication sharedApplication].networkActivityIndicatorVisible++;
-            [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            //[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+            
             //[UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            //[UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
+                //[UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            }];
         }
-	});
+	//});
 }
 
 
@@ -144,7 +168,7 @@
 	if(message)
 		[getChannelAddress appendString:[NSString stringWithFormat:@"before=%@", message.snowflake]];
     
-	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:1];
 	
 	[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 	[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -155,8 +179,10 @@
     while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
         attempts++;
         error = nil;
+        NSLog(@"Showing network indicator (getMessages) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
         [UIApplication sharedApplication].networkActivityIndicatorVisible++;
         NSData *response = [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        NSLog(@"Showing network indicator (getMessages) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
         [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         if(response){
             NSArray* parsedResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:&error];
@@ -178,6 +204,7 @@
                     NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
                
                     if (prevMessage.author.snowflake == currentMessage.author.snowflake
+                        && (curComponents.minute - prevComponents.minute < 10)
                         && curComponents.hour == prevComponents.hour
                         && curComponents.day == prevComponents.day
                         && curComponents.month == prevComponents.month

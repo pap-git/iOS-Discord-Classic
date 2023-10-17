@@ -24,6 +24,8 @@
 
 @implementation DCChatViewController
 
+int lastTimeInterval = 0; // for typing indicator
+
 - (void)viewDidLoad{
 	[super viewDidLoad];
 	
@@ -39,7 +41,8 @@
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 	
-	
+	lastTimeInterval = 0;
+    
 	self.refreshControl = UIRefreshControl.new;
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Earlier messages"];
 	
@@ -53,21 +56,28 @@
 }
 
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView {
-    self.inputFieldPlaceholder.hidden = YES;
+    self.inputFieldPlaceholder.hidden = self.inputField.text.length != 0;
+    lastTimeInterval = 0;
     return YES;
 }
 
 -(void) textViewDidChange:(UITextView *)textView {
-    self.inputFieldPlaceholder.hidden = YES;
+    self.inputFieldPlaceholder.hidden = self.inputField.text.length != 0;
+    int currentTimeInterval = [[NSDate date] timeIntervalSince1970];
+    if (currentTimeInterval - lastTimeInterval >= 10) {
+        [DCServerCommunicator.sharedInstance.selectedChannel sendTypingIndicator];
+        lastTimeInterval = currentTimeInterval;
+    }
 }
 
 -(void) textViewShouldEndEditing:(UITextView *)textView {
     self.inputFieldPlaceholder.hidden = self.inputField.text.length != 0;
+    lastTimeInterval = 0;
 }
 
 - (void) handleAsyncReload {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"async reload!");
+        //NSLog(@"async reload!");
         [self.chatTableView reloadData];
     });
 }
@@ -94,6 +104,7 @@
             NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
             
             if (prevMessage.author.snowflake == newMessage.author.snowflake
+                && (curComponents.minute - prevComponents.minute < 10)
                 && curComponents.hour == prevComponents.hour
                 && curComponents.day == prevComponents.day
                 && curComponents.month == prevComponents.month
@@ -317,6 +328,8 @@
 	if(![self.inputField.text isEqual: @""]){
 		[DCServerCommunicator.sharedInstance.selectedChannel sendMessage:self.inputField.text];
 		[self.inputField setText:@""];
+        self.inputFieldPlaceholder.hidden = NO;
+        lastTimeInterval = 0;
 	}else
 		[self.inputField resignFirstResponder];
 	
@@ -375,7 +388,7 @@
 
 
 -(void)get50MoreMessages:(UIRefreshControl *)control {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self getMessages:50 beforeMessage:[self.messages objectAtIndex:0]];
     });
 }

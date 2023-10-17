@@ -22,9 +22,8 @@
 	dispatch_queue_t callerQueue = dispatch_get_current_queue();
 	dispatch_queue_t downloadQueue = dispatch_queue_create("com.discord_classic.processsmagequeue", NULL);
 	dispatch_async(downloadQueue, ^{
-		NSData* imageData = [NSData dataWithContentsOfURL:url];
-		
 		dispatch_async(callerQueue, ^{
+            NSData* imageData = [NSData dataWithContentsOfURL:url];
 			processImage(imageData);
 		});
 	});
@@ -54,7 +53,7 @@
 	});
 }
 
-//Used when making http requests
+//Used when making synchronous http requests
 + (NSData*)checkData:(NSData*)response withError:(NSError*)error{
 	if(!response){
 		//[DCTools alert:error.localizedDescription withMessage:error.localizedRecoverySuggestion];
@@ -62,11 +61,6 @@
 	}
 	return response;
 }
-
-
-
-
-
 
 //Converts an NSDictionary created from json representing a user into a DCUser object
 //Also keeps the user in DCServerCommunicator.loadedUsers if cache:YES
@@ -84,13 +78,11 @@
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
     NSNumber * longId = [f numberFromString:newUser.snowflake];
-    NSLog(@"longlong: %llu", [longId longLongValue]);
     
     int selector = (int)(([longId longLongValue] >> 22) % 6);
     
     newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
 	[DCTools processImageDataWithURLString:avatarURL andBlock:^(NSData *imageData){
@@ -117,7 +109,6 @@
 		}
 		
 	}];
-    });
 	
 	//Save to DCServerCOmmunicator.loadedUsers
 	if(cache)
@@ -289,8 +280,7 @@
 	newGuild.name = [jsonGuild valueForKey:@"name"];
 	newGuild.snowflake = [jsonGuild valueForKey:@"id"];
 	newGuild.channels = NSMutableArray.new;
-	
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    
 	NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@.png?size=80",
 											 newGuild.snowflake, [jsonGuild valueForKey:@"icon"]];
 	
@@ -315,7 +305,6 @@
 		});
 		
 	}];
-    });
 	
 	for(NSDictionary* jsonChannel in [jsonGuild valueForKey:@"channels"]){
 		
@@ -406,10 +395,10 @@
 
 
 + (void)joinGuild:(NSString*)inviteCode {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
         
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:4];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:1];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -423,11 +412,15 @@
         while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
             attempts++;
             error = nil;
-            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            /*[UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
+                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            }];
         }
-    });
+    //});
 }
 
 @end
