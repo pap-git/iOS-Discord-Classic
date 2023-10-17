@@ -28,6 +28,8 @@
 
 @implementation DCServerCommunicator
 
+UIActivityIndicatorView *spinner;
+
 + (DCServerCommunicator *)sharedInstance {
 	static DCServerCommunicator *sharedInstance = nil;
 	
@@ -39,13 +41,13 @@
 		
 		
 		
-		sharedInstance.alertView = [UIAlertView.alloc initWithTitle:@"Connecting" message:@"\n" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+		sharedInstance.alertView = [UIAlertView.alloc initWithTitle:@"Connecting" message:@"\n" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 		
-		UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-		[spinner setCenter:CGPointMake(139.5, 75.5)];
+		/*UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		[spinner setCenter:CGPointMake(139.5, 57.5)];
 		
 		[sharedInstance.alertView addSubview:spinner];
-		[spinner startAnimating];
+		[spinner startAnimating];*/
 	}
 	
 	return sharedInstance;
@@ -55,6 +57,12 @@
 - (void)startCommunicator{
 	
 	[self.alertView show];
+    if (spinner == nil)
+        spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [spinner setCenter:CGPointMake(139.5, 57.5)];
+    
+    [self.alertView addSubview:spinner];
+    [spinner startAnimating];
 	
 	self.didAuthenticate = false;
 	

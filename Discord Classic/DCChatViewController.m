@@ -104,8 +104,7 @@ int lastTimeInterval = 0; // for typing indicator
             NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
             
             if (prevMessage.author.snowflake == newMessage.author.snowflake
-                && (curComponents.minute - prevComponents.minute < 10)
-                && curComponents.hour == prevComponents.hour
+                && ([newMessage.timestamp timeIntervalSince1970] - [prevMessage.timestamp timeIntervalSince1970] < 420)
                 && curComponents.day == prevComponents.day
                 && curComponents.month == prevComponents.month
                 && curComponents.year == prevComponents.year) {
