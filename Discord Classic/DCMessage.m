@@ -17,7 +17,7 @@
 	dispatch_async(apiQueue, ^{
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:40];
 		
 		[urlRequest setHTTPMethod:@"DELETE"];
 		
