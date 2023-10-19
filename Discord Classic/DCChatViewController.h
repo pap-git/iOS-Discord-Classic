@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 @property (weak, nonatomic) IBOutlet UITextView *inputField;
 @property (weak, nonatomic) IBOutlet UILabel *inputFieldPlaceholder;
+@property (weak, nonatomic) IBOutlet UIImageView *insetShadow;
 @property bool viewingPresentTime;
 
 @property DCMessage *selectedMessage;

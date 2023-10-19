@@ -13,10 +13,11 @@
 @implementation DCMessage
 
 - (void)deleteMessage{
-	//dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send", NULL);
+	dispatch_async(apiQueue, ^{
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
 		
 		[urlRequest setHTTPMethod:@"DELETE"];
 		
@@ -24,13 +25,13 @@
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		
 		
-		NSError *error = nil;
+		/*NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
         int attempts = 0;
         while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
             attempts++;
             error = nil;
-            /*[UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
             NSLog(@"Showing network indicator (deleteMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
@@ -39,8 +40,9 @@
                 NSLog(@"Showing network indicator (deleteMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
                 [UIApplication sharedApplication].networkActivityIndicatorVisible--;
             }];
-        }
-	//});
+        //}
+	});
+    dispatch_release(apiQueue);
 }
 
 - (BOOL)isEqual:(id)other{

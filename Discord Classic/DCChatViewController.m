@@ -50,9 +50,18 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	[self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
     
-    [self.inputField setDelegate:self];
+    [self.inputField setDelegate:(id)self];
     self.inputFieldPlaceholder.text = [NSString stringWithFormat:@"Message %@", self.navigationItem.title];
     self.inputFieldPlaceholder.hidden = NO;
+    
+    [[self.insetShadow layer] setMasksToBounds:YES];
+    [[self.insetShadow layer] setCornerRadius:16.0f];
+    [[self.insetShadow layer] setBorderColor:[UIColor darkGrayColor].CGColor];
+    [[self.insetShadow layer] setBorderWidth:1.0f];
+    [[self.insetShadow layer] setShadowColor:[UIColor blackColor].CGColor];
+    [[self.insetShadow layer] setShadowOffset:CGSizeMake(0, 0)];
+    [[self.insetShadow layer] setShadowOpacity:1];
+    [[self.insetShadow layer] setShadowRadius:4.0];
 }
 
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView {
@@ -139,7 +148,8 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Receive", NULL);
+    dispatch_async(apiQueue, ^{
 	NSArray* newMessages = [DCServerCommunicator.sharedInstance.selectedChannel getMessages:numberOfMessages beforeMessage:message];
 	
 	if(newMessages){
@@ -147,8 +157,9 @@ int lastTimeInterval = 0; // for typing indicator
 		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
 		[self.messages insertObjects:newMessages atIndexes:indexSet];
 		
+        [self.chatTableView reloadData];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.chatTableView reloadData];
+            
 
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
@@ -160,6 +171,7 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	[self.refreshControl endRefreshing];
     });
+    dispatch_release(apiQueue);
 }
 
 
@@ -238,11 +250,6 @@ int lastTimeInterval = 0; // for typing indicator
 		UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedImage:)];
 		singleTap.numberOfTapsRequired = 1;
         imageView.userInteractionEnabled = YES;
-        
-        imageView.layer.cornerRadius = 8;
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.shouldRasterize = YES;
-        imageView.layer.rasterizationScale = 2;
         
 		[imageView addGestureRecognizer:singleTap];
 		
@@ -364,7 +371,7 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	
-	[picker setDelegate:self];
+	[picker setDelegate:(id)self];
 	
 	[self presentModalViewController:picker animated:YES];
 }
@@ -387,8 +394,10 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 -(void)get50MoreMessages:(UIRefreshControl *)control {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Receive", NULL);
+    dispatch_async(apiQueue, ^{
         [self getMessages:50 beforeMessage:[self.messages objectAtIndex:0]];
     });
+    dispatch_release(apiQueue);
 }
 @end

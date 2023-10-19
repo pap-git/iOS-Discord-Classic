@@ -31,7 +31,7 @@
 
 - (void)handleReady {
 	//Refresh tableView data on READY notification
-    //dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
     [self.tableView reloadData];
 	
 	if(!self.refreshControl){
@@ -42,7 +42,7 @@
 	
 	[self.refreshControl addTarget:self action:@selector(reconnect) forControlEvents:UIControlEventValueChanged];
 	}
-    //});
+    });
 }
 
 
@@ -50,12 +50,12 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Guild Cell"];
 	
     //Sorts guilds alphabetically, Note that this code may not yield the best results, and should be modified in the future. It can crash the app sometimes.
-	DCServerCommunicator.sharedInstance.guilds = [DCServerCommunicator.sharedInstance.guilds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+	DCServerCommunicator.sharedInstance.guilds = [[DCServerCommunicator.sharedInstance.guilds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
 		NSString *first = [(DCGuild*)a name];
 		NSString *second = [(DCGuild*)b name];
 		if([first compare:@"Direct Messages"] == 0) return false; // DMs at the top
 		return [first compare:second];
-	}];
+	}] mutableCopy];
 
 	DCGuild* guildAtRowIndex = [DCServerCommunicator.sharedInstance.guilds objectAtIndex:indexPath.row];
     
@@ -72,17 +72,9 @@
     cell.imageView.clipsToBounds = YES;
     
     // make guild icons a fixed size
-    
-    CGSize itemSize = CGSizeMake(40, 40);
-    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
-    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-    [cell.imageView.image drawInRect:imageRect];
-    cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
     cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
     cell.imageView.layer.masksToBounds = YES;
-    cell.imageView.frame = CGRectMake(2.0, 2.0, itemSize.width, itemSize.height);
+    cell.imageView.frame = CGRectMake(2.0, 2.0, 40, 40);
     [cell.imageView setNeedsDisplay];
 	
 	return cell;

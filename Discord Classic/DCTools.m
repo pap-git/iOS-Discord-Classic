@@ -14,13 +14,18 @@
 //https://discord.gg/X4NSsMC
 
 @implementation DCTools
+
+#define MAX_IMAGE_THREADS 16
+int threadQueue = 0;
+
 + (void)processImageDataWithURLString:(NSString *)urlString
 														 andBlock:(void (^)(NSData *imageData))processImage{
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
-	dispatch_queue_t callerQueue = dispatch_get_current_queue();
-	dispatch_queue_t downloadQueue = dispatch_queue_create("com.discord_classic.processsmagequeue", NULL);
+	dispatch_queue_t callerQueue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", threadQueue] UTF8String], NULL);//dispatch_get_current_queue();
+    threadQueue += threadQueue % MAX_IMAGE_THREADS;
+	dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", url] UTF8String], NULL);
 	dispatch_async(downloadQueue, ^{
 		dispatch_async(callerQueue, ^{
             NSData* imageData = [NSData dataWithContentsOfURL:url];
@@ -28,6 +33,7 @@
 		});
 	});
 	dispatch_release(downloadQueue);
+    //dispatch_release(callerQueue);
 }
 
 //Returns a parsed NSDictionary from a json string or nil if something goes wrong
@@ -74,14 +80,6 @@
             newUser.globalName = [jsonUser valueForKey:@"global_name"];
     } @catch (NSException* e) {}
 	newUser.snowflake = [jsonUser valueForKey:@"id"];
-	
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSNumber * longId = [f numberFromString:newUser.snowflake];
-    
-    int selector = (int)(([longId longLongValue] >> 22) % 6);
-    
-    newUser.profileImage = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
     
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
@@ -89,11 +87,18 @@
 		UIImage *retrievedImage = [UIImage imageWithData:imageData];
 		
 		if(retrievedImage != nil){
-            dispatch_async(dispatch_get_main_queue(), ^{
+            //dispatch_async(dispatch_get_main_queue(), ^{
                 newUser.profileImage = retrievedImage;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
-            });
-		}
+            //});
+		} else {
+            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            NSNumber * longId = [f numberFromString:newUser.snowflake];
+            
+            int selector = (int)(([longId longLongValue] >> 22) % 6);
+            newUser.profileImage = [DCUser defaultAvatars][selector];
+        }
 		
 	}];
     
@@ -102,15 +107,15 @@
 		UIImage *retrievedImage = [UIImage imageWithData:imageData];
 		
 		if(retrievedImage != nil){
-            dispatch_async(dispatch_get_main_queue(), ^{
+            //dispatch_async(dispatch_get_main_queue(), ^{
                 newUser.avatarDecoration = retrievedImage;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
-            });
+            //});
 		}
 		
 	}];
 	
-	//Save to DCServerCOmmunicator.loadedUsers
+	//Save to DCServerCommunicator.loadedUsers
 	if(cache)
 		[DCServerCommunicator.sharedInstance.loadedUsers setValue:newUser forKey:newUser.snowflake];
 	
@@ -290,19 +295,30 @@
     
     int selector = (int)(([longId longLongValue] >> 22) % 6);
     
-    newGuild.icon = [UIImage imageNamed:[NSString stringWithFormat:@"DefaultAvatar%d", selector]];
-
+    newGuild.icon = [DCUser defaultAvatars][selector];
+    /*CGSize itemSize = CGSizeMake(40, 40);
+    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+    [newGuild.icon  drawInRect:imageRect];
+    newGuild.icon = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();*/
     
 	[DCTools processImageDataWithURLString:iconURL andBlock:^(NSData *imageData) {
         UIImage* icon = [UIImage imageWithData:imageData];
         
         if (icon != nil) {
             newGuild.icon = icon;
+            CGSize itemSize = CGSizeMake(40, 40);
+            UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+            CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+            [newGuild.icon  drawInRect:imageRect];
+            newGuild.icon = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
         }
 		
-		dispatch_async(dispatch_get_main_queue(), ^{
+		//dispatch_async(dispatch_get_main_queue(), ^{
 			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD GUILD LIST" object:DCServerCommunicator.sharedInstance];
-		});
+		//});
 		
 	}];
 	
@@ -406,20 +422,20 @@
 		[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		
-		NSError *error = nil;
+		/*NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
         int attempts = 0;
         while (attempts == 0 || (attempts <= 10 && error.code == NSURLErrorTimedOut)) {
             attempts++;
             error = nil;
-            /*[UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
                 [UIApplication sharedApplication].networkActivityIndicatorVisible--;
             }];
-        }
+        //}
     //});
 }
 

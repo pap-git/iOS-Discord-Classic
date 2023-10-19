@@ -15,5 +15,7 @@
 @property UIImage* profileImage;
 @property UIImage* avatarDecoration;
 
++(NSArray *)defaultAvatars;
+
 -(NSString *)description;
 @end

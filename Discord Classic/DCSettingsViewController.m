@@ -59,9 +59,9 @@
 			[chatViewController.navigationItem setTitle:@"Testing server #general"];
 			
 			//Populate the message view with the last 50 messages
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 [chatViewController getMessages:50 beforeMessage:nil];
-            });
+            //});
 			
 			//Chat view is watching the present conversation (auto scroll with new messages)
 			[chatViewController setViewingPresentTime:YES];

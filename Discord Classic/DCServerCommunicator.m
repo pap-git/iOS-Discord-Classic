@@ -13,6 +13,7 @@
 
 @interface DCServerCommunicator()
 @property bool didRecieveHeartbeatResponse;
+@property bool didTryResume;
 @property bool shouldResume;
 @property bool heartbeatDefined;
 
@@ -339,7 +340,7 @@ UIActivityIndicatorView *spinner;
 
 - (void)sendResume{
 	[self.alertView setTitle:@"Resuming"];
-	
+	self.didTryResume = true;
 	self.shouldResume = true;
 	[self startCommunicator];
 }
@@ -373,21 +374,26 @@ UIActivityIndicatorView *spinner;
 - (void)sendHeartbeat:(NSTimer *)timer{
 	//Check that we've recieved a response since the last heartbeat
 	if(self.didRecieveHeartbeatResponse){
-		[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkForRecievedHeartbeat:) userInfo:nil repeats:NO];
+		[NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkForRecievedHeartbeat:) userInfo:nil repeats:NO];
 		[self sendJSON:@{ @"op": @1, @"d": @(self.sequenceNumber)}];
 		NSLog(@"Sent heartbeat");
 		[self setDidRecieveHeartbeatResponse:false];
-	}else{
+        self.didTryResume = false;
+	} else if (self.didTryResume) {
+        NSLog(@"Did not get resume, trying reconnect instead with sequence %i %@", self.sequenceNumber, self.sessionId);
+        [self reconnect];
+        self.didTryResume = false;
+    } else {
 		//If we didnt get a response in between heartbeats, we've disconnected from the websocket
 		//send a RESUME to reconnect
-		NSLog(@"Did not get heartbeat response, sending RESUME with sequence %i %@", self.sequenceNumber, self.sessionId);
+		NSLog(@"Did not get heartbeat response, sending RESUME with sequence %i %@ (sendHeartbeat)", self.sequenceNumber, self.sessionId);
 		[self sendResume];
 	}
 }
 
 - (void)checkForRecievedHeartbeat:(NSTimer *)timer{
 	if(!self.didRecieveHeartbeatResponse){
-		NSLog(@"Did not get heartbeat response, sending RESUME with sequence %i %@", self.sequenceNumber, self.sessionId);
+		NSLog(@"Did not get heartbeat response, sending RESUME with sequence %i %@ (checkForRecievedHeartbeat)", self.sequenceNumber, self.sessionId);
 		[self sendResume];
 	}
 }

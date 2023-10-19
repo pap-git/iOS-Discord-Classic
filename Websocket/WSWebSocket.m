@@ -301,10 +301,9 @@ typedef enum {
     }
     
     uint8_t buffer[bufferSize];
-    NSInteger length = bufferSize;
-
+    
     // Read from the stream
-    length = [inputStream read:buffer maxLength:bufferSize];
+    NSInteger length = [inputStream read:buffer maxLength:bufferSize];
 
     // Append the bytes read from the stream
     if (length > 0) {
