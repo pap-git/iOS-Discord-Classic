@@ -50,7 +50,7 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	[self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
     
-    [self.inputField setDelegate:(id)self];
+    [self.inputField setDelegate:self];
     self.inputFieldPlaceholder.text = [NSString stringWithFormat:@"Message %@", self.navigationItem.title];
     self.inputFieldPlaceholder.hidden = NO;
     
@@ -79,7 +79,7 @@ int lastTimeInterval = 0; // for typing indicator
     }
 }
 
--(void) textViewShouldEndEditing:(UITextView *)textView {
+-(void) textViewDidEndEditing:(UITextView *)textView {
     self.inputFieldPlaceholder.hidden = self.inputField.text.length != 0;
     lastTimeInterval = 0;
 }
@@ -130,7 +130,9 @@ int lastTimeInterval = 0; // for typing indicator
     }
     
 	[self.messages addObject:newMessage];
-	[self.chatTableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.chatTableView reloadData];
+    });
 	
 	if(self.viewingPresentTime)
 		[self.chatTableView setContentOffset:CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height) animated:NO];
@@ -142,13 +144,15 @@ int lastTimeInterval = 0; // for typing indicator
 	compareMessage.snowflake = [notification.userInfo valueForKey:@"id"];
 		
 	[self.messages removeObject:compareMessage];
-	[self.chatTableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.chatTableView reloadData];
+    });
 				
 }
 
 
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message{
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Receive", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(4)] UTF8String], NULL);
     dispatch_async(apiQueue, ^{
 	NSArray* newMessages = [DCServerCommunicator.sharedInstance.selectedChannel getMessages:numberOfMessages beforeMessage:message];
 	
@@ -158,12 +162,10 @@ int lastTimeInterval = 0; // for typing indicator
 		[self.messages insertObjects:newMessages atIndexes:indexSet];
 		
         [self.chatTableView reloadData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-
+        dispatch_sync(dispatch_get_main_queue(), ^{
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
-				scrollOffset += newMessage.contentHeight + newMessage.embeddedImageCount * 224;
+				scrollOffset += newMessage.contentHeight + (newMessage.attachmentCount * 235);
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
 		});
@@ -236,25 +238,54 @@ int lastTimeInterval = 0; // for typing indicator
 			[subView removeFromSuperview];
 		}
 	}
-	
+	//dispatch_async(dispatch_get_main_queue(), ^{
 	int imageViewOffset = cell.contentTextView.height + (messageAtRowIndex.isGrouped ? 12 : 36);
 	
-	for(UIImage* image in messageAtRowIndex.embeddedImages){
-		UIImageView* imageView = UIImageView.new;
-		[imageView setFrame:CGRectMake(11, imageViewOffset, self.chatTableView.width - 22, 200)];
-		[imageView setImage:image];
-		imageViewOffset += 210;
-		
-		[imageView setContentMode: UIViewContentModeScaleAspectFit];
-		
-		UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedImage:)];
-		singleTap.numberOfTapsRequired = 1;
-        imageView.userInteractionEnabled = YES;
+	for(id attachment in messageAtRowIndex.attachments){
+        if([attachment isKindOfClass:[UIImage class]]) {
+            UIImageView* imageView = UIImageView.new;
+            UIImage* image = attachment;
+            CGFloat aspectRatio = image.size.width / image.size.height;
+            int newWidth = 200 * aspectRatio;
+            int newHeight = 200;
+            if (newWidth > self.chatTableView.width - 66) {
+                newWidth = self.chatTableView.width - 66;
+                newHeight = newWidth / aspectRatio;
+            }
+            [imageView setFrame:CGRectMake(55, imageViewOffset, newWidth, newHeight)];
+            [imageView setImage:attachment];
+            imageViewOffset += 210;
+            
+            [imageView setContentMode: UIViewContentModeScaleAspectFit];
+            
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedImage:)];
+            singleTap.numberOfTapsRequired = 1;
+            imageView.userInteractionEnabled = YES;
+            
+            [imageView addGestureRecognizer:singleTap];
+            
+            [cell addSubview:imageView];
+        } else if ([attachment isKindOfClass:[MPMoviePlayerViewController class]]) {
+            MPMoviePlayerViewController *player = attachment;
+            player.moviePlayer.shouldAutoplay = NO;
+            player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
+            player.moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
+            [player.moviePlayer prepareToPlay];
+            player.view.userInteractionEnabled = YES;
+            
+            UIView *videoView = [[UIView alloc] initWithFrame: CGRectMake(55, imageViewOffset, self.chatTableView.width - 66, 200)];
+            player.view.frame = CGRectMake(0, 0, self.chatTableView.width - 66, 200);
+            
+            videoView.layer.cornerRadius = 6;
+            videoView.layer.masksToBounds = YES;
+            imageViewOffset += 210;
+            videoView.userInteractionEnabled = YES;
+            [videoView addSubview:player.view];
+            [cell addSubview:videoView];
+        }
         
-		[imageView addGestureRecognizer:singleTap];
-		
-		[cell addSubview:imageView];
 	}
+    //});
 	return cell;
 }
 
@@ -262,7 +293,7 @@ int lastTimeInterval = 0; // for typing indicator
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
     
-	return messageAtRowIndex.contentHeight + messageAtRowIndex.embeddedImageCount * 224;
+	return messageAtRowIndex.contentHeight + (messageAtRowIndex.attachmentCount * 235);
 }
 
 
@@ -371,7 +402,7 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	
-	[picker setDelegate:(id)self];
+	[picker setDelegate:self];
 	
 	[self presentModalViewController:picker animated:YES];
 }
@@ -394,7 +425,7 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 -(void)get50MoreMessages:(UIRefreshControl *)control {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Receive", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(4)] UTF8String], NULL);
     dispatch_async(apiQueue, ^{
         [self getMessages:50 beforeMessage:[self.messages objectAtIndex:0]];
     });

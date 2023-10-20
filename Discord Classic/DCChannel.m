@@ -32,12 +32,12 @@
 
 
 - (void)sendMessage:(NSString*)message {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendMessage", NULL);
     
 	dispatch_async(apiQueue, ^{
 		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:40];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
         
         NSString* escapedMessage = [message mutableCopy];
         
@@ -69,11 +69,11 @@
 
 
 - (void)sendImage:(UIImage*)image {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::Image", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", NULL);
 	dispatch_async(apiQueue, ^{
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -86,8 +86,8 @@
 		NSMutableData *postbody = NSMutableData.new;
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 		[postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.jpg\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[NSData dataWithData:UIImageJPEGRepresentation(image, 0.9f)]];
+		[postbody appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+		[postbody appendData:[NSData dataWithData:UIImagePNGRepresentation(image)]];
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 		[postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -108,7 +108,7 @@
 }
 
 - (void)sendTypingIndicator{
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event::sendTypingIndicator", NULL);
     dispatch_async(apiQueue, ^{
     NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/typing", self.snowflake]];
     
@@ -133,7 +133,7 @@
 
 - (void)ackMessage:(NSString*)messageId{
 	self.lastReadMessageId = messageId;
-	dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", NULL);
+	dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Event::ackMessage%i", arc4random_uniform(4)] UTF8String], NULL);
 	dispatch_async(apiQueue, ^{
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
@@ -171,7 +171,7 @@
 	if(message)
 		[getChannelAddress appendString:[NSString stringWithFormat:@"before=%@", message.snowflake]];
     
-	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:40];
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
 	
 	[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 	[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

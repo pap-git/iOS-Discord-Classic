@@ -13,8 +13,8 @@
 @property NSString* snowflake;
 @property DCUser* author;
 @property NSString* content;
-@property int embeddedImageCount;
-@property NSMutableArray* embeddedImages;
+@property int attachmentCount;
+@property NSMutableArray* attachments;
 @property int contentHeight;
 @property int authorNameWidth;
 @property NSDate* timestamp;

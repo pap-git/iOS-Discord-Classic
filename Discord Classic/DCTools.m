@@ -81,12 +81,19 @@ int threadQueue = 0;
     } @catch (NSException* e) {}
 	newUser.snowflake = [jsonUser valueForKey:@"id"];
     
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber * longId = [f numberFromString:newUser.snowflake];
+    
+    int selector = (int)(([longId longLongValue] >> 22) % 6);
+    newUser.profileImage = [DCUser defaultAvatars][selector];
+    
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
 	[DCTools processImageDataWithURLString:avatarURL andBlock:^(NSData *imageData){
 		UIImage *retrievedImage = [UIImage imageWithData:imageData];
 		
-		if(retrievedImage != nil){
+		if(imageData.length > 0 && retrievedImage != nil){
             //dispatch_async(dispatch_get_main_queue(), ^{
                 newUser.profileImage = retrievedImage;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
@@ -163,8 +170,8 @@ int threadQueue = 0;
 	
 	newMessage.content = [jsonMessage valueForKey:@"content"];
 	newMessage.snowflake = [jsonMessage valueForKey:@"id"];
-	newMessage.embeddedImages = NSMutableArray.new;
-	newMessage.embeddedImageCount = 0;
+	newMessage.attachments = NSMutableArray.new;
+	newMessage.attachmentCount = 0;
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZZZ";
@@ -187,13 +194,13 @@ int threadQueue = 0;
 		for(NSDictionary* embed in embeds){
 			NSString* embedType = [embed valueForKey:@"type"];
 			if([embedType isEqualToString:@"image"]){
-				newMessage.embeddedImageCount++;
+				newMessage.attachmentCount++;
 				
 				[DCTools processImageDataWithURLString:[embed valueForKeyPath:@"thumbnail.url"] andBlock:^(NSData *imageData){
 					UIImage *retrievedImage = [UIImage imageWithData:imageData];
 					
 					if(retrievedImage != nil){
-						[newMessage.embeddedImages addObject:retrievedImage];
+						[newMessage.attachments addObject:retrievedImage];
 						[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
 					}
 					
@@ -204,16 +211,51 @@ int threadQueue = 0;
 	NSArray* attachments = [jsonMessage objectForKey:@"attachments"];
 	if(attachments)
 		for(NSDictionary* attachment in attachments){
-			newMessage.embeddedImageCount++;
+            NSString *fileType = [attachment valueForKey:@"content_type"];
+            if ([fileType rangeOfString:@"image/"].location != NSNotFound) {
+			newMessage.attachmentCount++;
+            
+            NSString *attachmentURL = [attachment valueForKey:@"url"];
+            
+            int width = [attachment valueForKey:@"width"];
+            int height = [attachment valueForKey:@"height"];
+            CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
+            
+            if (height > 2048) {
+                height = 2048;
+                width = height * aspectRatio;
+                if (width > 2048) {
+                    width = 1024;
+                    height = width / aspectRatio;
+                }
+            } else if (width > 2048) {
+                width = 2048;
+                height = width / aspectRatio;
+                if (height > 2048) {
+                    height = 2048;
+                    width = height * aspectRatio;
+                }
+            }
 			
-			[DCTools processImageDataWithURLString:[attachment valueForKey:@"url"] andBlock:^(NSData *imageData){
+			[DCTools processImageDataWithURLString:[NSString stringWithFormat:@"%@?width=%i&height=%i", attachmentURL, width, height] andBlock:^(NSData *imageData){
 				UIImage *retrievedImage = [UIImage imageWithData:imageData];
 				
 				if(retrievedImage != nil){
-					[newMessage.embeddedImages addObject:retrievedImage];
+					[newMessage.attachments addObject:retrievedImage];
 					[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
 				}
 			}];
+            } else if ([fileType rangeOfString:@"video/"].location != NSNotFound) {
+                newMessage.attachmentCount++;
+                
+                NSURL *attachmentURL = [NSURL URLWithString:[attachment valueForKey:@"url"]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [newMessage.attachments addObject:[[MPMoviePlayerViewController alloc] initWithContentURL:attachmentURL]];
+                });
+            } else {
+                NSLog(@"unknown attachment type %@", fileType);
+                continue;
+            }
 		}
 	
 	//Parse in-text mentions into readable @<username>
@@ -414,7 +456,7 @@ int threadQueue = 0;
     //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
         
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:40];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		

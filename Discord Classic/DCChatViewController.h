@@ -11,7 +11,7 @@
 #import "DCChannel.h"
 #import "DCMessage.h"
 
-@interface DCChatViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
+@interface DCChatViewController : UIViewController <UINavigationControllerDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
