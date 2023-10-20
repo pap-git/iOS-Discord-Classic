@@ -162,10 +162,10 @@ int lastTimeInterval = 0; // for typing indicator
 		[self.messages insertObjects:newMessages atIndexes:indexSet];
 		
         [self.chatTableView reloadData];
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
-				scrollOffset += newMessage.contentHeight + (newMessage.attachmentCount * 235);
+				scrollOffset += newMessage.contentHeight + (newMessage.attachmentCount * 224) + (newMessage.attachmentCount > 0 ? 11 : 0);
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
 		});
@@ -293,7 +293,7 @@ int lastTimeInterval = 0; // for typing indicator
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	DCMessage* messageAtRowIndex = [self.messages objectAtIndex:indexPath.row];
     
-	return messageAtRowIndex.contentHeight + (messageAtRowIndex.attachmentCount * 235);
+	return messageAtRowIndex.contentHeight + (messageAtRowIndex.attachmentCount * 224) + (messageAtRowIndex.attachmentCount > 0 ? 11 : 0);
 }
 
 
