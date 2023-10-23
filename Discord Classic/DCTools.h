@@ -15,7 +15,7 @@
 
 @interface DCTools : NSObject
 + (void)processImageDataWithURLString:(NSString *)urlString
-														 andBlock:(void (^)(NSData *imageData))processImage;
+														 andBlock:(void (^)(UIImage *imageData))processImage;
 
 + (NSDictionary*)parseJSON:(NSString*)json;
 + (void)alert:(NSString*)title withMessage:(NSString*)message;

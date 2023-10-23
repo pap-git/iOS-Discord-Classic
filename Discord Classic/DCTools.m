@@ -14,22 +14,43 @@
 //https://discord.gg/X4NSsMC
 
 @implementation DCTools
-
 #define MAX_IMAGE_THREADS 16
-int threadQueue = 0;
+static int threadQueue = 0;
+
+static NSCache* imageCache;
 
 + (void)processImageDataWithURLString:(NSString *)urlString
-														 andBlock:(void (^)(NSData *imageData))processImage{
+														 andBlock:(void (^)(UIImage *imageData))processImage{
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
 	dispatch_queue_t callerQueue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", threadQueue] UTF8String], NULL);//dispatch_get_current_queue();
     threadQueue += threadQueue % MAX_IMAGE_THREADS;
 	dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", url] UTF8String], NULL);
+    if (!imageCache)
+        imageCache = [[NSCache alloc] init];
 	dispatch_async(downloadQueue, ^{
 		dispatch_async(callerQueue, ^{
-            NSData* imageData = [NSData dataWithContentsOfURL:url];
-			processImage(imageData);
+            //NSData* imageData = [NSData dataWithContentsOfURL:url];
+            UIImage *image = [imageCache objectForKey:url];
+            if (!image) {
+                NSLog(@"Image not cached!");
+                NSURLResponse* urlResponse;
+                NSError* error;
+                NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15];
+                NSData* imageData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&urlResponse error:&error];
+                image = [UIImage imageWithData:imageData];
+                if (image != nil)
+                    [imageCache setObject:image forKey:url];
+                else
+                    [imageCache setObject:@"" forKey:url];
+            } else if (image == nil || ![[imageCache objectForKey:url] isKindOfClass:[UIImage class]]) {
+                image = nil;
+            } else {
+                NSLog(@"Image cached!");
+            }
+            
+			processImage(image);
 		});
 	});
 	dispatch_release(downloadQueue);
@@ -90,10 +111,10 @@ int threadQueue = 0;
     
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
-	[DCTools processImageDataWithURLString:avatarURL andBlock:^(NSData *imageData){
-		UIImage *retrievedImage = [UIImage imageWithData:imageData];
+	[DCTools processImageDataWithURLString:avatarURL andBlock:^(UIImage *imageData){
+		UIImage *retrievedImage = imageData;
 		
-		if(imageData.length > 0 && retrievedImage != nil){
+		if(imageData){
             //dispatch_async(dispatch_get_main_queue(), ^{
                 newUser.profileImage = retrievedImage;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
@@ -110,8 +131,8 @@ int threadQueue = 0;
 	}];
     
     NSString* avatarDecorationURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatar-decoration-presets/%@.png?size=96&passthrough=false", [jsonUser valueForKeyPath:@"avatar_decoration_data.asset"]];
-	[DCTools processImageDataWithURLString:avatarDecorationURL andBlock:^(NSData *imageData){
-		UIImage *retrievedImage = [UIImage imageWithData:imageData];
+	[DCTools processImageDataWithURLString:avatarDecorationURL andBlock:^(UIImage *imageData){
+		UIImage *retrievedImage = imageData;
 		
 		if(retrievedImage != nil){
             //dispatch_async(dispatch_get_main_queue(), ^{
@@ -196,8 +217,8 @@ int threadQueue = 0;
 			if([embedType isEqualToString:@"image"]){
 				newMessage.attachmentCount++;
 				
-				[DCTools processImageDataWithURLString:[embed valueForKeyPath:@"thumbnail.url"] andBlock:^(NSData *imageData){
-					UIImage *retrievedImage = [UIImage imageWithData:imageData];
+				[DCTools processImageDataWithURLString:[embed valueForKeyPath:@"thumbnail.url"] andBlock:^(UIImage *imageData){
+					UIImage *retrievedImage = imageData;
 					
 					if(retrievedImage != nil){
 						[newMessage.attachments addObject:retrievedImage];
@@ -237,8 +258,8 @@ int threadQueue = 0;
                 }
             }
 			
-			[DCTools processImageDataWithURLString:[NSString stringWithFormat:@"%@?width=%i&height=%i", attachmentURL, width, height] andBlock:^(NSData *imageData){
-				UIImage *retrievedImage = [UIImage imageWithData:imageData];
+			[DCTools processImageDataWithURLString:[NSString stringWithFormat:@"%@?width=%i&height=%i", attachmentURL, width, height] andBlock:^(UIImage *imageData){
+				UIImage *retrievedImage = imageData;
 				
 				if(retrievedImage != nil){
 					[newMessage.attachments addObject:retrievedImage];
@@ -345,8 +366,8 @@ int threadQueue = 0;
     newGuild.icon = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();*/
     
-	[DCTools processImageDataWithURLString:iconURL andBlock:^(NSData *imageData) {
-        UIImage* icon = [UIImage imageWithData:imageData];
+	[DCTools processImageDataWithURLString:iconURL andBlock:^(UIImage *imageData) {
+        UIImage* icon = imageData;
         
         if (icon != nil) {
             newGuild.icon = icon;
