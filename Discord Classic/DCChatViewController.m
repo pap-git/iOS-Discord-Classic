@@ -43,13 +43,6 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	lastTimeInterval = 0;
     
-	self.refreshControl = UIRefreshControl.new;
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Earlier messages"];
-	
-	[self.chatTableView addSubview:self.refreshControl];
-	
-	[self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
-    
     [self.inputField setDelegate:self];
     self.inputFieldPlaceholder.text = [NSString stringWithFormat:@"Message %@", self.navigationItem.title];
     self.inputFieldPlaceholder.hidden = NO;
@@ -169,6 +162,15 @@ int lastTimeInterval = 0; // for typing indicator
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
 		});
+        
+        if ([newMessages count] > 0 && !self.refreshControl) {
+            self.refreshControl = UIRefreshControl.new;
+            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Earlier messages"];
+            
+            [self.chatTableView addSubview:self.refreshControl];
+            
+            [self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
+        }
 	}
 	
 	[self.refreshControl endRefreshing];
@@ -425,10 +427,10 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 -(void)get50MoreMessages:(UIRefreshControl *)control {
-    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(4)] UTF8String], NULL);
-    dispatch_async(apiQueue, ^{
+    //dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(4)] UTF8String], NULL);
+    //dispatch_async(apiQueue, ^{
         [self getMessages:50 beforeMessage:[self.messages objectAtIndex:0]];
-    });
-    dispatch_release(apiQueue);
+    //});
+    //dispatch_release(apiQueue);
 }
 @end

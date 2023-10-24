@@ -171,7 +171,7 @@
 	if(message)
 		[getChannelAddress appendString:[NSString stringWithFormat:@"before=%@", message.snowflake]];
     
-	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
 	
 	[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 	[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
