@@ -15,6 +15,7 @@
 #import "DCUser.h"
 #import "DCImageViewController.h"
 #import "TRMalleableFrameView.h"
+#import "DCChatVideoAttachment.h"
 
 @interface DCChatViewController()
 @property int numberOfMessagesLoaded;
@@ -239,6 +240,9 @@ int lastTimeInterval = 0; // for typing indicator
 		if ([subView isKindOfClass:[UIImageView class]]) {
 			[subView removeFromSuperview];
 		}
+        if ([subView isKindOfClass:[DCChatVideoAttachment class]]) {
+			[subView removeFromSuperview];
+		}
 	}
 	//dispatch_async(dispatch_get_main_queue(), ^{
 	int imageViewOffset = cell.contentTextView.height + (messageAtRowIndex.isGrouped ? 12 : 36);
@@ -266,26 +270,33 @@ int lastTimeInterval = 0; // for typing indicator
             
             [imageView addGestureRecognizer:singleTap];
             
+            imageView.layer.cornerRadius = 6;
+            imageView.layer.masksToBounds = YES;
+            
             [cell addSubview:imageView];
-        } else if ([attachment isKindOfClass:[MPMoviePlayerViewController class]]) {
-            MPMoviePlayerViewController *player = attachment;
-            player.moviePlayer.shouldAutoplay = NO;
-            player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
-            player.moviePlayer.controlStyle = MPMovieControlStyleEmbedded;
-            [player.moviePlayer prepareToPlay];
-            player.view.userInteractionEnabled = YES;
+        } else if ([attachment isKindOfClass:[DCChatVideoAttachment class]]) {
+            NSLog(@"add video!");
+            DCChatVideoAttachment *video = attachment;
             
-            UIView *videoView = [[UIView alloc] initWithFrame: CGRectMake(55, imageViewOffset, self.chatTableView.width - 66, 200)];
-            player.view.frame = CGRectMake(0, 0, self.chatTableView.width - 66, 200);
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedVideo:)];
+            singleTap.numberOfTapsRequired = 1;
+            [video.playButton addGestureRecognizer:singleTap];
+            video.playButton.userInteractionEnabled = YES;
             
-            videoView.layer.cornerRadius = 6;
-            videoView.layer.masksToBounds = YES;
+            CGFloat aspectRatio = video.thumbnail.image.size.width / video.thumbnail.image.size.height;
+            int newWidth = 200 * aspectRatio;
+            int newHeight = 200;
+            if (newWidth > self.chatTableView.width - 66) {
+                newWidth = self.chatTableView.width - 66;
+                newHeight = newWidth / aspectRatio;
+            }
+            [video setFrame:CGRectMake(55, imageViewOffset, newWidth, newHeight)];
+            
             imageViewOffset += 210;
-            videoView.userInteractionEnabled = YES;
-            [videoView addSubview:player.view];
-            [cell addSubview:videoView];
+            
+            [cell addSubview:video];
         }
-        
+        messageAtRowIndex.attachmentCount = imageViewOffset;
 	}
     //});
 	return cell;
@@ -380,6 +391,23 @@ int lastTimeInterval = 0; // for typing indicator
 	[self.inputField resignFirstResponder];
 	self.selectedImage = ((UIImageView*)sender.view).image;
 	[self performSegueWithIdentifier:@"Chat to Gallery" sender:self];
+}
+
+-(void)tappedVideo:(UITapGestureRecognizer *)sender {
+    [self.inputField resignFirstResponder];
+    NSLog(@"Tapped video!");
+    MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
+                                           ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
+    player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
+    player.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    [player.moviePlayer prepareToPlay];
+    player.view.userInteractionEnabled = YES;
+    [player.view setHidden:NO];
+    UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
+    [player.view setFrame:backgroundWindow.frame];
+    //[self.view addSubview:player.moviePlayer.view];
+    [self presentMoviePlayerViewControllerAnimated: player];
+    [player.moviePlayer play];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

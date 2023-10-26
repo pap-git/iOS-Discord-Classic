@@ -62,6 +62,10 @@
 		2C0EBB902ADB16FB00A23EB8 /* DefaultAvatar5.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EBB842ADB16FB00A23EB8 /* DefaultAvatar5.png */; };
 		2C0EBB912ADB16FB00A23EB8 /* DefaultAvatar5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EBB852ADB16FB00A23EB8 /* DefaultAvatar5@2x.png */; };
 		2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */; };
+		2C11B41A2AEA547E00BE66F6 /* play_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C11B4182AEA547E00BE66F6 /* play_btn@2x.png */; };
+		2C11B41B2AEA547E00BE66F6 /* play_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C11B4192AEA547E00BE66F6 /* play_btn.png */; };
+		2C87A3D62AE99BA400DA6C21 /* DCChatVideoAttachment.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */; };
+		2C87A3D92AE99C3A00DA6C21 /* DCChatVideoAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C87A3D82AE99C3A00DA6C21 /* DCChatVideoAttachment.m */; };
 		2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */; };
 		2CEBF2982AE2FE2500EC7812 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CEBF2972AE2FE2500EC7812 /* AVFoundation.framework */; };
 		2CEBF29A2AE2FE4500EC7812 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CEBF2992AE2FE4500EC7812 /* MediaPlayer.framework */; };
@@ -153,6 +157,11 @@
 		2C0EBB842ADB16FB00A23EB8 /* DefaultAvatar5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultAvatar5.png; path = "Images/Default Avatars/DefaultAvatar5.png"; sourceTree = "<group>"; };
 		2C0EBB852ADB16FB00A23EB8 /* DefaultAvatar5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DefaultAvatar5@2x.png"; path = "Images/Default Avatars/DefaultAvatar5@2x.png"; sourceTree = "<group>"; };
 		2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatReplyTableCell.xib; sourceTree = SOURCE_ROOT; };
+		2C11B4182AEA547E00BE66F6 /* play_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_btn@2x.png"; sourceTree = "<group>"; };
+		2C11B4192AEA547E00BE66F6 /* play_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_btn.png; sourceTree = "<group>"; };
+		2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatVideoAttachment.xib; sourceTree = SOURCE_ROOT; };
+		2C87A3D72AE99C3A00DA6C21 /* DCChatVideoAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCChatVideoAttachment.h; sourceTree = "<group>"; };
+		2C87A3D82AE99C3A00DA6C21 /* DCChatVideoAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCChatVideoAttachment.m; sourceTree = "<group>"; };
 		2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatGroupedTableCell.xib; sourceTree = SOURCE_ROOT; };
 		2CEBF2972AE2FE2500EC7812 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2CEBF2992AE2FE4500EC7812 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -244,8 +253,11 @@
 				096DD77421A6E62200C7A3B1 /* DCWelcomeViewController.m */,
 				09C344B521A0B984005F8CEE /* DCImageViewController.h */,
 				09C344B621A0B984005F8CEE /* DCImageViewController.m */,
+				2C87A3D72AE99C3A00DA6C21 /* DCChatVideoAttachment.h */,
+				2C87A3D82AE99C3A00DA6C21 /* DCChatVideoAttachment.m */,
 				09A4EA6D2079266800DECFD6 /* DCChatTableCell.h */,
 				09A4EA6E2079266800DECFD6 /* DCChatTableCell.m */,
+				2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */,
 				2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */,
 				09A4EA662079220E00DECFD6 /* DCChatTableCell.xib */,
 				2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */,
@@ -350,6 +362,7 @@
 		2C0EBB732ADB15FB00A23EB8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2C11B4172AEA546F00BE66F6 /* Video Player */,
 				2C0EBB742ADB165400A23EB8 /* UINavigationBarTexture.png */,
 				2C0EBB752ADB165400A23EB8 /* UINavigationBarTexture@2x.png */,
 				2C0EBB6E2ADB15DB00A23EB8 /* DirectMessages.png */,
@@ -373,6 +386,15 @@
 				09FF0300205EFB8800BCBA8D /* Default-568h@2x.png */,
 			);
 			name = "Launch Images";
+			sourceTree = "<group>";
+		};
+		2C11B4172AEA546F00BE66F6 /* Video Player */ = {
+			isa = PBXGroup;
+			children = (
+				2C11B4182AEA547E00BE66F6 /* play_btn@2x.png */,
+				2C11B4192AEA547E00BE66F6 /* play_btn.png */,
+			);
+			name = "Video Player";
 			sourceTree = "<group>";
 		};
 		2CAEFBA82ADADC1000103C30 /* iPad */ = {
@@ -440,6 +462,7 @@
 				09C8E2ED204C3B64006A1422 /* Storyboard.storyboard in Resources */,
 				2C0EBB8C2ADB16FB00A23EB8 /* DefaultAvatar3.png in Resources */,
 				2C0EBB712ADB15DC00A23EB8 /* DirectMessages@2x.png in Resources */,
+				2C11B41B2AEA547E00BE66F6 /* play_btn.png in Resources */,
 				2C0EBB8E2ADB16FB00A23EB8 /* DefaultAvatar4.png in Resources */,
 				2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */,
 				2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */,
@@ -451,6 +474,7 @@
 				2C0EBB912ADB16FB00A23EB8 /* DefaultAvatar5@2x.png in Resources */,
 				2C0EBB892ADB16FB00A23EB8 /* DefaultAvatar1@2x.png in Resources */,
 				2C0EBB762ADB165400A23EB8 /* UINavigationBarTexture.png in Resources */,
+				2C87A3D62AE99BA400DA6C21 /* DCChatVideoAttachment.xib in Resources */,
 				09A2A3142072674500F3D98C /* Icon.png in Resources */,
 				2C0EBB702ADB15DC00A23EB8 /* DirectMessages.png in Resources */,
 				2C0EBB902ADB16FB00A23EB8 /* DefaultAvatar5.png in Resources */,
@@ -458,6 +482,7 @@
 				2C0EBB8B2ADB16FB00A23EB8 /* DefaultAvatar2@2x.png in Resources */,
 				2C0EBB772ADB165400A23EB8 /* UINavigationBarTexture@2x.png in Resources */,
 				2C0EBB872ADB16FB00A23EB8 /* DefaultAvatar0@2x.png in Resources */,
+				2C11B41A2AEA547E00BE66F6 /* play_btn@2x.png in Resources */,
 				2C0EBB862ADB16FB00A23EB8 /* DefaultAvatar0.png in Resources */,
 				09A4EA672079220E00DECFD6 /* DCChatTableCell.xib in Resources */,
 				09F4C6F121A6EBD40018F312 /* FontAwesome.ttf in Resources */,
@@ -514,6 +539,7 @@
 				09260EC720575AE900083813 /* DCGuild.m in Sources */,
 				09260ECA20575BB200083813 /* DCChannel.m in Sources */,
 				09FF02F7205EF9DD00BCBA8D /* DCGuildListViewController.m in Sources */,
+				2C87A3D92AE99C3A00DA6C21 /* DCChatVideoAttachment.m in Sources */,
 				09FF02F8205EF9DF00BCBA8D /* DCViewController.m in Sources */,
 				09D84D0C205F36B90070020A /* DCSettingsViewController.m in Sources */,
 				09E3ED262069F21200E90DA1 /* DCTools.m in Sources */,

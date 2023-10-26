@@ -10,6 +10,7 @@
 #import "DCMessage.h"
 #import "DCUser.h"
 #import "DCServerCommunicator.h"
+#import "DCChatVideoAttachment.h"
 
 //https://discord.gg/X4NSsMC
 
@@ -266,44 +267,76 @@ static NSCache* imageCache;
 		for(NSDictionary* attachment in attachments){
             NSString *fileType = [attachment valueForKey:@"content_type"];
             if ([fileType rangeOfString:@"image/"].location != NSNotFound) {
-			newMessage.attachmentCount++;
-            
-            NSString *attachmentURL = [attachment valueForKey:@"url"];
-            
-            int width = [attachment valueForKey:@"width"];
-            int height = [attachment valueForKey:@"height"];
-            CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
-            
-            if (height > 2048) {
-                height = 2048;
-                width = height * aspectRatio;
-                if (width > 2048) {
-                    width = 1024;
-                    height = width / aspectRatio;
-                }
-            } else if (width > 2048) {
-                width = 2048;
-                height = width / aspectRatio;
+                newMessage.attachmentCount++;
+                
+                NSString *attachmentURL = [attachment valueForKey:@"url"];
+                
+                int width = [attachment valueForKey:@"width"];
+                int height = [attachment valueForKey:@"height"];
+                CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
+                
                 if (height > 2048) {
                     height = 2048;
                     width = height * aspectRatio;
+                    if (width > 2048) {
+                        width = 1024;
+                        height = width / aspectRatio;
+                    }
+                } else if (width > 2048) {
+                    width = 2048;
+                    height = width / aspectRatio;
+                    if (height > 2048) {
+                        height = 2048;
+                        width = height * aspectRatio;
+                    }
                 }
-            }
-			
-			[DCTools processImageDataWithURLString:[NSString stringWithFormat:@"%@?width=%i&height=%i", attachmentURL, width, height] andBlock:^(UIImage *imageData){
-				UIImage *retrievedImage = imageData;
-				
-				if(retrievedImage != nil){
-					[newMessage.attachments addObject:retrievedImage];
-					[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
-				}
-			}];
+                
+                NSString *urlString = [NSString stringWithFormat:@"%@&width=%i&height=%i", attachmentURL, width, height];
+                if ([attachmentURL rangeOfString:@"?"].location == NSNotFound)
+                    urlString = [NSString stringWithFormat:@"%@?width=%i&height=%i", attachmentURL, width, height];
+                
+                
+                [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){
+                    UIImage *retrievedImage = imageData;
+                    
+                    if(retrievedImage != nil){
+                        [newMessage.attachments addObject:retrievedImage];
+                        [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                    }
+                }];
             } else if ([fileType rangeOfString:@"video/"].location != NSNotFound) {
                 newMessage.attachmentCount++;
                 
                 NSURL *attachmentURL = [NSURL URLWithString:[attachment valueForKey:@"url"]];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [newMessage.attachments addObject:[[MPMoviePlayerViewController alloc] initWithContentURL:attachmentURL]];
+                    //[newMessage.attachments addObject:[[MPMoviePlayerViewController alloc] initWithContentURL:attachmentURL]];
+                    DCChatVideoAttachment *video = [[[NSBundle mainBundle] loadNibNamed:@"DCChatVideoAttachment" owner:self options:nil] objectAtIndex:0];
+                    
+                    video.videoURL = attachmentURL;
+                    
+                    NSString *baseURL = [[attachment valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com"
+                                                                      withString:@"media.discordapp.net"];
+                    
+                    NSString *urlString = [NSString stringWithFormat:@"%@format=jpeg", baseURL];
+                    if ([baseURL rangeOfString:@"?"].location == NSNotFound)
+                        urlString = [NSString stringWithFormat:@"%@?format=jpeg", baseURL];
+                    
+                    
+                    [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){
+                        UIImage *retrievedImage = imageData;
+                        
+                        if(retrievedImage != nil){
+                            [video.thumbnail setImage:retrievedImage];
+                            [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                        } else {
+                            NSLog(@"Failed to load video thumbnail!");
+                        }
+                    }];
+                    
+                    video.layer.cornerRadius = 6;
+                    video.layer.masksToBounds = YES;
+                    video.userInteractionEnabled = YES;
+                    [newMessage.attachments addObject:video];
                 });
             } else {
                 NSLog(@"unknown attachment type %@", fileType);
