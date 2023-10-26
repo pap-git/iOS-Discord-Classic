@@ -11,6 +11,7 @@
 #import "DCUser.h"
 #import "DCServerCommunicator.h"
 #import "DCChatVideoAttachment.h"
+#import "UIImage+animatedGIF.h"
 
 //https://discord.gg/X4NSsMC
 
@@ -58,12 +59,17 @@ static NSCache* imageCache;
                     NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:15];
                     NSData* imageData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&urlResponse error:&error];
                     dispatch_sync(dispatch_get_main_queue(), ^{
-                    image = [UIImage imageWithData:imageData];
-                    if (image != nil)
-                        [imageCache setObject:image forKey:[url absoluteString]];
-                    else
-                        [imageCache setObject:@"" forKey:[url absoluteString]];
-                    NSLog(@"Image added to cache");
+                        uint8_t c;
+                        [imageData getBytes:&c length:1];
+                        if (c == 0x47)
+                            image = [UIImage animatedImageWithAnimatedGIFData:imageData];
+                        else
+                            image = [UIImage imageWithData:imageData];
+                        if (image != nil)
+                            [imageCache setObject:image forKey:[url absoluteString]];
+                        else
+                            [imageCache setObject:@"" forKey:[url absoluteString]];
+                        NSLog(@"Image added to cache");
                     });
                 } else if (image == nil || ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]) {
                     image = nil;

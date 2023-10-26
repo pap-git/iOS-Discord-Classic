@@ -64,6 +64,8 @@
 		2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */; };
 		2C11B41A2AEA547E00BE66F6 /* play_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C11B4182AEA547E00BE66F6 /* play_btn@2x.png */; };
 		2C11B41B2AEA547E00BE66F6 /* play_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C11B4192AEA547E00BE66F6 /* play_btn.png */; };
+		2C11B41E2AEAF91600BE66F6 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11B41D2AEAF91600BE66F6 /* UIImage+animatedGIF.m */; };
+		2C11B4202AEAFA5000BE66F6 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11B41F2AEAFA5000BE66F6 /* ImageIO.framework */; };
 		2C87A3D62AE99BA400DA6C21 /* DCChatVideoAttachment.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */; };
 		2C87A3D92AE99C3A00DA6C21 /* DCChatVideoAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C87A3D82AE99C3A00DA6C21 /* DCChatVideoAttachment.m */; };
 		2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */; };
@@ -159,6 +161,9 @@
 		2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatReplyTableCell.xib; sourceTree = SOURCE_ROOT; };
 		2C11B4182AEA547E00BE66F6 /* play_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play_btn@2x.png"; sourceTree = "<group>"; };
 		2C11B4192AEA547E00BE66F6 /* play_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_btn.png; sourceTree = "<group>"; };
+		2C11B41C2AEAF91600BE66F6 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		2C11B41D2AEAF91600BE66F6 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		2C11B41F2AEAFA5000BE66F6 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatVideoAttachment.xib; sourceTree = SOURCE_ROOT; };
 		2C87A3D72AE99C3A00DA6C21 /* DCChatVideoAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCChatVideoAttachment.h; sourceTree = "<group>"; };
 		2C87A3D82AE99C3A00DA6C21 /* DCChatVideoAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCChatVideoAttachment.m; sourceTree = "<group>"; };
@@ -172,6 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C11B4202AEAFA5000BE66F6 /* ImageIO.framework in Frameworks */,
 				2CEBF29A2AE2FE4500EC7812 /* MediaPlayer.framework in Frameworks */,
 				2CEBF2982AE2FE2500EC7812 /* AVFoundation.framework in Frameworks */,
 				09C6B997204A261B007EAC26 /* Security.framework in Frameworks */,
@@ -219,6 +225,7 @@
 		09C6B923204A0F54007EAC26 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C11B41F2AEAFA5000BE66F6 /* ImageIO.framework */,
 				2CEBF2992AE2FE4500EC7812 /* MediaPlayer.framework */,
 				2CEBF2972AE2FE2500EC7812 /* AVFoundation.framework */,
 				09C6B996204A261B007EAC26 /* Security.framework */,
@@ -235,6 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				09C6B933204A0F54007EAC26 /* DCAppDelegate.h */,
+				2C11B41C2AEAF91600BE66F6 /* UIImage+animatedGIF.h */,
+				2C11B41D2AEAF91600BE66F6 /* UIImage+animatedGIF.m */,
 				09C6B934204A0F54007EAC26 /* DCAppDelegate.m */,
 				09E183B8205EF64700FE90E8 /* DCViewController.h */,
 				09E183B9205EF64700FE90E8 /* DCViewController.m */,
@@ -538,6 +547,7 @@
 				095284612055EFD000760073 /* TRMalleableFrameView.m in Sources */,
 				09260EC720575AE900083813 /* DCGuild.m in Sources */,
 				09260ECA20575BB200083813 /* DCChannel.m in Sources */,
+				2C11B41E2AEAF91600BE66F6 /* UIImage+animatedGIF.m in Sources */,
 				09FF02F7205EF9DD00BCBA8D /* DCGuildListViewController.m in Sources */,
 				2C87A3D92AE99C3A00DA6C21 /* DCChatVideoAttachment.m in Sources */,
 				09FF02F8205EF9DF00BCBA8D /* DCViewController.m in Sources */,
