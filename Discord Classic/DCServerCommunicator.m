@@ -167,7 +167,7 @@ UIActivityIndicatorView *spinner;
 					
 					//recieved READY
 					if([t isEqualToString:@"READY"]){
-						
+						dispatch_async(dispatch_get_main_queue(), ^{
 						weakSelf.didAuthenticate = true;
 						NSLog(@"Did authenticate!");
 						
@@ -255,12 +255,13 @@ UIActivityIndicatorView *spinner;
 							[channelOfReadstate checkIfRead];
 						}
 						
-						dispatch_async(dispatch_get_main_queue(), ^{
+						//dispatch_async(dispatch_get_main_queue(), ^{
 							[NSNotificationCenter.defaultCenter postNotificationName:@"READY" object:weakSelf];
 							
 							//Dismiss the 'reconnecting' dialogue box
 							[weakSelf.alertView dismissWithClickedButtonIndex:0 animated:YES];
-						});
+						//});
+                        });
 					}
 					
 					if([t isEqualToString:@"RESUMED"]){
@@ -271,7 +272,7 @@ UIActivityIndicatorView *spinner;
 					}
 					
 					if([t isEqualToString:@"MESSAGE_CREATE"]){
-						
+						dispatch_async(dispatch_get_main_queue(), ^{
 						NSString* channelIdOfMessage = [d objectForKey:@"channel_id"];
 						NSString* messageId = [d objectForKey:@"id"];
 						
@@ -279,11 +280,9 @@ UIActivityIndicatorView *spinner;
 						//and if so, if that channel is the same the message was sent in
 						if(weakSelf.selectedChannel != nil && [channelIdOfMessage isEqualToString:weakSelf.selectedChannel.snowflake]){
 							
-							dispatch_async(dispatch_get_main_queue(), ^{
 								//Send notification with the new message
 								//will be recieved by DCChatViewController
 								[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE CREATE" object:weakSelf userInfo:d];
-							});
 							
 							//Update current channel & read state last message
 							[weakSelf.selectedChannel setLastMessageId:messageId];
@@ -295,15 +294,15 @@ UIActivityIndicatorView *spinner;
 							channelOfMessage.lastMessageId = messageId;
 							
 							[channelOfMessage checkIfRead];
-							
-							dispatch_async(dispatch_get_main_queue(), ^{
 								[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE ACK" object:weakSelf];
-							});
 						}
+                        });
 					}
 					
 					if([t isEqualToString:@"MESSAGE_ACK"])
-						[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE ACK" object:weakSelf];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE ACK" object:weakSelf];
+                        });
 					
 					if([t isEqualToString:@"MESSAGE_DELETE"])
 						dispatch_async(dispatch_get_main_queue(), ^{
@@ -314,7 +313,9 @@ UIActivityIndicatorView *spinner;
 						
 					
 					if([t isEqualToString:@"GUILD_CREATE"])
-						[weakSelf.guilds addObject:[DCTools convertJsonGuild:d]];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [weakSelf.guilds addObject:[DCTools convertJsonGuild:d]];
+                        });
 				}
 					break;
 					
@@ -405,12 +406,14 @@ UIActivityIndicatorView *spinner;
 }
 
 - (void)sendJSON:(NSDictionary*)dictionary{
+    dispatch_async(dispatch_get_main_queue(), ^{
 	NSError *writeError = nil;
 	
 	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&writeError];
 	
 	NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 	[self.websocket sendText:jsonString];
+    });
 }
 
 @end

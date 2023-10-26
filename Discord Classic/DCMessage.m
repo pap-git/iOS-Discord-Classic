@@ -34,11 +34,17 @@
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
-            NSLog(@"Showing network indicator (deleteMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+            dispatch_sync(dispatch_get_main_queue(), ^{
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+            });
             [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
-                NSLog(@"Showing network indicator (deleteMessage) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
-                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
+                        [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+                    else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
+                        [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+                });
+
             }];
         //}
 	});

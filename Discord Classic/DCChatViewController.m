@@ -93,11 +93,13 @@ int lastTimeInterval = 0; // for typing indicator
 		[self getMessages:50 beforeMessage:nil];
 	}
 	
-	[self.refreshControl endRefreshing];
+    if(self.refreshControl)
+        [self.refreshControl endRefreshing];
 }
 
 
 - (void)handleMessageCreate:(NSNotification*)notification {
+    dispatch_async(dispatch_get_main_queue(), ^{
     DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
 	
     if (self.messages.count > 0) {
@@ -123,8 +125,7 @@ int lastTimeInterval = 0; // for typing indicator
         }
     }
     
-	[self.messages addObject:newMessage];
-    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.messages addObject:newMessage];
         [self.chatTableView reloadData];
     });
 	
@@ -156,25 +157,27 @@ int lastTimeInterval = 0; // for typing indicator
 		[self.messages insertObjects:newMessages atIndexes:indexSet];
 		
         [self.chatTableView reloadData];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
 				scrollOffset += newMessage.contentHeight + (newMessage.attachmentCount * 224) + (newMessage.attachmentCount > 0 ? 11 : 0);
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
+            
+            if ([newMessages count] > 0 && !self.refreshControl) {
+                self.refreshControl = UIRefreshControl.new;
+                self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Earlier messages"];
+                
+                [self.chatTableView addSubview:self.refreshControl];
+                
+                [self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
+                
+                self.refreshControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+            }
 		});
-        
-        if ([newMessages count] > 0 && !self.refreshControl) {
-            self.refreshControl = UIRefreshControl.new;
-            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Earlier messages"];
-            
-            [self.chatTableView addSubview:self.refreshControl];
-            
-            [self.refreshControl addTarget:self action:@selector(get50MoreMessages:) forControlEvents:UIControlEventValueChanged];
-        }
 	}
-	
-	[self.refreshControl endRefreshing];
+	if(self.refreshControl)
+        [self.refreshControl endRefreshing];
     });
     dispatch_release(apiQueue);
 }
@@ -296,7 +299,7 @@ int lastTimeInterval = 0; // for typing indicator
             
             [cell addSubview:video];
         }
-        messageAtRowIndex.attachmentCount = imageViewOffset;
+        
 	}
     //});
 	return cell;
@@ -396,18 +399,35 @@ int lastTimeInterval = 0; // for typing indicator
 -(void)tappedVideo:(UITapGestureRecognizer *)sender {
     [self.inputField resignFirstResponder];
     NSLog(@"Tapped video!");
-    MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
-                                           ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
-    player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
-    player.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
-    [player.moviePlayer prepareToPlay];
-    player.view.userInteractionEnabled = YES;
-    [player.view setHidden:NO];
-    UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
-    [player.view setFrame:backgroundWindow.frame];
-    //[self.view addSubview:player.moviePlayer.view];
-    [self presentMoviePlayerViewControllerAnimated: player];
-    [player.moviePlayer play];
+    if (dispatch_get_current_queue() != dispatch_get_main_queue()) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
+                                                   ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
+            player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
+            player.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+            [player.moviePlayer prepareToPlay];
+            player.view.userInteractionEnabled = YES;
+            [player.view setHidden:NO];
+            UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
+            [player.view setFrame:backgroundWindow.frame];
+            //[self.view addSubview:player.moviePlayer.view];
+            [self presentMoviePlayerViewControllerAnimated: player];
+            [player.moviePlayer play];
+        });
+    } else {
+        MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
+                                               ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
+        player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
+        player.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+        [player.moviePlayer prepareToPlay];
+        player.view.userInteractionEnabled = YES;
+        [player.view setHidden:NO];
+        UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
+        [player.view setFrame:backgroundWindow.frame];
+        //[self.view addSubview:player.moviePlayer.view];
+        [self presentMoviePlayerViewControllerAnimated: player];
+        [player.moviePlayer play];
+    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

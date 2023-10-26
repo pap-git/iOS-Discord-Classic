@@ -23,10 +23,12 @@
 }
 
 -(void)checkIfRead{
+    dispatch_async(dispatch_get_main_queue(), ^{
     @try {
         self.unread = (!self.muted && self.lastReadMessageId != (id)NSNull.null && ![self.lastReadMessageId    isEqualToString:self.lastMessageId]);
         [self.parentGuild checkIfRead];
     } @catch(NSException* e) {}
+    });
 }
 
 
@@ -54,13 +56,16 @@
         
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        });
         [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        dispatch_sync(dispatch_get_main_queue(), ^{
         if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+        });
 	});
     
     dispatch_release(apiQueue);
@@ -97,12 +102,16 @@
         NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
         
+        dispatch_sync(dispatch_get_main_queue(), ^{
         [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        });
         [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        dispatch_sync(dispatch_get_main_queue(), ^{
         if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+        });
 	});
     dispatch_release(apiQueue);
 }
@@ -178,15 +187,19 @@
 	
 	NSError *error = nil;
     NSHTTPURLResponse *responseCode = nil;
-        NSLog(@"Showing network indicator (getMessages) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
-        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        });
         NSData *response = [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
-        NSLog(@"Hiding network indicator (getMessages) %d", (int)[UIApplication sharedApplication].networkActivityIndicatorVisible);
+        dispatch_sync(dispatch_get_main_queue(), ^{
         if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+        });
         if(response){
+            dispatch_sync(dispatch_get_main_queue(), ^{
+            NSError *error = nil;
             NSArray* parsedResponse = [NSJSONSerialization JSONObjectWithData:response options:0 error:&error];
 		
             if(parsedResponse.count > 0)
@@ -221,6 +234,7 @@
                     }
                 }
             }
+            });
             
             if(messages.count > 0)
                 return messages;

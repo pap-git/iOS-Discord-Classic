@@ -49,7 +49,7 @@ static NSCache* imageCache;
                 while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
                 { /* wait for other thread to finish loading this */ }
                 
-                UIImage *image = [imageCache objectForKey:[url absoluteString]];
+                __block UIImage *image = [imageCache objectForKey:[url absoluteString]];
                 if (!image) {
                     NSLog(@"Image not cached!");
                     [imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
@@ -57,19 +57,23 @@ static NSCache* imageCache;
                     NSError* error;
                     NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:15];
                     NSData* imageData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&urlResponse error:&error];
+                    dispatch_sync(dispatch_get_main_queue(), ^{
                     image = [UIImage imageWithData:imageData];
                     if (image != nil)
                         [imageCache setObject:image forKey:[url absoluteString]];
                     else
                         [imageCache setObject:@"" forKey:[url absoluteString]];
                     NSLog(@"Image added to cache");
+                    });
                 } else if (image == nil || ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]) {
                     image = nil;
                 } else {
                     NSLog(@"Image cached, shouldn't be here!");
                 }
                 
-                processImage(image);
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    processImage(image);
+                });
             });
         });
         dispatch_release(downloadQueue);
@@ -83,10 +87,14 @@ static NSCache* imageCache;
 
 //Returns a parsed NSDictionary from a json string or nil if something goes wrong
 + (NSDictionary*)parseJSON:(NSString*)json{
-	NSError *error = nil;
-	NSData *encodedResponseString = [json dataUsingEncoding:NSUTF8StringEncoding];
-	id parsedResponse = [NSJSONSerialization JSONObjectWithData:encodedResponseString options:0 error:&error];
-	if([parsedResponse isKindOfClass:NSDictionary.class]){
+    __block id parsedResponse;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSData *encodedResponseString = [json dataUsingEncoding:NSUTF8StringEncoding];
+        parsedResponse = [NSJSONSerialization JSONObjectWithData:encodedResponseString options:0 error:&error];
+	
+    });
+    if([parsedResponse isKindOfClass:NSDictionary.class]){
 		return parsedResponse;
 	}
 	return nil;
@@ -241,7 +249,7 @@ static NSCache* imageCache;
     prettyDateFormatter.doesRelativeDateFormatting = YES;
     
     newMessage.prettyTimestamp = [prettyDateFormatter stringFromDate:newMessage.timestamp];
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
 	//Load embeded images from both links and attatchments
 	NSArray* embeds = [jsonMessage objectForKey:@"embeds"];
 	if(embeds)
@@ -343,6 +351,7 @@ static NSCache* imageCache;
                 continue;
             }
 		}
+    });
 	
 	//Parse in-text mentions into readable @<username>
 	NSArray* mentions = [jsonMessage objectForKey:@"mentions"];
@@ -559,9 +568,17 @@ static NSCache* imageCache;
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
+    dispatch_sync(dispatch_get_main_queue(), ^{
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+    });
             [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
-                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
+                        [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+                    else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
+                        [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+                });
+
             }];
         //}
     //});
