@@ -399,35 +399,16 @@ int lastTimeInterval = 0; // for typing indicator
 -(void)tappedVideo:(UITapGestureRecognizer *)sender {
     [self.inputField resignFirstResponder];
     NSLog(@"Tapped video!");
-    if (dispatch_get_current_queue() != dispatch_get_main_queue()) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
-                                                   ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
-            player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
-            player.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
-            [player.moviePlayer prepareToPlay];
-            player.view.userInteractionEnabled = YES;
-            [player.view setHidden:NO];
-            UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
-            [player.view setFrame:backgroundWindow.frame];
-            //[self.view addSubview:player.moviePlayer.view];
-            [self presentMoviePlayerViewControllerAnimated: player];
-            [player.moviePlayer play];
-        });
-    } else {
+    dispatch_async(dispatch_get_main_queue(), ^{
         MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
                                                ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
         player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
-        player.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
-        [player.moviePlayer prepareToPlay];
-        player.view.userInteractionEnabled = YES;
-        [player.view setHidden:NO];
         UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
         [player.view setFrame:backgroundWindow.frame];
         //[self.view addSubview:player.moviePlayer.view];
         [self presentMoviePlayerViewControllerAnimated: player];
         [player.moviePlayer play];
-    }
+    });
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

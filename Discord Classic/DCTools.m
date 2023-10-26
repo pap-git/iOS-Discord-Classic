@@ -156,10 +156,10 @@ static NSCache* imageCache;
 		UIImage *retrievedImage = imageData;
 		
 		if(imageData){
-            //dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 newUser.profileImage = retrievedImage;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
-            //});
+            });
 		} else {
             NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
             [f setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -176,10 +176,10 @@ static NSCache* imageCache;
 		UIImage *retrievedImage = imageData;
 		
 		if(retrievedImage != nil){
-            //dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 newUser.avatarDecoration = retrievedImage;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
-            //});
+            });
 		}
 		
 	}];
@@ -263,7 +263,9 @@ static NSCache* imageCache;
 					
 					if(retrievedImage != nil){
 						[newMessage.attachments addObject:retrievedImage];
-						[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                        });
 					}
 					
 				}];
@@ -309,7 +311,9 @@ static NSCache* imageCache;
                     
                     if(retrievedImage != nil){
                         [newMessage.attachments addObject:retrievedImage];
-                        [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                        });
                     }
                 }];
             } else if ([fileType rangeOfString:@"video/"].location != NSNotFound) {
@@ -335,7 +339,9 @@ static NSCache* imageCache;
                         
                         if(retrievedImage != nil){
                             [video.thumbnail setImage:retrievedImage];
+                            dispatch_async(dispatch_get_main_queue(), ^{
                             [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                            });
                         } else {
                             NSLog(@"Failed to load video thumbnail!");
                         }
@@ -453,9 +459,9 @@ static NSCache* imageCache;
             UIGraphicsEndImageContext();
         }
 		
-		//dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async(dispatch_get_main_queue(), ^{
 			[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD GUILD LIST" object:DCServerCommunicator.sharedInstance];
-		//});
+		});
 		
 	}];
 	
