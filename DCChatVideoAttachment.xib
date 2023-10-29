@@ -15,7 +15,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="266" height="123"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" image="play_btn.png" id="3je-jx-sDB">
+                <imageView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" image="Video-play-button.png" id="3je-jx-sDB">
                     <rect key="frame" x="0.0" y="1" width="266" height="123"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="133" minY="62" maxX="-133" maxY="-62"/>
@@ -30,6 +30,6 @@
         </view>
     </objects>
     <resources>
-        <image name="play_btn.png" width="56" height="56"/>
+        <image name="Video-play-button.png" width="38" height="38"/>
     </resources>
 </document>
