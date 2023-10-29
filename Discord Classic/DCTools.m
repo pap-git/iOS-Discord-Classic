@@ -255,7 +255,7 @@ static NSCache* imageCache;
     prettyDateFormatter.doesRelativeDateFormatting = YES;
     
     newMessage.prettyTimestamp = [prettyDateFormatter stringFromDate:newMessage.timestamp];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    //dispatch_sync(dispatch_get_main_queue(), ^{
 	//Load embeded images from both links and attatchments
 	NSArray* embeds = [jsonMessage objectForKey:@"embeds"];
 	if(embeds)
@@ -363,7 +363,7 @@ static NSCache* imageCache;
                 continue;
             }
 		}
-    });
+    //});
 	
 	//Parse in-text mentions into readable @<username>
 	NSArray* mentions = [jsonMessage objectForKey:@"mentions"];
