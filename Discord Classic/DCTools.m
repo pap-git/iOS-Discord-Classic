@@ -81,6 +81,7 @@ static NSCache* imageCache;
                     processImage(image);
                 });
             });
+            dispatch_release(callerQueue);
         });
         dispatch_release(downloadQueue);
         //dispatch_release(callerQueue);

@@ -158,6 +158,8 @@ int lastTimeInterval = 0; // for typing indicator
 		
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.chatTableView reloadData];
+        });
+        dispatch_async(dispatch_get_main_queue(), ^{
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
 				scrollOffset += newMessage.contentHeight + (newMessage.attachmentCount * 224) + (newMessage.attachmentCount > 0 ? 11 : 0);
@@ -176,8 +178,10 @@ int lastTimeInterval = 0; // for typing indicator
             }
 		});
 	}
-	if(self.refreshControl)
-        [self.refreshControl endRefreshing];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if(self.refreshControl)
+                [self.refreshControl endRefreshing];
+        });
     });
     dispatch_release(apiQueue);
 }
