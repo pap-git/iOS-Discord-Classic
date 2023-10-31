@@ -25,7 +25,7 @@
 -(void)checkIfRead{
     dispatch_async(dispatch_get_main_queue(), ^{
     @try {
-        self.unread = (!self.muted && self.lastReadMessageId != (id)NSNull.null && ![self.lastReadMessageId    isEqualToString:self.lastMessageId]);
+        self.unread = (!self.muted && self.lastReadMessageId != (id)NSNull.null && [self.lastReadMessageId isKindOfClass:[NSString class]] && ![self.lastReadMessageId    isEqualToString:self.lastMessageId]);
         [self.parentGuild checkIfRead];
     } @catch(NSException* e) {}
     });
@@ -37,7 +37,7 @@
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendMessage", NULL);
     
 	dispatch_async(apiQueue, ^{
-		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
+		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
         
@@ -76,7 +76,7 @@
 - (void)sendImage:(UIImage*)image {
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", NULL);
 	dispatch_async(apiQueue, ^{
-        NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages", self.snowflake]];
+        NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
 		
@@ -117,9 +117,9 @@
 }
 
 - (void)sendTypingIndicator{
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event::sendTypingIndicator", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", NULL);
     dispatch_async(apiQueue, ^{
-    NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/typing", self.snowflake]];
+    NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/typing", self.snowflake]];
     
     NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5]; // low timeout to avoid API spam
     
@@ -142,9 +142,9 @@
 
 - (void)ackMessage:(NSString*)messageId{
 	self.lastReadMessageId = messageId;
-	dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Event::ackMessage%i", arc4random_uniform(4)] UTF8String], NULL);
+	dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], NULL);
 	dispatch_async(apiQueue, ^{
-		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discordapp.com/api/channels/%@/messages/%@/ack", self.snowflake, messageId]];
+		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
 		
@@ -171,7 +171,7 @@
 	
     NSMutableArray* messages = NSMutableArray.new;
 	//Generate URL from args
-	NSMutableString* getChannelAddress = [[NSString stringWithFormat: @"https://discordapp.com/api/channels/%@/messages?", self.snowflake] mutableCopy];
+	NSMutableString* getChannelAddress = [[NSString stringWithFormat: @"https://discord.com/api/v9/channels/%@/messages?", self.snowflake] mutableCopy];
 	
 	if(numberOfMessages)
 		[getChannelAddress appendString:[NSString stringWithFormat:@"limit=%i", numberOfMessages]];

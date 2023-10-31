@@ -147,7 +147,7 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message{
-    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(4)] UTF8String], NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(2)] UTF8String], NULL);
     dispatch_async(apiQueue, ^{
 	NSArray* newMessages = [DCServerCommunicator.sharedInstance.selectedChannel getMessages:numberOfMessages beforeMessage:message];
 	
@@ -378,7 +378,9 @@ int lastTimeInterval = 0; // for typing indicator
 }
 
 - (IBAction)sendMessage:(id)sender {
+    dispatch_async(dispatch_get_main_queue(), ^{
 	if(![self.inputField.text isEqual: @""]){
+        
 		[DCServerCommunicator.sharedInstance.selectedChannel sendMessage:self.inputField.text];
 		[self.inputField setText:@""];
         self.inputFieldPlaceholder.hidden = NO;
@@ -388,6 +390,7 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	if(self.viewingPresentTime)
 		[self.chatTableView setContentOffset:CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height) animated:YES];
+    });
 }
 
 - (void)tappedImage:(UITapGestureRecognizer *)sender {

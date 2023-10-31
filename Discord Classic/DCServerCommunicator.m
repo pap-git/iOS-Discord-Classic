@@ -37,7 +37,7 @@ UIActivityIndicatorView *spinner;
 	if (sharedInstance == nil) {
 		//Initialize if a sharedInstance does not yet exist
 		sharedInstance = DCServerCommunicator.new;
-		sharedInstance.gatewayURL = @"wss://gateway.discord.gg/?encoding=json&v=6";
+		sharedInstance.gatewayURL = @"wss://gateway.discord.gg/?encoding=json&v=9";
 		sharedInstance.token = [NSUserDefaults.standardUserDefaults stringForKey:@"token"];
 		
 		
@@ -166,14 +166,16 @@ UIActivityIndicatorView *spinner;
 					NSLog(@"Got event %@ with sequence number %i", t, weakSelf.sequenceNumber);
 					
 					//recieved READY
-					if([t isEqualToString:@"READY"]){
+                    if(![[parsedJsonResponse valueForKey:@"t"] isKindOfClass:[NSString class]]) {
+                        
+                    } else if([t isEqualToString:@"READY"]){
 						dispatch_async(dispatch_get_main_queue(), ^{
 						weakSelf.didAuthenticate = true;
 						NSLog(@"Did authenticate!");
 						
 						//Grab session id (used for RESUME) and user id
-						weakSelf.sessionId = [d valueForKey:@"session_id"];
-						weakSelf.snowflake = [d valueForKeyPath:@"user.id"];
+						weakSelf.sessionId = [NSString stringWithFormat:@"%@", [d valueForKeyPath:@"session_id"]];
+                            weakSelf.snowflake = [NSString stringWithFormat:@"%@", [d valueForKeyPath:@"user.id"]];
 						
 						weakSelf.userChannelSettings = NSMutableDictionary.new;
 						for(NSDictionary* guildSettings in [d valueForKey:@"user_guild_settings"])

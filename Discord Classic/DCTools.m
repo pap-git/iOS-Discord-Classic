@@ -16,7 +16,7 @@
 //https://discord.gg/X4NSsMC
 
 @implementation DCTools
-#define MAX_IMAGE_THREADS 16
+#define MAX_IMAGE_THREADS 2
 static int threadQueue = 0;
 
 static NSCache* imageCache;
@@ -291,18 +291,18 @@ static NSCache* imageCache;
                 int height = [attachment valueForKey:@"height"];
                 CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
                 
-                if (height > 2048) {
-                    height = 2048;
+                if (height > 1024) {
+                    height = 1024;
                     width = height * aspectRatio;
-                    if (width > 2048) {
+                    if (width > 1024) {
                         width = 1024;
                         height = width / aspectRatio;
                     }
-                } else if (width > 2048) {
-                    width = 2048;
+                } else if (width > 1024) {
+                    width = 1024;
                     height = width / aspectRatio;
-                    if (height > 2048) {
-                        height = 2048;
+                    if (height > 1024) {
+                        height = 1024;
                         width = height * aspectRatio;
                     }
                 }
@@ -335,9 +335,30 @@ static NSCache* imageCache;
                     NSString *baseURL = [[attachment valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com"
                                                                       withString:@"media.discordapp.net"];
                     
-                    NSString *urlString = [NSString stringWithFormat:@"%@format=jpeg", baseURL];
+                    int width = [attachment valueForKey:@"width"];
+                    int height = [attachment valueForKey:@"height"];
+                    CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
+                    
+                    if (height > 1024) {
+                        height = 1024;
+                        width = height * aspectRatio;
+                        if (width > 1024) {
+                            width = 1024;
+                            height = width / aspectRatio;
+                        }
+                    } else if (width > 1024) {
+                        width = 1024;
+                        height = width / aspectRatio;
+                        if (height > 1024) {
+                            height = 1024;
+                            width = height * aspectRatio;
+                        }
+                    }
+
+                    
+                    NSString *urlString = [NSString stringWithFormat:@"%@format=jpeg&width=%d&height=%d", baseURL, width, height];
                     if ([baseURL rangeOfString:@"?"].location == NSNotFound)
-                        urlString = [NSString stringWithFormat:@"%@?format=jpeg", baseURL];
+                        urlString = [NSString stringWithFormat:@"%@?format=jpeg&width=%d&height=%d", baseURL, width, height];
                     
                     
                     [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){
@@ -497,7 +518,7 @@ static NSCache* imageCache;
 				//Type of permission can either be role or member
 				NSString* type = [permission valueForKey:@"type"];
 				
-				if([type isEqualToString:@"role"]){
+				if(type == 0) {//if([type isEqualToString:@"role"]){
 					
 					//Check if this channel dictates permissions over any roles the user has
 					if([userRoles containsObject:[permission valueForKey:@"id"]]){
@@ -513,7 +534,7 @@ static NSCache* imageCache;
 				}
 				
 				
-				if([type isEqualToString:@"member"]){
+				if(type == 1){//if([type isEqualToString:@"member"]){
 					
 					//Check if
 					NSString* memberId = [permission valueForKey:@"id"];
@@ -561,7 +582,7 @@ static NSCache* imageCache;
 
 + (void)joinGuild:(NSString*)inviteCode {
     //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discordapp.com/api/v6/invite/%@", inviteCode]];
+		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/invite/%@", inviteCode]];
         
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
 		
@@ -580,7 +601,7 @@ static NSCache* imageCache;
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
             [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;*/
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
             [UIApplication sharedApplication].networkActivityIndicatorVisible++;
     });
             [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connError) {
