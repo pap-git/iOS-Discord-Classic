@@ -99,7 +99,7 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)handleMessageCreate:(NSNotification*)notification {
-    //dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
     DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
 	
     if (self.messages.count > 0) {
@@ -127,7 +127,7 @@ int lastTimeInterval = 0; // for typing indicator
     
         [self.messages addObject:newMessage];
         [self.chatTableView reloadData];
-    //});
+    });
 	
 	if(self.viewingPresentTime)
 		[self.chatTableView setContentOffset:CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height) animated:NO];
@@ -156,8 +156,8 @@ int lastTimeInterval = 0; // for typing indicator
 		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
 		[self.messages insertObjects:newMessages atIndexes:indexSet];
 		
-        [self.chatTableView reloadData];
         dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.chatTableView reloadData];
 			int scrollOffset = -self.chatTableView.height;
 			for(DCMessage* newMessage in newMessages)
 				scrollOffset += newMessage.contentHeight + (newMessage.attachmentCount * 224) + (newMessage.attachmentCount > 0 ? 11 : 0);

@@ -285,10 +285,10 @@ static NSCache* imageCache;
             if ([fileType rangeOfString:@"image/"].location != NSNotFound) {
                 newMessage.attachmentCount++;
                 
-                NSString *attachmentURL = [attachment valueForKey:@"url"];
+                NSString *attachmentURL = [[attachment valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
                 
-                int width = [attachment valueForKey:@"width"];
-                int height = [attachment valueForKey:@"height"];
+                NSInteger width = [[attachment valueForKey:@"width"] integerValue];
+                NSInteger height = [[attachment valueForKey:@"height"] integerValue];
                 CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
                 
                 if (height > 1024) {
@@ -307,9 +307,9 @@ static NSCache* imageCache;
                     }
                 }
                 
-                NSString *urlString = [NSString stringWithFormat:@"%@&width=%i&height=%i", attachmentURL, width, height];
+                NSString *urlString = [NSString stringWithFormat:@"%@&width=%ld&height=%ld", attachmentURL, (long)width, (long)height];
                 if ([attachmentURL rangeOfString:@"?"].location == NSNotFound)
-                    urlString = [NSString stringWithFormat:@"%@?width=%i&height=%i", attachmentURL, width, height];
+                    urlString = [NSString stringWithFormat:@"%@?width=%ld&height=%ld", attachmentURL, (long)width, (long)height];
                 
                 
                 [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){
@@ -332,11 +332,10 @@ static NSCache* imageCache;
                     
                     video.videoURL = attachmentURL;
                     
-                    NSString *baseURL = [[attachment valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com"
-                                                                      withString:@"media.discordapp.net"];
+                    NSString *baseURL = [[attachment valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
                     
-                    int width = [attachment valueForKey:@"width"];
-                    int height = [attachment valueForKey:@"height"];
+                    NSInteger width = [[attachment valueForKey:@"width"] integerValue];
+                    NSInteger height = [[attachment valueForKey:@"height"] integerValue];
                     CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
                     
                     if (height > 1024) {
@@ -367,7 +366,7 @@ static NSCache* imageCache;
                         if(retrievedImage != nil){
                             [video.thumbnail setImage:retrievedImage];
                             dispatch_async(dispatch_get_main_queue(), ^{
-                            [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                                [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
                             });
                         } else {
                             NSLog(@"Failed to load video thumbnail!");
@@ -516,7 +515,7 @@ static NSCache* imageCache;
 			for(NSDictionary* permission in [jsonChannel objectForKey:@"permission_overwrites"]){
 				
 				//Type of permission can either be role or member
-				NSString* type = [permission valueForKey:@"type"];
+				int type = [permission valueForKey:@"type"];
 				
 				if(type == 0) {//if([type isEqualToString:@"role"]){
 					

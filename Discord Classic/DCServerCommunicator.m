@@ -280,7 +280,7 @@ UIActivityIndicatorView *spinner;
 						
 						//Check if a channel is currently being viewed
 						//and if so, if that channel is the same the message was sent in
-						if(weakSelf.selectedChannel != nil && [channelIdOfMessage isEqualToString:weakSelf.selectedChannel.snowflake]){
+						if(weakSelf.selectedChannel != nil && [channelIdOfMessage isEqualToString:weakSelf.selectedChannel.snowflake]) {
 							
 								//Send notification with the new message
 								//will be recieved by DCChatViewController
