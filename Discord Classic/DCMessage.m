@@ -18,6 +18,7 @@
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+        [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 		
 		[urlRequest setHTTPMethod:@"DELETE"];
 		
