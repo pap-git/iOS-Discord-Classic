@@ -161,8 +161,8 @@
 		2C0EBB842ADB16FB00A23EB8 /* DefaultAvatar5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultAvatar5.png; path = "Images/Default Avatars/DefaultAvatar5.png"; sourceTree = "<group>"; };
 		2C0EBB852ADB16FB00A23EB8 /* DefaultAvatar5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DefaultAvatar5@2x.png"; path = "Images/Default Avatars/DefaultAvatar5@2x.png"; sourceTree = "<group>"; };
 		2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatReplyTableCell.xib; sourceTree = SOURCE_ROOT; };
-		2C11B41C2AEAF91600BE66F6 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
-		2C11B41D2AEAF91600BE66F6 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		2C11B41C2AEAF91600BE66F6 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+animatedGIF.h"; path = "Discord Classic/UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		2C11B41D2AEAF91600BE66F6 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+animatedGIF.m"; path = "Discord Classic/UIImage+animatedGIF.m"; sourceTree = "<group>"; };
 		2C11B41F2AEAFA5000BE66F6 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2C571D1D2AEF138900B7A97C /* Video-play-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Video-play-button.png"; sourceTree = "<group>"; };
 		2C571D1E2AEF138900B7A97C /* Video-play-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Video-play-button@2x.png"; sourceTree = "<group>"; };
@@ -199,6 +199,7 @@
 		095284622055EFDA00760073 /* Etc */ = {
 			isa = PBXGroup;
 			children = (
+				2C4C757A2AF28480007E0E53 /* GIF */,
 				096DD77621A6EB1800C7A3B1 /* UI */,
 				09C6B97D204A1782007EAC26 /* Websocket */,
 			);
@@ -411,6 +412,15 @@
 				2C571D1E2AEF138900B7A97C /* Video-play-button@2x.png */,
 			);
 			name = "Video Player";
+			sourceTree = "<group>";
+		};
+		2C4C757A2AF28480007E0E53 /* GIF */ = {
+			isa = PBXGroup;
+			children = (
+				2C11B41C2AEAF91600BE66F6 /* UIImage+animatedGIF.h */,
+				2C11B41D2AEAF91600BE66F6 /* UIImage+animatedGIF.m */,
+			);
+			name = GIF;
 			sourceTree = "<group>";
 		};
 		2CAEFBA82ADADC1000103C30 /* iPad */ = {
@@ -655,6 +665,11 @@
 				COMPRESS_PNG_FILES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Discord Classic/Discord Classic-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					$SOURCE_ROOT/SDURLCache,
+				);
 				INFOPLIST_FILE = "Discord Classic/Discord Classic-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -678,6 +693,11 @@
 				COMPRESS_PNG_FILES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Discord Classic/Discord Classic-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					$SOURCE_ROOT/SDURLCache,
+				);
 				INFOPLIST_FILE = "Discord Classic/Discord Classic-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -45,7 +45,7 @@ static NSCache* imageCache;
         dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], NULL);
 
         dispatch_async(downloadQueue, ^{
-            dispatch_async(callerQueue, ^{
+            dispatch_sync(callerQueue, ^{
                 //NSData* imageData = [NSData dataWithContentsOfURL:url];
                 while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
                 { /* wait for other thread to finish loading this */ }
@@ -56,7 +56,7 @@ static NSCache* imageCache;
                     [imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
                     NSURLResponse* urlResponse;
                     NSError* error;
-                    NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:15];
+                    NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:25];
                     NSData* imageData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&urlResponse error:&error];
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         uint8_t c;
@@ -71,14 +71,21 @@ static NSCache* imageCache;
                             [imageCache setObject:@"" forKey:[url absoluteString]];
                         NSLog(@"Image added to cache");
                     });
-                } else if (image == nil || ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]) {
-                    image = nil;
                 } else {
                     NSLog(@"Image cached, shouldn't be here!");
                 }
                 
+                if (image == nil || ![image isKindOfClass:[UIImage class]] || ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]) {
+                    image = nil;
+                }
+                
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    processImage(image);
+                    @try {
+                        if ([image isKindOfClass:[UIImage class]])
+                            processImage(image);
+                    } @catch (id e) {
+                        
+                    }
                 });
             });
             dispatch_release(callerQueue);
@@ -264,19 +271,135 @@ static NSCache* imageCache;
 			NSString* embedType = [embed valueForKey:@"type"];
 			if([embedType isEqualToString:@"image"]){
 				newMessage.attachmentCount++;
-				
-				[DCTools processImageDataWithURLString:[embed valueForKeyPath:@"thumbnail.url"] andBlock:^(UIImage *imageData){
-					UIImage *retrievedImage = imageData;
-					
-					if(retrievedImage != nil){
-						[newMessage.attachments addObject:retrievedImage];
+                
+                NSString *attachmentURL = [[embed valueForKey:@"image.url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                
+                if ([embed valueForKey:@"image.proxy_url"] != nil) {
+                    attachmentURL = [[embed valueForKey:@"image.proxy_url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                }
+                
+                NSInteger width = [[embed valueForKey:@"image.width"] integerValue];
+                NSInteger height = [[embed valueForKey:@"image.height"] integerValue];
+                CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
+                
+                if (height > 1024) {
+                    height = 1024;
+                    width = height * aspectRatio;
+                    if (width > 1024) {
+                        width = 1024;
+                        height = width / aspectRatio;
+                    }
+                } else if (width > 1024) {
+                    width = 1024;
+                    height = width / aspectRatio;
+                    if (height > 1024) {
+                        height = 1024;
+                        width = height * aspectRatio;
+                    }
+                }
+                
+                NSString *urlString = attachmentURL;
+                
+                if (width != 0 || height != 0) {
+                    if ([urlString rangeOfString:@"?"].location == NSNotFound)
+                        urlString = [NSString stringWithFormat:@"%@?format=jpeg&width=%d&height=%d", urlString, width, height];
+                    else
+                        urlString = [NSString stringWithFormat:@"%@format=jpeg&width=%d&height=%d", urlString, width, height];
+                }
+                
+                
+                [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){
+                    UIImage *retrievedImage = imageData;
+                    
+                    if(retrievedImage != nil){
+                        [newMessage.attachments addObject:retrievedImage];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
                         });
-					}
-					
-				}];
-			}
+                    }
+                }];
+			} else if ([embedType isEqualToString:@"video"] || [embedType isEqualToString:@"gifv"]) {
+                newMessage.attachmentCount++;
+                
+                NSURL *attachmentURL = [NSURL URLWithString:[embed valueForKey:@"url"]];
+                
+                if ([embed valueForKey:@"video.proxy_url"] != nil && [[embed valueForKey:@"video.proxy_url"] isKindOfClass:[NSString class]]) {
+                    attachmentURL = [NSURL URLWithString:[embed valueForKey:@"video.proxy_url"]];
+                } else if ([embed valueForKey:@"video.url"] != nil && [[embed valueForKey:@"video.url"] isKindOfClass:[NSString class]]) {
+                    attachmentURL = [NSURL URLWithString:[embed valueForKey:@"video.url"]];
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //[newMessage.attachments addObject:[[MPMoviePlayerViewController alloc] initWithContentURL:attachmentURL]];
+                    DCChatVideoAttachment *video = [[[NSBundle mainBundle] loadNibNamed:@"DCChatVideoAttachment" owner:self options:nil] objectAtIndex:0];
+                    
+                    video.videoURL = attachmentURL;
+                    
+                    NSString *baseURL = [[embed valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                    
+                    
+                    if ([embed valueForKey:@"video.proxy_url"] != nil && [[embed valueForKey:@"video.proxy_url"] isKindOfClass:[NSString class]]) {
+                        baseURL = [[embed valueForKey:@"video.proxy_url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                    } else if ([embed valueForKey:@"video.url"] != nil && [[embed valueForKey:@"video.url"] isKindOfClass:[NSString class]]) {
+                        baseURL = [[embed valueForKey:@"video.url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                    }
+                    
+                    NSInteger width = [[embed valueForKey:@"video.width"] integerValue];
+                    NSInteger height = [[embed valueForKey:@"video.height"] integerValue];
+                    CGFloat aspectRatio = (CGFloat)width / (CGFloat)height;
+                    
+                    if (height > 1024) {
+                        height = 1024;
+                        width = height * aspectRatio;
+                        if (width > 1024) {
+                            width = 1024;
+                            height = width / aspectRatio;
+                        }
+                    } else if (width > 1024) {
+                        width = 1024;
+                        height = width / aspectRatio;
+                        if (height > 1024) {
+                            height = 1024;
+                            width = height * aspectRatio;
+                        }
+                    }
+                    
+                    NSString *urlString = baseURL;
+                    
+                    if (width != 0 || height != 0) {
+                        if ([urlString rangeOfString:@"?"].location == NSNotFound)
+                            urlString = [NSString stringWithFormat:@"%@?format=jpeg&width=%d&height=%d", urlString, width, height];
+                        else
+                            urlString = [NSString stringWithFormat:@"%@format=jpeg&width=%d&height=%d", urlString, width, height];
+                    } else {
+                        if ([urlString rangeOfString:@"?"].location == NSNotFound)
+                            urlString = [NSString stringWithFormat:@"%@?format=jpeg", urlString];
+                        else
+                            urlString = [NSString stringWithFormat:@"%@format=jpeg", urlString];
+                    }
+                    
+                    [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){
+                        UIImage *retrievedImage = imageData;
+                        
+                        if(retrievedImage != nil && [retrievedImage isKindOfClass:[UIImage class]]) {
+                            [video.thumbnail setImage:retrievedImage];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
+                            });
+                        } else {
+                            NSLog(@"Failed to load video thumbnail!");
+                        }
+                    }];
+                    
+                    video.layer.cornerRadius = 6;
+                    video.layer.masksToBounds = YES;
+                    video.userInteractionEnabled = YES;
+                    [newMessage.attachments addObject:video];
+                });
+            } else {
+                NSLog(@"unknown embed type %@", embedType);
+                continue;
+            }
 		}
 	
 	NSArray* attachments = [jsonMessage objectForKey:@"attachments"];
