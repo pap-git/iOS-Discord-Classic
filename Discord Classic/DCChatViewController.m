@@ -99,7 +99,7 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)handleMessageCreate:(NSNotification*)notification {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    //dispatch_async(dispatch_get_main_queue(), ^{
     DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
 	
     if (self.messages.count > 0) {
@@ -127,7 +127,7 @@ int lastTimeInterval = 0; // for typing indicator
     
         [self.messages addObject:newMessage];
         [self.chatTableView reloadData];
-    });
+    //});
 	
 	if(self.viewingPresentTime)
 		[self.chatTableView setContentOffset:CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height) animated:NO];
@@ -407,8 +407,13 @@ int lastTimeInterval = 0; // for typing indicator
     [self.inputField resignFirstResponder];
     NSLog(@"Tapped video!");
     dispatch_async(dispatch_get_main_queue(), ^{
-        MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:
-                                               ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL];
+        MPMoviePlayerViewController *player;
+        @try {
+            NSURL *url = ((DCChatVideoAttachment*)((UIImageView*)sender.view).superview).videoURL;
+            player = [[MPMoviePlayerViewController alloc] initWithContentURL: url];
+        } @catch (id exception) {
+            NSLog(@"Silly movie error %@", exception);
+        }
         player.moviePlayer.repeatMode = MPMovieRepeatModeOne;
         UIWindow *backgroundWindow = [[UIApplication sharedApplication] keyWindow];
         [player.view setFrame:backgroundWindow.frame];
@@ -458,7 +463,12 @@ int lastTimeInterval = 0; // for typing indicator
 	if(originalImage==nil)
 		originalImage = [info objectForKey:UIImagePickerControllerCropRect];
 	
-	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage];
+    NSString *extension = [UIImagePickerControllerReferenceURL pathExtension];
+    BOOL isJpegImage =
+    (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
+     ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame));
+    
+	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage isJPEG:isJpegImage];
 }
 
 

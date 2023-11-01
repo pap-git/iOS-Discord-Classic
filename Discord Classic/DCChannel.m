@@ -73,7 +73,7 @@
 
 
 
-- (void)sendImage:(UIImage*)image {
+- (void)sendImage:(UIImage*)image isJPEG:(Boolean)jpg {
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", NULL);
 	dispatch_async(apiQueue, ^{
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
@@ -91,8 +91,13 @@
 		NSMutableData *postbody = NSMutableData.new;
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 		[postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.jpg\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[NSData dataWithData:UIImagePNGRepresentation(image)]];
+        if (jpg) {
+            [postbody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [postbody appendData:[NSData dataWithData:UIImageJPEGRepresentation(image, 80)]];
+        } else {
+            [postbody appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [postbody appendData:[NSData dataWithData:UIImagePNGRepresentation(image)]];
+        }
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 		[postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];

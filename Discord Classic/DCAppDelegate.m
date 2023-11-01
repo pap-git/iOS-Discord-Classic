@@ -22,6 +22,12 @@
 	self.shouldReload = false;
 	
 	[UINavigationBar.appearance setBackgroundImage:[UIImage imageNamed:@"UINavigationBarTexture"] forBarMetrics:UIBarMetricsDefault];
+    
+    NSURLCache *urlCache = [[NSURLCache alloc] initWithMemoryCapacity:1024*1024*10 // 10MB mem cache
+                                                         diskCapacity:1024*1024*60 // 60MB disk cache
+                                                             diskPath:nil];
+    [NSURLCache setSharedURLCache:urlCache];
+    //[urlCache release];
 	
 	if(DCServerCommunicator.sharedInstance.token.length)
 		[DCServerCommunicator.sharedInstance startCommunicator];

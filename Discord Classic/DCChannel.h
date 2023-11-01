@@ -28,6 +28,6 @@
 - (void)sendTypingIndicator;
 - (void)sendMessage:(NSString*)message;
 - (void)ackMessage:(NSString*)message;
-- (void)sendImage:(UIImage*)image;
+- (void)sendImage:(UIImage*)image isJPEG:(Boolean)jpg;
 - (NSArray*)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message;
 @end
