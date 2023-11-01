@@ -75,7 +75,6 @@
 
 - (void)sendImage:(UIImage*)image isJPEG:(Boolean)jpg {
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", NULL);
-	dispatch_async(apiQueue, ^{
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
@@ -104,6 +103,8 @@
 		
 		[urlRequest setHTTPBody:postbody];
 		
+    
+    dispatch_async(apiQueue, ^{
         NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
         

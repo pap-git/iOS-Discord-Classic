@@ -482,10 +482,12 @@ int lastTimeInterval = 0; // for typing indicator
 	if(originalImage==nil)
 		originalImage = [info objectForKey:UIImagePickerControllerCropRect];
 	
-    NSString *extension = [UIImagePickerControllerReferenceURL pathExtension];
-    BOOL isJpegImage =
+    NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
+    Boolean isJpegImage =
     (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
      ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame));
+    
+    NSLog(@"Sent image is JPEG? %@", isJpegImage ? @"YES" : @"NO");
     
 	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage isJPEG:isJpegImage];
 }
