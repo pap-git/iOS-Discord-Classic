@@ -335,6 +335,10 @@ int lastTimeInterval = 0; // for typing indicator
             [self.selectedMessage deleteMessage];
     } else if ([popup tag] == 2) { // Image Source selection
         UIImagePickerController *picker = UIImagePickerController.new;
+        // TODO: add video send function
+        picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:
+                             UIImagePickerControllerSourceTypeCamera];
+        //picker.videoQuality = UIImagePickerControllerQualityTypeLow;
         picker.delegate = (id)self;
         
         if (buttonIndex == 0) {
@@ -474,22 +478,36 @@ int lastTimeInterval = 0; // for typing indicator
 	
 	[picker dismissModalViewControllerAnimated:YES];
 	
-	UIImage* originalImage = [info objectForKey:UIImagePickerControllerEditedImage];
-	
-	if(originalImage==nil)
-		originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-	
-	if(originalImage==nil)
-		originalImage = [info objectForKey:UIImagePickerControllerCropRect];
-	
     NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
-    Boolean isJpegImage =
-    (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
-     ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame));
+    Boolean isVideo = NO;
+    if (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) || ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame))
+        extension = @"image/jpeg";
+    else if ([extension caseInsensitiveCompare:@"png"] == NSOrderedSame)
+        extension = @"image/png";
+    else if ([extension caseInsensitiveCompare:@"mp4"] == NSOrderedSame) {
+        isVideo = YES;
+        extension = @"video/mp4";
+    } if ([extension caseInsensitiveCompare:@"mov"] == NSOrderedSame) {
+        isVideo = YES;
+        extension = @"video/mov";
+    }
     
-    NSLog(@"Sent image is JPEG? %@", isJpegImage ? @"YES" : @"NO");
     
-	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage isJPEG:isJpegImage];
+    NSLog(@"MIME type %@", extension);
+    
+    if(isVideo) {
+        [DCServerCommunicator.sharedInstance.selectedChannel sendVideo:[info valueForKey:UIImagePickerControllerMediaURL] mimeType:extension];
+    } else {
+        UIImage* originalImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        
+        if(originalImage==nil)
+            originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        if(originalImage==nil)
+            originalImage = [info objectForKey:UIImagePickerControllerCropRect];
+        
+        [DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:extension];
+    }
 }
 
 

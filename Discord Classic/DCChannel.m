@@ -73,7 +73,7 @@
 
 
 
-- (void)sendImage:(UIImage*)image isJPEG:(Boolean)jpg {
+- (void)sendImage:(UIImage*)image mimeType:(NSString*)type {
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", NULL);
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
@@ -89,11 +89,12 @@
 		
 		NSMutableData *postbody = NSMutableData.new;
 		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.jpg\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-        if (jpg) {
+        NSString *extension = [type substringFromIndex:6];
+		[postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.%@\"\r\n", extension] dataUsingEncoding:NSUTF8StringEncoding]];
+        if ([type isEqualToString:@"image/jpeg"]) {
             [postbody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [postbody appendData:[NSData dataWithData:UIImageJPEGRepresentation(image, 80)]];
-        } else {
+        } else if ([type isEqualToString:@"image/png"]){
             [postbody appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [postbody appendData:[NSData dataWithData:UIImagePNGRepresentation(image)]];
         }
@@ -117,6 +118,65 @@
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+        });
+	});
+    dispatch_release(apiQueue);
+}
+
+- (void)sendVideo:(NSURL*)videoURL mimeType:(NSString*)type {
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendVideo", NULL);
+    NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
+    
+    NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [urlRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
+    
+    NSMutableData *postbody = NSMutableData.new;
+    dispatch_async(apiQueue, ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+        });
+        
+        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.mp4\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+        [postbody appendData:[@"Content-Type: video/mp4\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        NSURL *outputURL = [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@", NSTemporaryDirectory(), @"upload.mp4"]];
+        AVURLAsset *asset = [AVURLAsset assetWithURL:videoURL];
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetLowQuality];
+        exportSession.fileLengthLimit = 3000000;
+        exportSession.outputURL = outputURL;
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        exportSession.shouldOptimizeForNetworkUse = YES;
+        __block NSData *newOutputData;
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            newOutputData = [NSData dataWithContentsOfURL:outputURL];
+        }];
+        
+        [postbody appendData:[NSData dataWithContentsOfURL:outputURL]];
+        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
+        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [urlRequest setHTTPBody:postbody];
+    
+    
+
+        NSError *error = nil;
+		NSHTTPURLResponse *responseCode = nil;
+        
+        [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
+                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
         });
 	});
     dispatch_release(apiQueue);
