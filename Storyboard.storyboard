@@ -116,7 +116,7 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="openTutorial:" destination="Y2n-LQ-P1S" eventType="touchUpInside" id="Noi-90-Ejg"/>
+                                                        <action selector="helpButtonClicked:" destination="Y2n-LQ-P1S" eventType="touchUpInside" id="7Mv-N8-vsZ"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -128,7 +128,7 @@
                             <tableViewSection id="udd-qH-hM7">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="hoH-BV-3JQ" style="IBUITableViewCellStyleDefault" id="kJO-91-5DB">
-                                        <rect key="frame" x="0.0" y="214" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="214" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="43"/>
@@ -148,24 +148,6 @@
                                         <connections>
                                             <segue destination="x67-ec-KPh" kind="push" identifier="Settings to Info" id="qXh-C4-JXM"/>
                                         </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="3G1-ET-AGm" style="IBUITableViewCellStyleDefault" id="NKw-61-zMJ">
-                                        <rect key="frame" x="0.0" y="259" width="320" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Discord Classic Chat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3G1-ET-AGm">
-                                                    <rect key="frame" x="10" y="0.0" width="260" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -564,6 +546,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VzJ-bP-Mkv"/>
+        <segue reference="fcm-4D-Lhj"/>
     </inferredMetricsTieBreakers>
 </document>

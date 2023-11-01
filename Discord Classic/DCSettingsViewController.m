@@ -33,9 +33,13 @@
 	}
 }
 
-- (IBAction)openTutorial:(id)sender {
-	//Link to video describing how to enter your token
-	[UIApplication.sharedApplication openURL:[NSURL URLWithString:@"https://www.youtube.com/watch?v=NWB3fGafJwk"]];
+- (IBAction)helpButtonClicked:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"What is this?"
+                                                    message:@"In order to use Discord Classic, you must obtain your Discord token. It is free, and allows Discord Classic to connect to your Discord account."
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Tell me how", nil];
+    [alert show];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
