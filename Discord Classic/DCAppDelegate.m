@@ -29,6 +29,24 @@
 	return YES;
 }
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    if (application.applicationState == UIApplicationStateActive) {
+        // Extract the sender's name from the alertBody
+        NSString *alertBody = notification.alertBody;
+        NSRange separatorRange = [alertBody rangeOfString:@": "];
+        NSString *senderName = (separatorRange.location != NSNotFound) ? [alertBody substringToIndex:separatorRange.location] : @"New Message";
+        NSString *messageContent = (separatorRange.location != NSNotFound) ? [alertBody substringFromIndex:separatorRange.location + 2] : alertBody;
+        
+        // Show the alert with sender's name as the title
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:senderName
+                                                            message:messageContent
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application{
 	NSLog(@"Will resign active");

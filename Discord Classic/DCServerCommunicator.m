@@ -280,26 +280,39 @@ UIActivityIndicatorView *spinner;
 						
 						//Check if a channel is currently being viewed
 						//and if so, if that channel is the same the message was sent in
-						if(weakSelf.selectedChannel != nil && [channelIdOfMessage isEqualToString:weakSelf.selectedChannel.snowflake]) {
-							
-								//Send notification with the new message
-								//will be recieved by DCChatViewController
-								[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE CREATE" object:weakSelf userInfo:d];
-							
-							//Update current channel & read state last message
-							[weakSelf.selectedChannel setLastMessageId:messageId];
-							
-							//Ack message since we are currently viewing this channel
-							[weakSelf.selectedChannel ackMessage:messageId];
-						}else{
-							DCChannel* channelOfMessage = [weakSelf.channels objectForKey:channelIdOfMessage];
-							channelOfMessage.lastMessageId = messageId;
-							
-							[channelOfMessage checkIfRead];
-								[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE ACK" object:weakSelf];
-						}
+                            if(weakSelf.selectedChannel != nil && [channelIdOfMessage isEqualToString:weakSelf.selectedChannel.snowflake]){
+                                
+                                [NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE CREATE" object:weakSelf userInfo:d];
+                                
+                                // Update current channel & read state last message
+                                [weakSelf.selectedChannel setLastMessageId:messageId];
+                                
+                                // Ack message since we are currently viewing this channel
+                                [weakSelf.selectedChannel ackMessage:messageId];
+                            } else {
+                                DCChannel* channelOfMessage = [weakSelf.channels objectForKey:channelIdOfMessage];
+                                channelOfMessage.lastMessageId = messageId;
+                                
+                                [channelOfMessage checkIfRead];
+                                
+                                // Check if the message is a DM and not currently being viewed
+                                if (channelOfMessage.type == 1) {  // Check if channel is of type DM.
+                                    NSDictionary *author = [d objectForKey:@"author"];
+                                    NSString *senderName = [author objectForKey:@"username"];
+                                    NSString *messageContent = [d objectForKey:@"content"];
+                                    
+                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+                                    localNotification.alertBody = [NSString stringWithFormat:@"%@: %@", senderName, messageContent];
+                                    localNotification.soundName = UILocalNotificationDefaultSoundName;
+                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                }
+                                
+                                [NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE ACK" object:weakSelf];
+                            }
                         });
-					}
+                    }
+					
 					
 					if([t isEqualToString:@"MESSAGE_ACK"])
                         dispatch_async(dispatch_get_main_queue(), ^{
