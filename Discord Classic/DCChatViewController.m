@@ -330,8 +330,28 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if(buttonIndex == 0)
-		[self.selectedMessage deleteMessage];
+	if ([popup tag] == 1) {
+        if(buttonIndex == 0)
+            [self.selectedMessage deleteMessage];
+    } else if ([popup tag] == 2) { // Image Source selection
+        UIImagePickerController *picker = UIImagePickerController.new;
+        picker.delegate = (id)self;
+        
+        if (buttonIndex == 0) {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            } else {
+                NSLog(@"Camera not available on this device.");
+                return;
+            }
+        } else if (buttonIndex == 1) {
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        } else {
+            // Cancel tapped or another option (safe to ignore)
+            return;
+        }
+        [self presentModalViewController:picker animated:YES];
+    }
 }
 
 
@@ -438,16 +458,26 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (IBAction)chooseImage:(id)sender {
-	
 	[self.inputField resignFirstResponder];
-	
-	UIImagePickerController *picker = UIImagePickerController.new;
-	
-	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-	
-	[picker setDelegate:self];
-	
-	[self presentModalViewController:picker animated:YES];
+    
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        UIActionSheet *imageSourceActionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Image Source"
+                                                                            delegate:self
+                                                                   cancelButtonTitle:@"Cancel"
+                                                              destructiveButtonTitle:nil
+                                                                   otherButtonTitles:@"Take Photo", @"Choose Existing", nil];
+        [imageSourceActionSheet setTag:2]; // Assign a unique tag for this actionsheet
+        [imageSourceActionSheet showInView:self.view];
+    } else {
+        UIImagePickerController *picker = UIImagePickerController.new;
+        
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [picker setDelegate:self];
+        
+        [self presentModalViewController:picker animated:YES];
+    }
 }
 
 
@@ -463,10 +493,12 @@ int lastTimeInterval = 0; // for typing indicator
 	if(originalImage==nil)
 		originalImage = [info objectForKey:UIImagePickerControllerCropRect];
 	
-    NSString *extension = [UIImagePickerControllerReferenceURL pathExtension];
-    BOOL isJpegImage =
+    NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
+    Boolean isJpegImage =
     (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
      ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame));
+    
+    NSLog(@"Sent image is JPEG? %@", isJpegImage ? @"YES" : @"NO");
     
 	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage isJPEG:isJpegImage];
 }
