@@ -335,6 +335,10 @@ int lastTimeInterval = 0; // for typing indicator
             [self.selectedMessage deleteMessage];
     } else if ([popup tag] == 2) { // Image Source selection
         UIImagePickerController *picker = UIImagePickerController.new;
+        // TODO: add video send function
+        /*picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:
+                             UIImagePickerControllerSourceTypeCamera];
+        picker.videoQuality = UIImagePickerControllerQualityTypeLow;*/
         picker.delegate = (id)self;
         
         if (buttonIndex == 0) {
@@ -462,11 +466,11 @@ int lastTimeInterval = 0; // for typing indicator
     
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         
-        UIActionSheet *imageSourceActionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Image Source"
+        UIActionSheet *imageSourceActionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                             delegate:self
                                                                    cancelButtonTitle:@"Cancel"
                                                               destructiveButtonTitle:nil
-                                                                   otherButtonTitles:@"Take Photo", @"Choose Existing", nil];
+                                                                   otherButtonTitles:@"Take Photo or Video", @"Choose Existing", nil];
         [imageSourceActionSheet setTag:2]; // Assign a unique tag for this actionsheet
         [imageSourceActionSheet showInView:self.view];
     } else {
@@ -494,13 +498,17 @@ int lastTimeInterval = 0; // for typing indicator
 		originalImage = [info objectForKey:UIImagePickerControllerCropRect];
 	
     NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
-    Boolean isJpegImage =
-    (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
-     ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame));
+    if (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) || ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame))
+        extension = @"image/jpeg";
+    else if ([extension caseInsensitiveCompare:@"png"] == NSOrderedSame)
+        extension = @"image/png";
+    else if ([extension caseInsensitiveCompare:@"mp4"] == NSOrderedSame)
+        extension = @"video/mp4";
+        
     
-    NSLog(@"Sent image is JPEG? %@", isJpegImage ? @"YES" : @"NO");
+    NSLog(@"MIME type %@", extension);
     
-	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage isJPEG:isJpegImage];
+	[DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:extension];
 }
 
 
