@@ -464,11 +464,11 @@ int lastTimeInterval = 0; // for typing indicator
 - (IBAction)chooseImage:(id)sender {
     [self.inputField resignFirstResponder];
     
-    UIActionSheet *imageSourceActionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Image Source"
+    UIActionSheet *imageSourceActionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Media Source"
                                                                         delegate:self
                                                                cancelButtonTitle:@"Cancel"
                                                           destructiveButtonTitle:nil
-                                                               otherButtonTitles:@"Take a Picture", @"Choose from Library", nil];
+                                                               otherButtonTitles:@"Take a Picture or Video", @"Choose from Library", nil];
     [imageSourceActionSheet setTag:2]; // Assign a unique tag for this actionsheet
     [imageSourceActionSheet showInView:self.view];
 }
