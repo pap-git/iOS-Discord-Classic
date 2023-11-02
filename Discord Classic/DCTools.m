@@ -19,27 +19,27 @@
 #define MAX_IMAGE_THREADS 2
 static int threadQueue = 0;
 
-static NSCache* imageCache;
+//static NSCache* imageCache;
 
 + (void)processImageDataWithURLString:(NSString *)urlString
 														 andBlock:(void (^)(UIImage *imageData))processImage{
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
-    if (!imageCache) {
+    /*if (!imageCache) {
         NSLog(@"Creating image cache");
         imageCache = [[NSCache alloc] init];
-    }
+    }*/
     
-    UIImage *image = [imageCache objectForKey:[url absoluteString]];
+    UIImage *image;// = [imageCache objectForKey:[url absoluteString]];
     
-    if (image) {
+    /*if (image) {
         NSLog(@"Image %@ exists in cache", [url absoluteString]);
     } else {
         NSLog(@"Image %@ doesn't exist in cache", [url absoluteString]);
-    }
+    }*/
     
-    if (!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
+    if (YES) {//!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
         dispatch_queue_t callerQueue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", threadQueue] UTF8String], NULL);//dispatch_get_current_queue();
         threadQueue += threadQueue % MAX_IMAGE_THREADS;
         dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], NULL);
@@ -47,13 +47,13 @@ static NSCache* imageCache;
         dispatch_async(downloadQueue, ^{
             dispatch_sync(callerQueue, ^{
                 //NSData* imageData = [NSData dataWithContentsOfURL:url];
-                while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
-                { /* wait for other thread to finish loading this */ }
+                /*while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
+                { }*/
                 
-                __block UIImage *image = [imageCache objectForKey:[url absoluteString]];
-                if (!image) {
-                    NSLog(@"Image not cached!");
-                    [imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
+                __block UIImage *image;// = [imageCache objectForKey:[url absoluteString]];
+                //if (!image) {
+                    //NSLog(@"Image not cached!");
+                    //[imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
                     NSURLResponse* urlResponse;
                     NSError* error;
                     NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:25];
@@ -65,17 +65,17 @@ static NSCache* imageCache;
                             image = [UIImage animatedImageWithAnimatedGIFData:imageData];
                         else
                             image = [UIImage imageWithData:imageData];
-                        if (image != nil)
+                        /*if (image != nil)
                             [imageCache setObject:image forKey:[url absoluteString]];
                         else
                             [imageCache setObject:@"" forKey:[url absoluteString]];
-                        NSLog(@"Image added to cache");
+                        NSLog(@"Image added to cache");*/
                     });
-                } else {
-                    NSLog(@"Image cached, shouldn't be here!");
-                }
+                //} else {
+                //NSLog(@"Image cached, shouldn't be here!");
+                //}
                 
-                if (image == nil || ![image isKindOfClass:[UIImage class]] || ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]) {
+                if (image == nil || ![image isKindOfClass:[UIImage class]] /*|| ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]*/) {
                     image = nil;
                 }
                 
@@ -708,6 +708,7 @@ static NSCache* imageCache;
 		NSURL* guildURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/invite/%@", inviteCode]];
         
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:guildURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
+        [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
