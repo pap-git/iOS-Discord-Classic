@@ -473,7 +473,6 @@ int lastTimeInterval = 0; // for typing indicator
     [imageSourceActionSheet showInView:self.view];
 }
 
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissModalViewControllerAnimated:YES];
     
