@@ -40,6 +40,7 @@
 		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+        [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
         
         NSString* escapedMessage = [message mutableCopy];
         
@@ -78,6 +79,7 @@
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+        [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -128,6 +130,7 @@
     NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
     
     NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
     
     [urlRequest setHTTPMethod:@"POST"];
     
@@ -188,6 +191,7 @@
     NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/typing", self.snowflake]];
     
     NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5]; // low timeout to avoid API spam
+    [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
     
     [urlRequest setHTTPMethod:@"POST"];
     
@@ -213,6 +217,7 @@
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+        [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 		
 		[urlRequest setHTTPMethod:@"POST"];
 		
@@ -247,6 +252,7 @@
 		[getChannelAddress appendString:[NSString stringWithFormat:@"before=%@", message.snowflake]];
     
 	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getChannelAddress] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
+    [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 	
 	[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
 	[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
