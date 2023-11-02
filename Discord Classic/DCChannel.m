@@ -127,60 +127,54 @@
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendVideo", NULL);
     NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
     
-    NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
     
     [urlRequest setHTTPMethod:@"POST"];
     
     NSString *boundary = @"---------------------------14737809831466499882746641449";
-    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
     [urlRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
     [urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
     
     NSMutableData *postbody = NSMutableData.new;
+    
+    NSData *videoData = [NSData dataWithContentsOfURL:videoURL];
+    NSString *filename = [type isEqualToString:@"mov"] ? @"upload.mov" : @"upload.mp4";
+    NSString *videoContentType = [type isEqualToString:@"mov"] ? @"video/quicktime" : @"video/mp4";
+    
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", videoContentType] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:videoData];
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [urlRequest setHTTPBody:postbody];
+    
     dispatch_async(apiQueue, ^{
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [UIApplication sharedApplication].networkActivityIndicatorVisible++;
-        });
-        
-        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.mp4\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-        [postbody appendData:[@"Content-Type: video/mp4\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        NSURL *outputURL = [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@", NSTemporaryDirectory(), @"upload.mp4"]];
-        AVURLAsset *asset = [AVURLAsset assetWithURL:videoURL];
-        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetLowQuality];
-        exportSession.fileLengthLimit = 3000000;
-        exportSession.outputURL = outputURL;
-        exportSession.outputFileType = AVFileTypeMPEG4;
-        exportSession.shouldOptimizeForNetworkUse = YES;
-        __block NSData *newOutputData;
-        [exportSession exportAsynchronouslyWithCompletionHandler:^{
-            newOutputData = [NSData dataWithContentsOfURL:outputURL];
-        }];
-        
-        [postbody appendData:[NSData dataWithContentsOfURL:outputURL]];
-        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
-        [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        [urlRequest setHTTPBody:postbody];
-    
-    
-
         NSError *error = nil;
-		NSHTTPURLResponse *responseCode = nil;
+        NSHTTPURLResponse *responseCode = nil;
         
-        [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error];
+        
+        if (error) {
+            NSLog(@"Error sending video: %@", error.localizedDescription);
+        } else {
+            NSLog(@"Response: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+        }
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
                 [UIApplication sharedApplication].networkActivityIndicatorVisible--;
             else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
         });
-	});
+    });
     dispatch_release(apiQueue);
 }
+
+
 
 - (void)sendTypingIndicator{
     dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", NULL);
