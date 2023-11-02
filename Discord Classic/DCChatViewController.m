@@ -475,40 +475,51 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-	
-	[picker dismissModalViewControllerAnimated:YES];
-	
-    NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
-    Boolean isVideo = NO;
-    if (([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) || ([extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame))
-        extension = @"image/jpeg";
-    else if ([extension caseInsensitiveCompare:@"png"] == NSOrderedSame)
-        extension = @"image/png";
-    else if ([extension caseInsensitiveCompare:@"mp4"] == NSOrderedSame) {
-        isVideo = YES;
-        extension = @"video/mp4";
-    } if ([extension caseInsensitiveCompare:@"mov"] == NSOrderedSame) {
-        isVideo = YES;
-        extension = @"video/mov";
-    }
+    [picker dismissModalViewControllerAnimated:YES];
     
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     
-    NSLog(@"MIME type %@", extension);
-    
-    if(isVideo) {
-        [DCServerCommunicator.sharedInstance.selectedChannel sendVideo:[info valueForKey:UIImagePickerControllerMediaURL] mimeType:extension];
-    } else {
+    if ([mediaType isEqualToString:@"public.movie"]) { // Check if it's a video
+        NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+        NSString *extension = [videoURL pathExtension];
+        
+        NSString *mimeType;
+        if ([extension caseInsensitiveCompare:@"mov"] == NSOrderedSame) {
+            mimeType = @"video/mov";
+        } else if ([extension caseInsensitiveCompare:@"mp4"] == NSOrderedSame) {
+            mimeType = @"video/mp4";
+        } else {
+            NSLog(@"Unsupported video format: %@", extension);
+            return;
+        }
+        
+        NSLog(@"MIME type %@", mimeType);
+        
+        // Use the sendVideo:mimeType: function to send the video
+        [DCServerCommunicator.sharedInstance.selectedChannel sendVideo:videoURL mimeType:mimeType];
+        
+    } else if ([mediaType isEqualToString:@"public.image"]) { // Check if it's an image
         UIImage* originalImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        if (!originalImage) originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        if (!originalImage) originalImage = [info objectForKey:UIImagePickerControllerCropRect];
         
-        if(originalImage==nil)
-            originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+        NSData *imageData = UIImageJPEGRepresentation(originalImage, 1.0);
+        if (!imageData) {
+            imageData = UIImagePNGRepresentation(originalImage);
+        }
         
-        if(originalImage==nil)
-            originalImage = [info objectForKey:UIImagePickerControllerCropRect];
+        // Determine the MIME type for the image based on the data
+        NSString *mimeType;
+        if (UIImageJPEGRepresentation(originalImage, 1.0)) {
+            mimeType = @"image/jpeg";
+        } else {
+            mimeType = @"image/png";
+        }
         
-        [DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:extension];
+        [DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:mimeType];
     }
 }
+
 
 
 -(void)get50MoreMessages:(UIRefreshControl *)control {
