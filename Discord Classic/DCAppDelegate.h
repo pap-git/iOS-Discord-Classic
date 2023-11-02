@@ -11,5 +11,9 @@
 @interface DCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) NSMutableArray *notificationQueue;
+@property (nonatomic, assign) BOOL isNotificationDisplayed;
+@property (nonatomic, assign) NSInteger notificationsBeingDisplayedCount;
+
 
 @end

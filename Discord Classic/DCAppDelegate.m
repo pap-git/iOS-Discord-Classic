@@ -9,7 +9,10 @@
 #import "DCAppDelegate.h"
 #import "DCServerCommunicator.h"
 
-@interface DCAppDelegate()
+@interface DCAppDelegate () {
+    UIView *currentNotificationView;
+}
+
 @property bool shouldReload;
 @end
 
@@ -43,8 +46,17 @@
         NSString *senderName = (separatorRange.location != NSNotFound) ? [alertBody substringToIndex:separatorRange.location] : @"New Message";
         NSString *messageContent = (separatorRange.location != NSNotFound) ? [alertBody substringFromIndex:separatorRange.location + 2] : alertBody;
         
+        // Check for existing notification and slide it back up
+        UIView *existingNotification = [self.window viewWithTag:12345];
+        if (existingNotification) {
+            [self slideUpNotificationWithView:existingNotification immediately:YES];
+        }
+        
         // Create custom notification view
         UIView *notificationView = [[UIView alloc] initWithFrame:CGRectMake(0, -100, self.window.frame.size.width, 100)];
+        notificationView.tag = 12345;  // Assign a tag to easily identify and remove
+
+        notificationView.tag = 12345;  // Assign a tag to easily identify and remove
         
         // Gradient background
         CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -97,9 +109,18 @@
     }
 }
 
-- (void)dismissNotification:(UIGestureRecognizer *)gestureRecognizer {
+- (void)slideUpNotificationWithView:(UIView *)view immediately:(BOOL)immediately {
+    CGFloat duration = immediately ? 0.2 : 0.5;
+    [UIView animateWithDuration:duration animations:^{
+        view.frame = CGRectMake(0, -100, self.window.frame.size.width, 100);
+    } completion:^(BOOL finished) {
+        [view removeFromSuperview];
+    }];
+}
+
+- (void)dismissNotification:(UITapGestureRecognizer *)gestureRecognizer {
     UIView *notificationView = gestureRecognizer.view;
-    [self dismissNotificationWithView:notificationView];
+    [self slideUpNotificationWithView:notificationView immediately:NO];
 }
 
 - (void)dismissNotificationWithView:(UIView *)notificationView {
@@ -129,7 +150,7 @@
         [DCServerCommunicator.sharedInstance startBackgroundCommunicator];
         
         // Sleep for a minute (60 seconds)
-        [NSThread sleepForTimeInterval:60];
+        [NSThread sleepForTimeInterval:120];
         
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
