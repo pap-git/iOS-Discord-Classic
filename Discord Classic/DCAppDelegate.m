@@ -116,11 +116,25 @@
 }
 
 
-- (void)applicationDidEnterBackground:(UIApplication *)application{
-	NSLog(@"Did enter background");
-	self.shouldReload = DCServerCommunicator.sharedInstance.didAuthenticate;
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    __block UIBackgroundTaskIdentifier bgTask;
+    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    // Dispatch a task to keep the communicator running
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Use the new communicator to only listen for new messages and send notifications
+        [DCServerCommunicator.sharedInstance startBackgroundCommunicator];
+        
+        // Sleep for a minute (60 seconds)
+        [NSThread sleepForTimeInterval:60];
+        
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    });
 }
-
 
 - (void)applicationWillEnterForeground:(UIApplication *)application{
 	NSLog(@"Will enter foreground");

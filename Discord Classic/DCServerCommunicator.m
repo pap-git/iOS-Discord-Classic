@@ -353,6 +353,49 @@ UIActivityIndicatorView *spinner;
 	}
 }
 
+- (void)startBackgroundCommunicator {
+    if (self.token != nil) {
+        // Establish WebSocket connection with Discord
+        NSURL *websocketUrl = [NSURL URLWithString:self.gatewayURL];
+        self.websocket = [WSWebSocket.alloc initWithURL:websocketUrl protocols:nil];
+        
+        // To prevent retain cycle
+        __weak typeof(self) weakSelf = self;
+        
+        [self.websocket setTextCallback:^(NSString *responseString) {
+            // Parse JSON to a dictionary
+            NSDictionary *parsedJsonResponse = [DCTools parseJSON:responseString];
+            
+            // Data values for easy access
+            int op = [[parsedJsonResponse valueForKey:@"op"] integerValue];
+            
+            // Only handle MESSAGE_CREATE events
+            if (op == 0 && [parsedJsonResponse[@"t"] isEqualToString:@"MESSAGE_CREATE"]) {
+                NSDictionary* d = [parsedJsonResponse valueForKey:@"d"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString* channelIdOfMessage = [d objectForKey:@"channel_id"];
+                    DCChannel* channelOfMessage = [weakSelf.channels objectForKey:channelIdOfMessage];
+                    
+                    // Check if the message is a DM
+                    if (channelOfMessage.type == 1) {
+                        NSDictionary *author = [d objectForKey:@"author"];
+                        NSString *senderName = [author objectForKey:@"username"];
+                        NSString *messageContent = [d objectForKey:@"content"];
+                        
+                        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+                        localNotification.alertBody = [NSString stringWithFormat:@"%@: %@", senderName, messageContent];
+                        localNotification.soundName = UILocalNotificationDefaultSoundName;
+                        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                    }
+                });
+            }
+        }];
+        
+        [weakSelf.websocket open];
+    }
+}
+
 
 - (void)sendResume{
 	[self.alertView setTitle:@"Resuming"];

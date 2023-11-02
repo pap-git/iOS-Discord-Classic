@@ -31,6 +31,7 @@
 @property bool didAuthenticate;
 
 + (DCServerCommunicator *)sharedInstance;
+- (void)startBackgroundCommunicator;
 - (void)startCommunicator;
 - (void)sendResume;
 - (void)reconnect;
