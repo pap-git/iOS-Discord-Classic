@@ -34,7 +34,7 @@
 
 
 - (void)sendMessage:(NSString*)message {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendMessage", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendMessage", DISPATCH_QUEUE_SERIAL);
     
 	dispatch_async(apiQueue, ^{
 		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
@@ -75,7 +75,7 @@
 
 
 - (void)sendImage:(UIImage*)image mimeType:(NSString*)type {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", DISPATCH_QUEUE_SERIAL);
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
@@ -126,7 +126,7 @@
 }
 
 - (void)sendVideo:(NSURL*)videoURL mimeType:(NSString*)type {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendVideo", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendVideo", DISPATCH_QUEUE_SERIAL);
     NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
@@ -179,7 +179,7 @@
 
 
 - (void)sendTypingIndicator{
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(apiQueue, ^{
     NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/typing", self.snowflake]];
     
@@ -194,7 +194,8 @@
 		NSHTTPURLResponse *responseCode = nil;
         
         //[UIApplication sharedApplication].networkActivityIndicatorVisible++;
-        [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        //[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error];
         /*if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
@@ -205,11 +206,11 @@
 
 - (void)ackMessage:(NSString*)messageId{
 	self.lastReadMessageId = messageId;
-	dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], NULL);
+	dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], DISPATCH_QUEUE_CONCURRENT);
 	dispatch_async(apiQueue, ^{
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
         [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 		
 		[urlRequest setHTTPMethod:@"POST"];
@@ -220,7 +221,8 @@
 		NSHTTPURLResponse *responseCode = nil;
         
         //[UIApplication sharedApplication].networkActivityIndicatorVisible++;
-        [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        //[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error];
         /*if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible--;
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)

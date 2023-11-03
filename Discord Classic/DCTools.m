@@ -17,7 +17,7 @@
 
 @implementation DCTools
 #define MAX_IMAGE_THREADS 2
-static int threadQueue = 0;
+static NSInteger threadQueue = 0;
 
 //static NSCache* imageCache;
 
@@ -40,9 +40,9 @@ static int threadQueue = 0;
     }*/
     
     if (YES) {//!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
-        dispatch_queue_t callerQueue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", threadQueue] UTF8String], NULL);//dispatch_get_current_queue();
+        dispatch_queue_t callerQueue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", threadQueue] UTF8String], DISPATCH_QUEUE_CONCURRENT);//dispatch_get_current_queue();
         threadQueue += threadQueue % MAX_IMAGE_THREADS;
-        dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], NULL);
+        dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], DISPATCH_QUEUE_CONCURRENT);
 
         dispatch_async(downloadQueue, ^{
             dispatch_sync(callerQueue, ^{
@@ -56,7 +56,7 @@ static int threadQueue = 0;
                     //[imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
                     NSURLResponse* urlResponse;
                     NSError* error;
-                    NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:25];
+                    NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
                     NSData* imageData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&urlResponse error:&error];
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         uint8_t c;
@@ -129,7 +129,7 @@ static int threadQueue = 0;
 //Used when making synchronous http requests
 + (NSData*)checkData:(NSData*)response withError:(NSError*)error{
 	if(!response){
-		//[DCTools alert:error.localizedDescription withMessage:error.localizedRecoverySuggestion];
+		[DCTools alert:error.localizedDescription withMessage:error.localizedRecoverySuggestion];
 		return nil;
 	}
 	return response;

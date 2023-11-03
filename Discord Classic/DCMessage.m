@@ -13,7 +13,7 @@
 @implementation DCMessage
 
 - (void)deleteMessage{
-    dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], DISPATCH_QUEUE_CONCURRENT);
 	dispatch_async(apiQueue, ^{
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		

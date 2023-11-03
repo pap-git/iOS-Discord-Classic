@@ -147,7 +147,7 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message{
-    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(2)] UTF8String], NULL);
+    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(2)] UTF8String], DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(apiQueue, ^{
 	NSArray* newMessages = [DCServerCommunicator.sharedInstance.selectedChannel getMessages:numberOfMessages beforeMessage:message];
 	
@@ -354,7 +354,9 @@ int lastTimeInterval = 0; // for typing indicator
             // Cancel tapped or another option (safe to ignore)
             return;
         }
-        [self presentModalViewController:picker animated:YES];
+        [picker viewWillAppear:YES];
+        [self presentViewController:picker animated:YES completion:nil];
+        [picker viewWillAppear:YES];
     }
 }
 
@@ -478,13 +480,14 @@ int lastTimeInterval = 0; // for typing indicator
         
         picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:
                              UIImagePickerControllerSourceTypeCamera];
-        //picker.videoQuality = UIImagePickerControllerQualityTypeLow;
         
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
         [picker setDelegate:self];
         
-        [self presentModalViewController:picker animated:YES];
+        [picker viewWillAppear:YES];
+        [self presentViewController:picker animated:YES completion:nil];
+        [picker viewWillAppear:YES];
     }
 }
 

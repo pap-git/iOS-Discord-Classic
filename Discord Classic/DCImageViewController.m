@@ -28,7 +28,9 @@
 	//Show share sheet with appropriate options
 	NSArray *itemsToShare = @[self.imageView.image];
 	UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-	[self presentViewController:activityVC animated:YES completion:nil];
+	[activityVC viewWillAppear:YES];
+    [self presentViewController:activityVC animated:YES completion:nil];
+    [activityVC viewWillAppear:YES];
 }
 
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{return self.imageView;}
