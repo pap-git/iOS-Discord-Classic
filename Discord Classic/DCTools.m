@@ -16,7 +16,7 @@
 //https://discord.gg/X4NSsMC
 
 @implementation DCTools
-#define MAX_IMAGE_THREADS 2
+#define MAX_IMAGE_THREADS 3
 static NSInteger threadQueue = 0;
 
 static NSCache* imageCache;
@@ -27,7 +27,12 @@ NSMutableArray* dispatchQueues;
 														 andBlock:(void (^)(UIImage *imageData))processImage{
 	
 	NSURL *url = [NSURL URLWithString:urlString];
-	
+    
+    if (url == nil) {
+        NSLog(@"processImageDataWithURLString: nil URL encountered. Ignoring...");
+        return;
+    }
+    
     if (!imageCache) {
         NSLog(@"Creating image cache");
         imageCache = [[NSCache alloc] init];
@@ -51,11 +56,9 @@ NSMutableArray* dispatchQueues;
     if (!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
         dispatch_queue_t callerQueue = (dispatch_queue_t)CFBridgingRetain(dispatchQueues[threadQueue]);//dispatch_get_current_queue();
         threadQueue = (threadQueue+1) % MAX_IMAGE_THREADS;
-        dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], DISPATCH_QUEUE_SERIAL);
 
-        dispatch_async(downloadQueue, ^{
-            dispatch_sync(callerQueue, ^{
-                NSData* imageData = [NSData dataWithContentsOfURL:url];
+            dispatch_async(callerQueue, ^{
+                //NSData* imageData = [NSData dataWithContentsOfURL:url];
                 while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
                 { }
                 
@@ -95,8 +98,6 @@ NSMutableArray* dispatchQueues;
                     }
                 });
             });
-        });
-        dispatch_release(downloadQueue);
     } else {
         NSLog(@"Image cached!");
         processImage(image);
