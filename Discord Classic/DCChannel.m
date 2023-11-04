@@ -87,44 +87,44 @@ static dispatch_queue_t channel_send_queue;
 
 
 - (void)sendImage:(UIImage*)image mimeType:(NSString*)type {
-        NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
-		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
-        [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
-		
-		[urlRequest setHTTPMethod:@"POST"];
-		
-		NSString *boundary = @"---------------------------14737809831466499882746641449";
-		
-		NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-		[urlRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
-		[urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
-		
-		NSMutableData *postbody = NSMutableData.new;
-		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        NSString *extension = [type substringFromIndex:6];
-		[postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.%@\"\r\n", extension] dataUsingEncoding:NSUTF8StringEncoding]];
-        if ([type isEqualToString:@"image/jpeg"]) {
-            [postbody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-            [postbody appendData:[NSData dataWithData:UIImageJPEGRepresentation(image, 80)]];
-        } else if ([type isEqualToString:@"image/png"]){
-            [postbody appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-            [postbody appendData:[NSData dataWithData:UIImagePNGRepresentation(image)]];
-        }
-		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
-		[postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-		
-		[urlRequest setHTTPBody:postbody];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+    });
+    NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
+    
+    NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
+    
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [urlRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
+    
+    NSMutableData *postbody = NSMutableData.new;
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *extension = [type substringFromIndex:6];
+    [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.%@\"\r\n", extension] dataUsingEncoding:NSUTF8StringEncoding]];
+    if ([type isEqualToString:@"image/jpeg"]) {
+        [postbody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [postbody appendData:[NSData dataWithData:UIImageJPEGRepresentation(image, 80)]];
+    } else if ([type isEqualToString:@"image/png"]){
+        [postbody appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [postbody appendData:[NSData dataWithData:UIImagePNGRepresentation(image)]];
+    }
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [urlRequest setHTTPBody:postbody];
 		
     
     dispatch_async([self get_channel_send_queue], ^{
         NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
-        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
-        });
         [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
         dispatch_sync(dispatch_get_main_queue(), ^{
         if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
@@ -136,6 +136,9 @@ static dispatch_queue_t channel_send_queue;
 }
 
 - (void)sendVideo:(NSURL*)videoURL mimeType:(NSString*)type {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+    });
     NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];

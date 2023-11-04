@@ -30,6 +30,7 @@ NSMutableArray* dispatchQueues;
     
     if (url == nil) {
         NSLog(@"processImageDataWithURLString: nil URL encountered. Ignoring...");
+        processImage(nil);
         return;
     }
     
@@ -154,22 +155,6 @@ NSMutableArray* dispatchQueues;
     } @catch (NSException* e) {}
 	newUser.snowflake = [jsonUser valueForKey:@"id"];
     
-    int selector = 0;
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSNumber * discriminator = [f numberFromString:[jsonUser valueForKey:@"discriminator"]];
-
-    if ([discriminator integerValue] == 0) {
-        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-        [f setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSNumber * longId = [f numberFromString:newUser.snowflake];
-        
-        selector = (int)(([longId longLongValue] >> 22) % 6);
-    } else {
-        selector = (int)([discriminator integerValue] % 5);
-    }
-    newUser.profileImage = [DCUser defaultAvatars][selector];
-    
 	//Load profile image
 	NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", newUser.snowflake, [jsonUser valueForKey:@"avatar"]];
 	[DCTools processImageDataWithURLString:avatarURL andBlock:^(UIImage *imageData){
@@ -181,11 +166,20 @@ NSMutableArray* dispatchQueues;
                 [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHAT DATA" object:nil];
             });
 		} else {
+            int selector = 0;
             NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
             [f setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSNumber * longId = [f numberFromString:newUser.snowflake];
+            NSNumber * discriminator = [f numberFromString:[jsonUser valueForKey:@"discriminator"]];
             
-            int selector = (int)(([longId longLongValue] >> 22) % 6);
+            if ([discriminator integerValue] == 0) {
+                NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                NSNumber * longId = [f numberFromString:newUser.snowflake];
+                
+                selector = (int)(([longId longLongValue] >> 22) % 6);
+            } else {
+                selector = (int)([discriminator integerValue] % 5);
+            }
             newUser.profileImage = [DCUser defaultAvatars][selector];
         }
 		
