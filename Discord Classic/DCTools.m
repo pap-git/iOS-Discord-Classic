@@ -260,6 +260,12 @@ NSMutableArray* dispatchQueues;
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
     
     newMessage.timestamp = [dateFormatter dateFromString: [jsonMessage valueForKey:@"timestamp"]];
+    if (newMessage.timestamp == nil) {
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+        newMessage.timestamp = [dateFormatter dateFromString: [jsonMessage valueForKey:@"timestamp"]];
+    }
+    if (newMessage.timestamp == nil)
+        NSLog(@"Invalid timestamp %@", [jsonMessage valueForKey:@"timestamp"]);
     
     NSDateFormatter *prettyDateFormatter = [NSDateFormatter new];
     
