@@ -27,6 +27,14 @@
 
 int lastTimeInterval = 0; // for typing indicator
 
+static dispatch_queue_t chat_messages_queue;
+- (dispatch_queue_t)get_chat_messages_queue {
+    if (chat_messages_queue == nil) {
+        chat_messages_queue = dispatch_queue_create([@"Discord::API::Chat::Messages" UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    }
+    return chat_messages_queue;
+}
+
 - (void)viewDidLoad{
 	[super viewDidLoad];
 	
@@ -147,8 +155,7 @@ int lastTimeInterval = 0; // for typing indicator
 
 
 - (void)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message{
-    dispatch_queue_t apiQueue = dispatch_queue_create([[NSString stringWithFormat:@"Discord::API::Receive::getMessages%i", arc4random_uniform(2)] UTF8String], DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(apiQueue, ^{
+    dispatch_async([self get_chat_messages_queue], ^{
 	NSArray* newMessages = [DCServerCommunicator.sharedInstance.selectedChannel getMessages:numberOfMessages beforeMessage:message];
 	
 	if(newMessages){
@@ -183,7 +190,6 @@ int lastTimeInterval = 0; // for typing indicator
                 [self.refreshControl endRefreshing];
         });
     });
-    dispatch_release(apiQueue);
 }
 
 
@@ -476,10 +482,10 @@ int lastTimeInterval = 0; // for typing indicator
         [imageSourceActionSheet setTag:2]; // Assign a unique tag for this actionsheet
         [imageSourceActionSheet showInView:self.view];
     } else {
+        // camera is not supported!
         UIImagePickerController *picker = UIImagePickerController.new;
         
-        picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:
-                             UIImagePickerControllerSourceTypeCamera];
+        //picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeCamera];
         
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
@@ -519,11 +525,6 @@ int lastTimeInterval = 0; // for typing indicator
         UIImage* originalImage = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!originalImage) originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
         if (!originalImage) originalImage = [info objectForKey:UIImagePickerControllerCropRect];
-        
-        NSData *imageData = UIImageJPEGRepresentation(originalImage, 1.0);
-        if (!imageData) {
-            imageData = UIImagePNGRepresentation(originalImage);
-        }
         
         // Determine the MIME type for the image based on the data
         NSString *mimeType;

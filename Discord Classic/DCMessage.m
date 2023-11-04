@@ -12,9 +12,16 @@
 
 @implementation DCMessage
 
+static dispatch_queue_t messages_delete_queue;
+- (dispatch_queue_t)get_messages_delete_queue {
+    if (messages_delete_queue == nil) {
+        messages_delete_queue = dispatch_queue_create([@"Discord::API::Message::Delete" UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    }
+    return messages_delete_queue;
+}
+
 - (void)deleteMessage{
-    dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], DISPATCH_QUEUE_CONCURRENT);
-	dispatch_async(apiQueue, ^{
+	dispatch_async([self get_messages_delete_queue], ^{
 		NSURL* messageURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@", DCServerCommunicator.sharedInstance.selectedChannel.snowflake, self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:messageURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
@@ -49,7 +56,6 @@
             }];
         //}
 	});
-    dispatch_release(apiQueue);
 }
 
 - (BOOL)isEqual:(id)other{

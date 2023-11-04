@@ -87,7 +87,7 @@ UIActivityIndicatorView *spinner;
 			
 			NSLog(@"Got op code %i", op);
 			
-			//revcieved HELLO event
+			//revcieved HELLO eventd
 			switch(op){
 					
 				case 10: {

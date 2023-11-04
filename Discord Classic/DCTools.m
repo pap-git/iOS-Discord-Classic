@@ -19,41 +19,50 @@
 #define MAX_IMAGE_THREADS 2
 static NSInteger threadQueue = 0;
 
-//static NSCache* imageCache;
+static NSCache* imageCache;
+
+NSMutableArray* dispatchQueues;
 
 + (void)processImageDataWithURLString:(NSString *)urlString
 														 andBlock:(void (^)(UIImage *imageData))processImage{
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
-    /*if (!imageCache) {
+    if (!imageCache) {
         NSLog(@"Creating image cache");
         imageCache = [[NSCache alloc] init];
-    }*/
+    }
     
-    UIImage *image;// = [imageCache objectForKey:[url absoluteString]];
+    if (dispatchQueues == nil) {
+        dispatchQueues = [NSMutableArray array];
+        for (int i=0; i<MAX_IMAGE_THREADS; i++) {
+            [dispatchQueues addObject: (id)CFBridgingRelease(dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", i] UTF8String], DISPATCH_QUEUE_SERIAL))];
+        }
+    }
     
-    /*if (image) {
+    UIImage *image = [imageCache objectForKey:[url absoluteString]];
+    
+    if (image) {
         NSLog(@"Image %@ exists in cache", [url absoluteString]);
     } else {
         NSLog(@"Image %@ doesn't exist in cache", [url absoluteString]);
-    }*/
+    }
     
-    if (YES) {//!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
-        dispatch_queue_t callerQueue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", threadQueue] UTF8String], DISPATCH_QUEUE_CONCURRENT);//dispatch_get_current_queue();
-        threadQueue += threadQueue % MAX_IMAGE_THREADS;
-        dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    if (!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
+        dispatch_queue_t callerQueue = (dispatch_queue_t)CFBridgingRetain(dispatchQueues[threadQueue]);//dispatch_get_current_queue();
+        threadQueue = (threadQueue+1) % MAX_IMAGE_THREADS;
+        dispatch_queue_t downloadQueue = dispatch_queue_create([[NSString stringWithFormat:@"process image %@", [url absoluteString]] UTF8String], DISPATCH_QUEUE_SERIAL);
 
         dispatch_async(downloadQueue, ^{
             dispatch_sync(callerQueue, ^{
-                //NSData* imageData = [NSData dataWithContentsOfURL:url];
-                /*while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
-                { }*/
+                NSData* imageData = [NSData dataWithContentsOfURL:url];
+                while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
+                { }
                 
-                __block UIImage *image;// = [imageCache objectForKey:[url absoluteString]];
-                //if (!image) {
-                    //NSLog(@"Image not cached!");
-                    //[imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
+                __block UIImage *image = [imageCache objectForKey:[url absoluteString]];
+                if (!image) {
+                    NSLog(@"Image not cached!");
+                    [imageCache setObject:@"l" forKey:[url absoluteString]]; // mark as loading
                     NSURLResponse* urlResponse;
                     NSError* error;
                     NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
@@ -65,17 +74,15 @@ static NSInteger threadQueue = 0;
                             image = [UIImage animatedImageWithAnimatedGIFData:imageData];
                         else
                             image = [UIImage imageWithData:imageData];
-                        /*if (image != nil)
+                        if (image != nil)
                             [imageCache setObject:image forKey:[url absoluteString]];
                         else
                             [imageCache setObject:@"" forKey:[url absoluteString]];
-                        NSLog(@"Image added to cache");*/
+                        NSLog(@"Image added to cache");
                     });
-                //} else {
-                //NSLog(@"Image cached, shouldn't be here!");
-                //}
+                }
                 
-                if (image == nil || ![image isKindOfClass:[UIImage class]] /*|| ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]*/) {
+                if (image == nil || ![image isKindOfClass:[UIImage class]] || ![[imageCache objectForKey:[url absoluteString]] isKindOfClass:[UIImage class]]) {
                     image = nil;
                 }
                 
@@ -88,10 +95,8 @@ static NSInteger threadQueue = 0;
                     }
                 });
             });
-            dispatch_release(callerQueue);
         });
         dispatch_release(downloadQueue);
-        //dispatch_release(callerQueue);
     } else {
         NSLog(@"Image cached!");
         processImage(image);

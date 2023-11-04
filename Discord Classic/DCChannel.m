@@ -18,6 +18,22 @@
 
 @implementation DCChannel
 
+static dispatch_queue_t channel_event_queue;
+- (dispatch_queue_t)get_channel_event_queue {
+    if (channel_event_queue == nil) {
+        channel_event_queue = dispatch_queue_create([@"Discord::API::Channel::Event" UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    }
+    return channel_event_queue;
+}
+
+static dispatch_queue_t channel_send_queue;
+- (dispatch_queue_t)get_channel_send_queue {
+    if (channel_send_queue == nil) {
+        channel_send_queue = dispatch_queue_create([@"Discord::API::Channel::Send" UTF8String], DISPATCH_QUEUE_SERIAL);
+    }
+    return channel_send_queue;
+}
+
 -(NSString *)description{
 	return [NSString stringWithFormat:@"[Channel] Snowflake: %@, Type: %i, Read: %d, Name: %@", self.snowflake, self.type, self.unread, self.name];
 }
@@ -34,9 +50,7 @@
 
 
 - (void)sendMessage:(NSString*)message {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendMessage", DISPATCH_QUEUE_SERIAL);
-    
-	dispatch_async(apiQueue, ^{
+	dispatch_async([self get_channel_send_queue], ^{
 		NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
@@ -68,14 +82,11 @@
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
         });
 	});
-    
-    dispatch_release(apiQueue);
 }
 
 
 
 - (void)sendImage:(UIImage*)image mimeType:(NSString*)type {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendImage", DISPATCH_QUEUE_SERIAL);
         NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
@@ -107,7 +118,7 @@
 		[urlRequest setHTTPBody:postbody];
 		
     
-    dispatch_async(apiQueue, ^{
+    dispatch_async([self get_channel_send_queue], ^{
         NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
         
@@ -122,11 +133,9 @@
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
         });
 	});
-    dispatch_release(apiQueue);
 }
 
 - (void)sendVideo:(NSURL*)videoURL mimeType:(NSString*)type {
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Send::sendVideo", DISPATCH_QUEUE_SERIAL);
     NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
@@ -154,7 +163,7 @@
     
     [urlRequest setHTTPBody:postbody];
     
-    dispatch_async(apiQueue, ^{
+    dispatch_async([self get_channel_send_queue], ^{
         NSError *error = nil;
         NSHTTPURLResponse *responseCode = nil;
         
@@ -173,14 +182,12 @@
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
         });
     });
-    dispatch_release(apiQueue);
 }
 
 
 
 - (void)sendTypingIndicator{
-    dispatch_queue_t apiQueue = dispatch_queue_create("Discord::API::Event", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(apiQueue, ^{
+    dispatch_async([self get_channel_event_queue], ^{
     NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/typing", self.snowflake]];
     
     NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5]; // low timeout to avoid API spam
@@ -201,13 +208,11 @@
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;*/
     });
-    dispatch_release(apiQueue);
 }
 
 - (void)ackMessage:(NSString*)messageId{
 	self.lastReadMessageId = messageId;
-	dispatch_queue_t apiQueue = dispatch_queue_create([@"Discord::API::Event" UTF8String], DISPATCH_QUEUE_CONCURRENT);
-	dispatch_async(apiQueue, ^{
+	dispatch_async([self get_channel_event_queue], ^{
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
@@ -228,7 +233,6 @@
         else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
             [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;*/
 	});
-    dispatch_release(apiQueue);
 }
 
 
