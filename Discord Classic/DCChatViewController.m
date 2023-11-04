@@ -35,6 +35,11 @@ static dispatch_queue_t chat_messages_queue;
     return chat_messages_queue;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
 - (void)viewDidLoad{
 	[super viewDidLoad];
 	
