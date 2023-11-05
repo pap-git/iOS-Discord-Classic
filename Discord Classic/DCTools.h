@@ -13,6 +13,8 @@
 #import "DCUser.h"
 #import "DCGuild.h"
 
+#define VERSION_MIN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @interface DCTools : NSObject
 + (void)processImageDataWithURLString:(NSString *)urlString
 														 andBlock:(void (^)(UIImage *imageData))processImage;

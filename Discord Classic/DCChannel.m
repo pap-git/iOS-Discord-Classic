@@ -286,8 +286,8 @@ static dispatch_queue_t channel_send_queue;
                 if (i==0)
                     prevMessage = message;
                 else
-                    prevMessage = messages[i-1];
-                DCMessage* currentMessage = messages[i];
+                    prevMessage = [messages objectAtIndex:i-1];
+                DCMessage* currentMessage = [messages objectAtIndex:i];
                 if (prevMessage != nil) {
                     NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:currentMessage.timestamp];
                     NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];

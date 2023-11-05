@@ -133,7 +133,7 @@ typedef enum {
 }
 
 - (void)dealloc {
-    dispatch_release(callbackQueue);
+    //dispatch_release(callbackQueue);
     callbackQueue = nil;
 }
 

@@ -106,7 +106,7 @@ static dispatch_queue_t chat_messages_queue;
 		[self getMessages:50 beforeMessage:nil];
 	}
 	
-    if(self.refreshControl)
+    if(VERSION_MIN(@"6.0") && self.refreshControl)
         [self.refreshControl endRefreshing];
 }
 
@@ -116,7 +116,7 @@ static dispatch_queue_t chat_messages_queue;
     DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
 	
     if (self.messages.count > 0) {
-        DCMessage* prevMessage = self.messages[self.messages.count - 1];
+        DCMessage* prevMessage = [self.messages objectAtIndex:self.messages.count - 1];
         if (prevMessage != nil) {
             NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:newMessage.timestamp];
             NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
@@ -178,7 +178,7 @@ static dispatch_queue_t chat_messages_queue;
 			
 			[self.chatTableView setContentOffset:CGPointMake(0, scrollOffset) animated:NO];
             
-            if ([newMessages count] > 0 && !self.refreshControl) {
+            if (VERSION_MIN(@"6.0") && [newMessages count] > 0 && !self.refreshControl) {
                 self.refreshControl = UIRefreshControl.new;
                 self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Earlier messages"];
                 
@@ -190,10 +190,12 @@ static dispatch_queue_t chat_messages_queue;
             }
 		});
 	}
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if(self.refreshControl)
-                [self.refreshControl endRefreshing];
-        });
+        if (VERSION_MIN(@"6.0")) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if(self.refreshControl)
+                    [self.refreshControl endRefreshing];
+            });
+        }
     });
 }
 

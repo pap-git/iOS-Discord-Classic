@@ -21,7 +21,8 @@ static NSInteger threadQueue = 0;
 
 static NSCache* imageCache;
 
-NSMutableArray* dispatchQueues;
+static Boolean initializedDispatchQueues = NO;
+static dispatch_queue_t dispatchQueues[MAX_IMAGE_THREADS];
 
 + (void)processImageDataWithURLString:(NSString *)urlString
 														 andBlock:(void (^)(UIImage *imageData))processImage{
@@ -39,10 +40,13 @@ NSMutableArray* dispatchQueues;
         imageCache = [[NSCache alloc] init];
     }
     
-    if (dispatchQueues == nil) {
-        dispatchQueues = [NSMutableArray array];
+    if (!initializedDispatchQueues) {
+        initializedDispatchQueues = YES;
         for (int i=0; i<MAX_IMAGE_THREADS; i++) {
-            [dispatchQueues addObject: (id)CFBridgingRelease(dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", i] UTF8String], DISPATCH_QUEUE_SERIAL))];
+            //dispatch_queue_t queue = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", i] UTF8String], DISPATCH_QUEUE_SERIAL);
+            //id object = (__bridge id)queue;
+            //[dispatchQueues addObject: object];
+            dispatchQueues[i] = dispatch_queue_create([[NSString stringWithFormat:@"Image Thread no. %i", i] UTF8String], DISPATCH_QUEUE_SERIAL);
         }
     }
     
@@ -55,7 +59,7 @@ NSMutableArray* dispatchQueues;
     }
     
     if (!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
-        dispatch_queue_t callerQueue = (dispatch_queue_t)CFBridgingRetain(dispatchQueues[threadQueue]);//dispatch_get_current_queue();
+        dispatch_queue_t callerQueue = dispatchQueues[threadQueue];//(__bridge dispatch_queue_t)(dispatchQueues[threadQueue]);//dispatch_get_current_queue();
         threadQueue = (threadQueue+1) % MAX_IMAGE_THREADS;
 
             dispatch_async(callerQueue, ^{
@@ -278,7 +282,11 @@ NSMutableArray* dispatchQueues;
 			if([embedType isEqualToString:@"image"]){
 				newMessage.attachmentCount++;
                 
-                NSString *attachmentURL = [[embed valueForKey:@"image.url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                NSString *attachmentURL = [[embed valueForKey:@"url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                
+                if ([embed valueForKey:@"image.url"] != nil) {
+                    attachmentURL = [[embed valueForKey:@"image.url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
+                }
                 
                 if ([embed valueForKey:@"image.proxy_url"] != nil) {
                     attachmentURL = [[embed valueForKey:@"image.proxy_url"] stringByReplacingOccurrencesOfString:@"cdn.discordapp.com" withString:@"media.discordapp.net"];
@@ -308,9 +316,9 @@ NSMutableArray* dispatchQueues;
                 
                 if (width != 0 || height != 0) {
                     if ([urlString rangeOfString:@"?"].location == NSNotFound)
-                        urlString = [NSString stringWithFormat:@"%@?format=jpeg&width=%d&height=%d", urlString, width, height];
+                        urlString = [NSString stringWithFormat:@"%@?width=%d&height=%d", urlString, width, height];
                     else
-                        urlString = [NSString stringWithFormat:@"%@format=jpeg&width=%d&height=%d", urlString, width, height];
+                        urlString = [NSString stringWithFormat:@"%@&width=%d&height=%d", urlString, width, height];
                 }
                 
                 
@@ -376,12 +384,12 @@ NSMutableArray* dispatchQueues;
                         if ([urlString rangeOfString:@"?"].location == NSNotFound)
                             urlString = [NSString stringWithFormat:@"%@?format=jpeg&width=%d&height=%d", urlString, width, height];
                         else
-                            urlString = [NSString stringWithFormat:@"%@format=jpeg&width=%d&height=%d", urlString, width, height];
+                            urlString = [NSString stringWithFormat:@"%@&format=jpeg&width=%d&height=%d", urlString, width, height];
                     } else {
                         if ([urlString rangeOfString:@"?"].location == NSNotFound)
                             urlString = [NSString stringWithFormat:@"%@?format=jpeg", urlString];
                         else
-                            urlString = [NSString stringWithFormat:@"%@format=jpeg", urlString];
+                            urlString = [NSString stringWithFormat:@"%@&format=jpeg", urlString];
                     }
                     
                     [DCTools processImageDataWithURLString:urlString andBlock:^(UIImage *imageData){

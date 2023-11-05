@@ -32,16 +32,16 @@
 - (void)handleReady {
 	//Refresh tableView data on READY notification
     dispatch_async(dispatch_get_main_queue(), ^{
-    [self.tableView reloadData];
-	
-	if(!self.refreshControl){
-	self.refreshControl = UIRefreshControl.new;
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Reauthenticate"];
-	
-	[self.tableView addSubview:self.refreshControl];
-	
-	[self.refreshControl addTarget:self action:@selector(reconnect) forControlEvents:UIControlEventValueChanged];
-	}
+        [self.tableView reloadData];
+        
+        if(VERSION_MIN(@"6.0") && !self.refreshControl){
+            self.refreshControl = UIRefreshControl.new;
+            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Reauthenticate"];
+            
+            [self.tableView addSubview:self.refreshControl];
+            
+            [self.refreshControl addTarget:self action:@selector(reconnect) forControlEvents:UIControlEventValueChanged];
+        }
     });
 }
 
@@ -124,7 +124,8 @@
 
 - (void)reconnect {
 	[DCServerCommunicator.sharedInstance reconnect];
-	[self.refreshControl endRefreshing];
+    if (VERSION_MIN(@"6.0"))
+        [self.refreshControl endRefreshing];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{return 1;}
