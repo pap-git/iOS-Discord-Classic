@@ -11,6 +11,7 @@
 #import "DCUser.h"
 #import "DCServerCommunicator.h"
 #import "DCChatVideoAttachment.h"
+#import "QuickLook/QuickLook.h"
 #import "UIImage+animatedGIF.h"
 
 //https://discord.gg/X4NSsMC
@@ -518,6 +519,7 @@ static dispatch_queue_t dispatchQueues[MAX_IMAGE_THREADS];
                 });
             } else {
                 NSLog(@"unknown attachment type %@", fileType);
+                newMessage.content = [NSString stringWithFormat:@"%@\n%@", newMessage.content, [attachment valueForKey:@"url"]];
                 continue;
             }
 		}

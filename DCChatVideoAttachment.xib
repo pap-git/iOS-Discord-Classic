@@ -41,6 +41,7 @@
 						<string key="NSFrameSize">{266, 123}</string>
 						<reference key="NSSuperview" ref="1069778560"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1054416182"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentMode">1</int>
@@ -53,6 +54,7 @@
 						<string key="NSFrame">{{0, 1}, {266, 123}}</string>
 						<reference key="NSSuperview" ref="1069778560"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentMode">4</int>
@@ -64,13 +66,14 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">Video-play-button.png</string>
+							<string key="NSResourceName">PLVideoOverlayPlay.png</string>
 						</object>
 					</object>
 				</array>
 				<string key="NSFrameSize">{266, 123}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="606199461"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MCAwAA</bytes>
@@ -209,8 +212,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">Video-play-button.png</string>
-			<string key="NS.object.0">{38, 38}</string>
+			<string key="NS.key.0">PLVideoOverlayPlay.png</string>
+			<string key="NS.object.0">{72, 72}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">3733</string>
 	</data>

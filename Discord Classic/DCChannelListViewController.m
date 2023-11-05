@@ -30,6 +30,11 @@
 -(void)viewWillAppear:(BOOL)animated{
 	[self.navigationItem setTitle:self.selectedGuild.name];
 	[DCServerCommunicator.sharedInstance setSelectedChannel:nil];
+    if ([self.navigationItem.title isEqualToString:@"Direct Messages"]) {
+        // Sort the DMs list by most recent...
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastMessageId" ascending:NO selector:@selector(localizedStandardCompare:)];
+        [self.selectedGuild.channels sortUsingDescriptors:@[sortDescriptor]];
+    }
 }
 
 

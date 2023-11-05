@@ -99,9 +99,17 @@
 		
 		DCChannelListViewController *channelListViewController = [segue destinationViewController];
 		
-		if ([channelListViewController isKindOfClass:DCChannelListViewController.class])
+		if ([channelListViewController isKindOfClass:DCChannelListViewController.class]) {
 			//Assign selected guild for the channel list we are transitioning to. 
 			channelListViewController.selectedGuild = DCServerCommunicator.sharedInstance.selectedGuild;
+            
+            // sort DMs by most recent
+            if ([channelListViewController.navigationItem.title isEqualToString:@"Direct Messages"]) {
+                // Sort the DMs list by most recent...
+                NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastMessageId" ascending:NO selector:@selector(localizedStandardCompare:)];
+                [channelListViewController.selectedGuild.channels sortUsingDescriptors:@[sortDescriptor]];
+            }
+        }
 	}
 }
 

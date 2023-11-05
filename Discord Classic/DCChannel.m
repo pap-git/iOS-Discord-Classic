@@ -9,6 +9,7 @@
 #import "DCChannel.h"
 #import "DCServerCommunicator.h"
 #import "DCTools.h"
+#import "NSString+Emojize.h"
 
 @interface DCChannel()
 
@@ -56,7 +57,7 @@ static dispatch_queue_t channel_send_queue;
 		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
         [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
         
-        NSString* escapedMessage = [message mutableCopy];
+        NSString* escapedMessage = [[message mutableCopy] emojizedString];
         
         CFStringRef transform = CFSTR("Any-Hex/Java");
         CFStringTransform((__bridge CFMutableStringRef)escapedMessage, NULL, transform, NO);

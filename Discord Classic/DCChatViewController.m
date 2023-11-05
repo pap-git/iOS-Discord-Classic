@@ -16,6 +16,8 @@
 #import "DCImageViewController.h"
 #import "TRMalleableFrameView.h"
 #import "DCChatVideoAttachment.h"
+#import "NSString+Emojize.h"
+#import "QuickLook/QuickLook.h"
 
 @interface DCChatViewController()
 @property int numberOfMessagesLoaded;
@@ -234,7 +236,7 @@ static dispatch_queue_t chat_messages_queue;
         [cell.timestampLabel setFrame:CGRectMake(messageAtRowIndex.authorNameWidth, cell.timestampLabel.y, self.chatTableView.width-messageAtRowIndex.authorNameWidth, cell.timestampLabel.height)];
     }
 	
-	[cell.contentTextView setText:messageAtRowIndex.content];
+	[cell.contentTextView setText:[messageAtRowIndex.content emojizedString]];
 	
 	[cell.contentTextView setHeight:[cell.contentTextView sizeThatFits:CGSizeMake(cell.contentTextView.width, MAXFLOAT)].height];
 	
@@ -261,6 +263,9 @@ static dispatch_queue_t chat_messages_queue;
 			[subView removeFromSuperview];
 		}
         if ([subView isKindOfClass:[DCChatVideoAttachment class]]) {
+			[subView removeFromSuperview];
+		}
+        if ([subView isKindOfClass:[QLPreviewController class]]) {
 			[subView removeFromSuperview];
 		}
 	}
@@ -315,6 +320,27 @@ static dispatch_queue_t chat_messages_queue;
             imageViewOffset += 210;
             
             [cell addSubview:video];
+        } else if ([attachment isKindOfClass:[QLPreviewController class]]) {
+            NSLog(@"Add QuickLook!");
+            QLPreviewController *preview = attachment;
+            
+            /*UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedVideo:)];
+            singleTap.numberOfTapsRequired = 1;
+            [video.playButton addGestureRecognizer:singleTap];
+            video.playButton.userInteractionEnabled = YES;
+            
+            CGFloat aspectRatio = video.thumbnail.image.size.width / video.thumbnail.image.size.height;
+            int newWidth = 200 * aspectRatio;
+            int newHeight = 200;
+            if (newWidth > self.chatTableView.width - 66) {
+                newWidth = self.chatTableView.width - 66;
+                newHeight = newWidth / aspectRatio;
+            }
+            [video setFrame:CGRectMake(55, imageViewOffset, newWidth, newHeight)];*/
+            
+            imageViewOffset += 210;
+            
+            [cell addSubview:preview.view];
         }
         
 	}
