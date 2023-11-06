@@ -10,7 +10,7 @@
         <scene sceneID="fKN-Pb-4hz">
             <objects>
                 <navigationController extendedLayoutIncludesOpaqueBars="YES" definesPresentationContext="YES" id="I1M-Vv-1nm" customClass="DCViewController" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" backIndicatorImage="UINavigationBarTexture.png" id="QVn-au-26c">
+                    <navigationBar key="navigationBar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="QVn-au-26c">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.4353882372379303" green="0.46824875473976135" blue="0.69657516479492188" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
@@ -592,9 +592,6 @@
             <point key="canvasLocation" x="1635" y="-87"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="UINavigationBarTexture.png" width="256" height="44"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
