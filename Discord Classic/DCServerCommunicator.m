@@ -194,12 +194,30 @@ UIActivityIndicatorView *spinner;
 						privateGuild.channels = NSMutableArray.new;
 						
 						for(NSDictionary* privateChannel in [d valueForKey:@"private_channels"]){
-							
+                            
+                            //this may actually suck
+                            // Initialize users array for the member list
+							NSMutableArray *users = NSMutableArray.new;
+							NSMutableDictionary *usersDict;
+							for (NSDictionary* user in [privateChannel objectForKey:@"recipients"]) {
+								usersDict = NSMutableDictionary.new;
+								[usersDict setObject:[user valueForKey:@"global_name"] forKey:@"global_name"];
+								[usersDict setObject:[user valueForKey:@"avatar"] forKey:@"avatar"];
+								[users addObject:usersDict];
+							}
+							// Add self to users list
+							usersDict = NSMutableDictionary.new;
+							[usersDict setObject:@"You" forKey:@"global_name"];
+							[usersDict setObject:@"TEMP" forKey:@"avatar"];
+							[users addObject:usersDict];
+							//end
+                            
 							DCChannel* newChannel = DCChannel.new;
 							newChannel.snowflake = [privateChannel valueForKey:@"id"];
 							newChannel.lastMessageId = [privateChannel valueForKey:@"last_message_id"];
 							newChannel.parentGuild = privateGuild;
 							newChannel.type = 1;
+                            newChannel.users = users;
 							
 							NSString* privateChannelName = [privateChannel valueForKey:@"name"];
 							

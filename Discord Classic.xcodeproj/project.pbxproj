@@ -89,6 +89,7 @@
 		2CF920572AF9957300249D6A /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920472AF9957300249D6A /* Icon@2x.png */; };
 		2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920482AF9957300249D6A /* iTunesArtwork.png */; };
 		2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */; };
+		7D9A545C2AFBE0D8004A2595 /* DCMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A545B2AFBE0D8004A2595 /* DCMembersViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -208,6 +209,8 @@
 		2CF920472AF9957300249D6A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icons/Icon@2x.png"; sourceTree = "<group>"; };
 		2CF920482AF9957300249D6A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iTunesArtwork.png; path = Images/Icons/iTunesArtwork.png; sourceTree = "<group>"; };
 		2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iTunesArtwork@2x.png"; path = "Images/Icons/iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		7D9A545A2AFBE0D8004A2595 /* DCMembersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMembersViewController.h; sourceTree = "<group>"; };
+		7D9A545B2AFBE0D8004A2595 /* DCMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMembersViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +325,8 @@
 				09D776982189427100609134 /* DCMessage.m */,
 				09A3B6D121A0604400C2411F /* DCUser.h */,
 				09A3B6D221A0604400C2411F /* DCUser.m */,
+				7D9A545A2AFBE0D8004A2595 /* DCMembersViewController.h */,
+				7D9A545B2AFBE0D8004A2595 /* DCMembersViewController.m */,
 				09C6B92B204A0F54007EAC26 /* Supporting Files */,
 			);
 			path = "Discord Classic";
@@ -654,6 +659,7 @@
 				09F4C6F021A6EBD40018F312 /* NSString+FontAwesome.m in Sources */,
 				09F4C6F221A6EBD40018F312 /* UIColor+BButton.m in Sources */,
 				091D28CA21A9D75700C60BEC /* DCInfoPageViewController.m in Sources */,
+				7D9A545C2AFBE0D8004A2595 /* DCMembersViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
