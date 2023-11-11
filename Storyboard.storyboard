@@ -550,7 +550,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="VOY-oz-qxj">
                         <barButtonItem key="backBarButtonItem" title="Channels" id="Or6-sa-oea"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="QdX-Za-6qg">
+                        <barButtonItem key="rightBarButtonItem" title="Sidebar" id="QdX-Za-6qg">
                             <connections>
                                 <segue destination="3R5-Id-tpW" kind="push" identifier="Chat to Members" id="zOI-Cm-Xib"/>
                             </connections>
@@ -613,7 +613,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a7p-Nr-Niu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1635" y="-87"/>
+            <point key="canvasLocation" x="1626" y="34"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
