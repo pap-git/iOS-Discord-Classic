@@ -115,6 +115,8 @@
 		7D7862322B01185E00B9C099 /* preferences@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862302B01185E00B9C099 /* preferences@2x.png */; };
 		7D7862352B01190E00B9C099 /* addbarglyph.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862332B01190E00B9C099 /* addbarglyph.png */; };
 		7D7862362B01190E00B9C099 /* addbarglyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862342B01190E00B9C099 /* addbarglyph@2x.png */; };
+		7DB223B82B01977C000D67F7 /* BGMask.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB223B62B01977C000D67F7 /* BGMask.png */; };
+		7DB223B92B01977C000D67F7 /* BGMask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB223B72B01977C000D67F7 /* BGMask@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -262,6 +264,8 @@
 		7D7862302B01185E00B9C099 /* preferences@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "preferences@2x.png"; sourceTree = "<group>"; };
 		7D7862332B01190E00B9C099 /* addbarglyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addbarglyph.png; sourceTree = "<group>"; };
 		7D7862342B01190E00B9C099 /* addbarglyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addbarglyph@2x.png"; sourceTree = "<group>"; };
+		7DB223B62B01977C000D67F7 /* BGMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BGMask.png; path = Images/UI/BGMask.png; sourceTree = "<group>"; };
+		7DB223B72B01977C000D67F7 /* BGMask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BGMask@2x.png"; path = "Images/UI/BGMask@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +303,8 @@
 		096DD77621A6EB1800C7A3B1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				7DB223B62B01977C000D67F7 /* BGMask.png */,
+				7DB223B72B01977C000D67F7 /* BGMask@2x.png */,
 				09F4C6E621A6EBD40018F312 /* BButton */,
 				0952845F2055EFCF00760073 /* TRMalleableFrameView.h */,
 				095284602055EFD000760073 /* TRMalleableFrameView.m */,
@@ -680,6 +686,7 @@
 			files = (
 				7D7862222B00F9F500B9C099 /* Send.png in Resources */,
 				7D7862262B00FC6100B9C099 /* Sidebar_glyph.png in Resources */,
+				7DB223B82B01977C000D67F7 /* BGMask.png in Resources */,
 				09C6B92F204A0F54007EAC26 /* InfoPlist.strings in Resources */,
 				09C8E2ED204C3B64006A1422 /* Storyboard.storyboard in Resources */,
 				2C0EBB8C2ADB16FB00A23EB8 /* DefaultAvatar3.png in Resources */,
@@ -698,6 +705,7 @@
 				7D41744D2B013B7A00449179 /* CBarButtonMap@2x.png in Resources */,
 				2CF920532AF9957300249D6A /* Icon-Small-50@2x.png in Resources */,
 				7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */,
+				7DB223B92B01977C000D67F7 /* BGMask@2x.png in Resources */,
 				7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */,
 				2CF920182AF7F36300249D6A /* PLVideoOverlayPlayDown.png in Resources */,
 				2C0EBB882ADB16FB00A23EB8 /* DefaultAvatar1.png in Resources */,

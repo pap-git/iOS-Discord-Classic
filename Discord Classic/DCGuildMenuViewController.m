@@ -53,7 +53,6 @@
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleReady) name:@"RELOAD GUILD LIST" object:nil];
     
-    
 }
 
 - (void)didReceiveMemoryWarning {
