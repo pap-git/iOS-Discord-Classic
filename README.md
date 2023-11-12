@@ -1,9 +1,5 @@
 # Discord Classic 
-A bare-bones Discord client for iOS 5 and 6.
-(Barely) compatible with iPad.
+The only Discord client for iOS 5 and 6.
+Compatible with iPad in future releases.
 
 Report bugs, help test, get update alerts and hang out in the [Discord Server](https://discord.gg/A93uJh3)
-
-###### Huge thanks to [Tyler Brasher](https://twitter.com/TyBrasher) for icon design
-![icon](https://github.com/Cellomonster/iOS-Discord-Classic/raw/master/Icon%402x.png) 
-![screenshot](https://github.com/Cellomonster/iOS-Discord-Classic/raw/master/Screenshot.png)
