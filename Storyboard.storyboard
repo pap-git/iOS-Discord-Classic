@@ -168,19 +168,26 @@
                             </tableViewSection>
                             <tableViewSection id="oII-hd-38a">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="3G1-ET-AGm" style="IBUITableViewCellStyleDefault" id="NKw-61-zMJ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="3G1-ET-AGm" detailTextLabel="Gc6-mu-gbq" style="IBUITableViewCellStyleSubtitle" id="NKw-61-zMJ">
                                         <rect key="frame" x="0.0" y="422" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Discord Classic Chat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3G1-ET-AGm">
-                                                    <rect key="frame" x="10" y="0.0" width="260" height="43"/>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Testchat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3G1-ET-AGm">
+                                                    <rect key="frame" x="10" y="2" width="71" height="22"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Only relevant if youre a dev" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gc6-mu-gbq">
+                                                    <rect key="frame" x="10" y="24" width="171" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                             </subviews>
@@ -673,7 +680,7 @@
                         <barButtonItem key="backBarButtonItem" title="Channels" id="Or6-sa-oea"/>
                         <barButtonItem key="rightBarButtonItem" image="Sidebar_glyph.png" id="QdX-Za-6qg">
                             <connections>
-                                <segue destination="MLE-tH-rqg" kind="push" id="eoF-fq-CSn"/>
+                                <segue destination="MLE-tH-rqg" kind="push" identifier="Chat to Right Sidebar" id="eoF-fq-CSn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -752,6 +759,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VzJ-bP-Mkv"/>
+        <segue reference="9jT-2C-guT"/>
     </inferredMetricsTieBreakers>
 </document>

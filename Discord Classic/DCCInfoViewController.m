@@ -8,6 +8,7 @@
 
 #import "DCCInfoViewController.h"
 #import "DCServerCommunicator.h"
+#import "DCChatViewController.h"
 
 @interface DCCInfoViewController ()
 
@@ -63,6 +64,7 @@
     cell.textLabel.text = [[DCServerCommunicator.sharedInstance.selectedChannel.users objectAtIndex:indexPath.row] valueForKey:@"username"];
     return cell;
 }
+
 
 /*
  // Override to support conditional editing of the table view.

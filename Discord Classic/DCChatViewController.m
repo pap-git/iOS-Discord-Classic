@@ -18,7 +18,7 @@
 #import "DCChatVideoAttachment.h"
 #import "NSString+Emojize.h"
 #import "QuickLook/QuickLook.h"
-
+#import "DCCInfoViewController.h"
 @interface DCChatViewController()
 @property int numberOfMessagesLoaded;
 @property UIImage* selectedImage;
@@ -502,6 +502,17 @@ static dispatch_queue_t chat_messages_queue;
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[imageViewController.imageView setImage:self.selectedImage];
 			});
+		}
+	}
+    if ([segue.identifier isEqualToString:@"Chat to Right Sidebar"]){
+		DCCInfoViewController *rightSidebar = [segue destinationViewController];
+		
+		if ([rightSidebar isKindOfClass:DCCInfoViewController.class]){
+			
+			DCServerCommunicator.sharedInstance.selectedChannel = [DCServerCommunicator.sharedInstance.channels valueForKey:@"422135452657647622"];
+			
+			[rightSidebar.navigationItem setTitle:@"Channel Name"]; //toru idk how to do this
+			
 		}
 	}
 }
