@@ -89,8 +89,10 @@
 		2CF920572AF9957300249D6A /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920472AF9957300249D6A /* Icon@2x.png */; };
 		2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920482AF9957300249D6A /* iTunesArtwork.png */; };
 		2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */; };
+		7D00DBB12B00E27700B27C97 /* Contacts.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBAE2B00E27700B27C97 /* Contacts.png */; };
+		7D00DBB22B00E27700B27C97 /* Members.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBAF2B00E27700B27C97 /* Members.png */; };
+		7D00DBB32B00E27700B27C97 /* Tab1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB02B00E27700B27C97 /* Tab1.png */; };
 		7D9A545C2AFBE0D8004A2595 /* DCMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9A545B2AFBE0D8004A2595 /* DCMembersViewController.m */; };
-		7DB3758A2AFFF37A00FBA120 /* Group 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB375892AFFF37A00FBA120 /* Group 3.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -210,9 +212,11 @@
 		2CF920472AF9957300249D6A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icons/Icon@2x.png"; sourceTree = "<group>"; };
 		2CF920482AF9957300249D6A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iTunesArtwork.png; path = Images/Icons/iTunesArtwork.png; sourceTree = "<group>"; };
 		2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iTunesArtwork@2x.png"; path = "Images/Icons/iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		7D00DBAE2B00E27700B27C97 /* Contacts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contacts.png; sourceTree = "<group>"; };
+		7D00DBAF2B00E27700B27C97 /* Members.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Members.png; sourceTree = "<group>"; };
+		7D00DBB02B00E27700B27C97 /* Tab1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tab1.png; sourceTree = "<group>"; };
 		7D9A545A2AFBE0D8004A2595 /* DCMembersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMembersViewController.h; sourceTree = "<group>"; };
 		7D9A545B2AFBE0D8004A2595 /* DCMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMembersViewController.m; sourceTree = "<group>"; };
-		7DB375892AFFF37A00FBA120 /* Group 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Group 3.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -407,7 +411,7 @@
 		2C0EBB722ADB15F400A23EB8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				7DB375882AFFF37A00FBA120 /* Button resources */,
+				7D00DBAD2B00E27700B27C97 /* Button Glyphs */,
 				2C0EBB792ADB169D00A23EB8 /* Launch Images */,
 				2C0EBB782ADB169200A23EB8 /* Icons */,
 				2C0EBB732ADB15FB00A23EB8 /* UI */,
@@ -496,13 +500,15 @@
 			name = Emojize;
 			sourceTree = "<group>";
 		};
-		7DB375882AFFF37A00FBA120 /* Button resources */ = {
+		7D00DBAD2B00E27700B27C97 /* Button Glyphs */ = {
 			isa = PBXGroup;
 			children = (
-				7DB375892AFFF37A00FBA120 /* Group 3.png */,
+				7D00DBAE2B00E27700B27C97 /* Contacts.png */,
+				7D00DBAF2B00E27700B27C97 /* Members.png */,
+				7D00DBB02B00E27700B27C97 /* Tab1.png */,
 			);
-			name = "Button resources";
-			path = "Images/Button resources";
+			name = "Button Glyphs";
+			path = "Images/Button Glyphs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -568,6 +574,8 @@
 				2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */,
 				2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */,
 				2CF9204D2AF9957300249D6A /* Icon-60@2x.png in Resources */,
+				7D00DBB32B00E27700B27C97 /* Tab1.png in Resources */,
+				7D00DBB12B00E27700B27C97 /* Contacts.png in Resources */,
 				2CF920532AF9957300249D6A /* Icon-Small-50@2x.png in Resources */,
 				2CF920182AF7F36300249D6A /* PLVideoOverlayPlayDown.png in Resources */,
 				2C0EBB882ADB16FB00A23EB8 /* DefaultAvatar1.png in Resources */,
@@ -577,7 +585,7 @@
 				2CF9204C2AF9957300249D6A /* Icon-60.png in Resources */,
 				09FF0301205EFB8800BCBA8D /* Default-568h@2x.png in Resources */,
 				2C0EBB8A2ADB16FB00A23EB8 /* DefaultAvatar2.png in Resources */,
-				7DB3758A2AFFF37A00FBA120 /* Group 3.png in Resources */,
+				7D00DBB22B00E27700B27C97 /* Members.png in Resources */,
 				2CF920562AF9957300249D6A /* Icon.png in Resources */,
 				2CF9204E2AF9957300249D6A /* Icon-72.png in Resources */,
 				2C0EBB8F2ADB16FB00A23EB8 /* DefaultAvatar4@2x.png in Resources */,
