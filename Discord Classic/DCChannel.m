@@ -18,6 +18,7 @@
 @end
 
 @implementation DCChannel
+@synthesize users;
 
 static dispatch_queue_t channel_event_queue;
 - (dispatch_queue_t)get_channel_event_queue {

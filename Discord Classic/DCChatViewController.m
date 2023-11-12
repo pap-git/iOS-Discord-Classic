@@ -18,7 +18,7 @@
 #import "DCChatVideoAttachment.h"
 #import "NSString+Emojize.h"
 #import "QuickLook/QuickLook.h"
-
+#import "DCCInfoViewController.h"
 @interface DCChatViewController()
 @property int numberOfMessagesLoaded;
 @property UIImage* selectedImage;
@@ -57,6 +57,10 @@ static dispatch_queue_t chat_messages_queue;
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 	
+    UIImage *buttonbackgroundImage = [UIImage imageNamed:@"ToolbarBG"];
+    
+    [self.toolbar setBackgroundImage:buttonbackgroundImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    
 	lastTimeInterval = 0;
     
     [self.inputField setDelegate:self];
@@ -253,7 +257,8 @@ static dispatch_queue_t chat_messages_queue;
         cell.profileImage.layer.masksToBounds = YES;
     }
 	
-	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor orangeColor] : [UIColor clearColor]];
+    
+	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor grayColor] : [UIColor clearColor]];
     
     cell.contentView.layer.cornerRadius = 4;
     cell.contentView.layer.masksToBounds = YES;
@@ -497,6 +502,17 @@ static dispatch_queue_t chat_messages_queue;
 			dispatch_async(dispatch_get_main_queue(), ^{
 				[imageViewController.imageView setImage:self.selectedImage];
 			});
+		}
+	}
+    if ([segue.identifier isEqualToString:@"Chat to Right Sidebar"]){
+		DCCInfoViewController *rightSidebar = [segue destinationViewController];
+		
+		if ([rightSidebar isKindOfClass:DCCInfoViewController.class]){
+			
+			DCServerCommunicator.sharedInstance.selectedChannel = [DCServerCommunicator.sharedInstance.channels valueForKey:@"422135452657647622"];
+			
+			[rightSidebar.navigationItem setTitle:@"Channel Name"]; //toru idk how to do this
+			
 		}
 	}
 }
