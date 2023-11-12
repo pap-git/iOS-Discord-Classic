@@ -61,7 +61,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Members Cell"];
     if (!cell) cell = UITableViewCell.new;
     // Configure the cell...
-    cell.textLabel.text = [[DCServerCommunicator.sharedInstance.selectedChannel.users objectAtIndex:indexPath.row] valueForKey:@"username"];
+    cell.textLabel.text = [[DCServerCommunicator.sharedInstance.selectedChannel.users objectAtIndex:indexPath.row] valueForKey:@"global_name"];
     return cell;
 }
 

@@ -26,19 +26,19 @@
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </toolbar>
                     <connections>
-                        <segue destination="sL2-AC-FA3" kind="relationship" relationship="rootViewController" id="ZXP-vw-Cuk"/>
+                        <segue destination="0vF-FM-36x" kind="relationship" relationship="rootViewController" id="xOX-nQ-Ek7"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WEX-yh-NfH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-861" y="-46"/>
+            <point key="canvasLocation" x="-277" y="-38"/>
         </scene>
         <!--Guild List View Controller - Servers-->
         <scene sceneID="QJ3-kn-Swx">
             <objects>
                 <tableViewController extendedLayoutIncludesOpaqueBars="YES" id="sL2-AC-FA3" customClass="DCGuildListViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="O1E-bi-Jyg">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.16078431372549018" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -75,20 +75,13 @@
                                 <action selector="joinGuildPrompt:" destination="sL2-AC-FA3" id="M2Q-46-doG"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="preferences.png" id="k7y-lt-VZG">
-                            <connections>
-                                <segue destination="Y2n-LQ-P1S" kind="push" identifier="to Settings" id="W4u-fo-sXa"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="preferences.png" id="k7y-lt-VZG"/>
                     </navigationItem>
                     <size key="freeformSize" width="320" height="568"/>
-                    <connections>
-                        <segue destination="ePA-Lj-l3w" kind="push" identifier="Guilds to Channels" id="teg-2p-u4Z"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ody-1s-L6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-8" y="-46"/>
+            <point key="canvasLocation" x="134" y="714"/>
         </scene>
         <!--Settings View Controller - Settings-->
         <scene sceneID="qbG-hh-URF">
@@ -550,14 +543,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zwk-Gt-rgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1626" y="-797"/>
+            <point key="canvasLocation" x="1626" y="-954"/>
         </scene>
         <!--Channel List View Controller - Channels-->
         <scene sceneID="WWn-lO-edA">
             <objects>
                 <tableViewController extendedLayoutIncludesOpaqueBars="YES" id="ePA-Lj-l3w" customClass="DCChannelListViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="AqZ-8D-dW8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.16078431372549018" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -590,19 +583,12 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Channels" id="8HN-UR-APC">
                         <barButtonItem key="backBarButtonItem" title="Servers" id="g0Z-SR-CoJ"/>
-                        <barButtonItem key="rightBarButtonItem" image="Sidebar_glyph.png" id="F0u-iC-iX1">
-                            <connections>
-                                <segue destination="MLE-tH-rqg" kind="push" identifier="Channels to RightSidebar" id="NpS-lb-wbg"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="Sidebar_glyph.png" id="F0u-iC-iX1"/>
                     </navigationItem>
-                    <connections>
-                        <segue destination="SPS-Go-Xtj" kind="push" identifier="Channels to Chat" id="VzJ-bP-Mkv"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUp-Ca-Y38" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="544" y="-46"/>
+            <point key="canvasLocation" x="637" y="714"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="0a4-kq-TlO">
@@ -748,6 +734,101 @@
             </objects>
             <point key="canvasLocation" x="1626" y="-46"/>
         </scene>
+        <!--Guild Menu View Controller - Guilds-->
+        <scene sceneID="sIF-lK-X2Z">
+            <objects>
+                <viewController id="0vF-FM-36x" customClass="DCGuildMenuViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pDJ-x9-72F">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="51" sectionHeaderHeight="22" sectionFooterHeight="22" id="9Xa-ku-ARC">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="431"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="guild" textLabel="k0H-Op-geB" rowHeight="50" style="IBUITableViewCellStyleDefault" id="kAL-QI-oou">
+                                        <rect key="frame" x="0.0" y="22" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k0H-Op-geB">
+                                                    <rect key="frame" x="10" y="0.0" width="30" height="49"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="0vF-FM-36x" id="D2Z-Hk-HOK"/>
+                                    <outlet property="delegate" destination="0vF-FM-36x" id="dRy-jM-rfz"/>
+                                </connections>
+                            </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="8ka-Pb-VcV">
+                                <rect key="frame" x="50" y="0.0" width="270" height="431"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="sectionIndexColor" red="0.97235459061964435" green="1" blue="0.96683040407878218" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.15686274510000001" green="0.16078431369999999" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="channel" textLabel="8Qa-O0-vfe" style="IBUITableViewCellStyleDefault" id="Brs-pK-FN0">
+                                        <rect key="frame" x="0.0" y="46" width="270" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="217" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8Qa-O0-vfe">
+                                                    <rect key="frame" x="10" y="0.0" width="197" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="SPS-Go-Xtj" kind="push" identifier="guilds to chat" trigger="accessoryAction" id="zNu-Rj-Ei0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="0vF-FM-36x" id="NpY-qu-GXx"/>
+                                    <outlet property="delegate" destination="0vF-FM-36x" id="ERA-du-HPa"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                    </view>
+                    <navigationItem key="navigationItem" title="Guilds" id="sZs-EO-Rxy">
+                        <barButtonItem key="leftBarButtonItem" image="addbarglyph.png" id="V2F-Jv-7j4">
+                            <connections>
+                                <action selector="joinGuildPrompt:" destination="0vF-FM-36x" id="Uaz-3k-tKu"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="preferences.png" id="I2N-58-wQ4">
+                            <connections>
+                                <segue destination="Y2n-LQ-P1S" kind="push" identifier="to Settings" id="uet-TS-wUc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="channelTableView" destination="8ka-Pb-VcV" id="Dd4-If-jnz"/>
+                        <outlet property="guildTableView" destination="9Xa-ku-ARC" id="Xam-5P-pgO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JQd-f7-Grr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="544" y="-46"/>
+        </scene>
     </scenes>
     <resources>
         <image name="CBarButtonMap.png" width="75" height="31"/>
@@ -764,7 +845,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VzJ-bP-Mkv"/>
-        <segue reference="NpS-lb-wbg"/>
+        <segue reference="zNu-Rj-Ei0"/>
     </inferredMetricsTieBreakers>
 </document>
