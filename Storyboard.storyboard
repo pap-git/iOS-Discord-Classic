@@ -520,7 +520,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                                         <size key="titleShadowOffset" width="0.0" height="-1"/>
-                                        <state key="normal" title="Settings" image="preferences.png" backgroundImage="CBarButtonMap.png">
+                                        <state key="normal" title="Info" image="preferences.png" backgroundImage="CBarButtonMap.png">
                                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>

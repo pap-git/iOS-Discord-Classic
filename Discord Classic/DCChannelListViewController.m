@@ -108,8 +108,6 @@
 		
 		if ([rightSidebar isKindOfClass:DCChatViewController.class]){
 			[rightSidebar.navigationItem setTitle:self.selectedGuild.name];
-			
-            
 		}
 	}
 }
