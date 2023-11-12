@@ -7,6 +7,7 @@
 //
 
 #import "DCChannelListViewController.h"
+#import "DCCInfoViewController.h"
 #import "DCChatViewController.h"
 #import "DCServerCommunicator.h"
 #import "DCGuild.h"
@@ -100,6 +101,15 @@
 			
 			//Chat view is watching the present conversation (auto scroll with new messages)
 			[chatViewController setViewingPresentTime:true];
+		}
+	}
+	if ([segue.identifier isEqualToString:@"Channels to RightSidebar"]){
+		DCCInfoViewController *rightSidebar = [segue destinationViewController];
+		
+		if ([rightSidebar isKindOfClass:DCChatViewController.class]){
+			[rightSidebar.navigationItem setTitle:self.selectedGuild.name];
+			
+            
 		}
 	}
 }

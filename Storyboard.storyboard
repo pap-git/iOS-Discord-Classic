@@ -472,7 +472,7 @@
             </objects>
             <point key="canvasLocation" x="1089" y="-954"/>
         </scene>
-        <!--Info View Controller - Info-->
+        <!--Info View Controller - Guild and Channel Info-->
         <scene sceneID="9Wi-Wb-3Wc">
             <objects>
                 <viewController id="MLE-tH-rqg" customClass="DCCInfoViewController" sceneMemberID="viewController">
@@ -546,11 +546,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Info" id="oWK-Gf-xlv"/>
+                    <navigationItem key="navigationItem" title="Guild and Channel Info" id="oWK-Gf-xlv"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zwk-Gt-rgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1626" y="-954"/>
+            <point key="canvasLocation" x="1626" y="-797"/>
         </scene>
         <!--Channel List View Controller - Channels-->
         <scene sceneID="WWn-lO-edA">
@@ -590,6 +590,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Channels" id="8HN-UR-APC">
                         <barButtonItem key="backBarButtonItem" title="Servers" id="g0Z-SR-CoJ"/>
+                        <barButtonItem key="rightBarButtonItem" image="Sidebar_glyph.png" id="F0u-iC-iX1">
+                            <connections>
+                                <segue destination="MLE-tH-rqg" kind="push" identifier="Channels to RightSidebar" id="NpS-lb-wbg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="SPS-Go-Xtj" kind="push" identifier="Channels to Chat" id="VzJ-bP-Mkv"/>
@@ -759,6 +764,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9jT-2C-guT"/>
+        <segue reference="VzJ-bP-Mkv"/>
+        <segue reference="NpS-lb-wbg"/>
     </inferredMetricsTieBreakers>
 </document>
