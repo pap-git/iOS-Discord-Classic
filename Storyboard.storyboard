@@ -212,7 +212,7 @@
                     <color key="onTintColor" red="0.84636124319999995" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </switch>
             </objects>
-            <point key="canvasLocation" x="544" y="-948"/>
+            <point key="canvasLocation" x="544" y="-954"/>
         </scene>
         <!--Info Page View Controller - Info-->
         <scene sceneID="lRo-65-Yz3">
@@ -437,8 +437,8 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Description TBD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jm8-l5-2cO">
-                                                    <rect key="frame" x="10" y="24" width="106" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="does cool concepts and eXPerience" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jm8-l5-2cO">
+                                                    <rect key="frame" x="10" y="24" width="233" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -817,9 +817,9 @@
                         </subviews>
                     </view>
                     <navigationItem key="navigationItem" title="Discord" id="sZs-EO-Rxy">
-                        <barButtonItem key="leftBarButtonItem" image="addbarglyph.png" id="V2F-Jv-7j4">
+                        <barButtonItem key="leftBarButtonItem" image="hamburger.png" id="V2F-Jv-7j4">
                             <connections>
-                                <action selector="joinGuildPrompt:" destination="0vF-FM-36x" id="Uaz-3k-tKu"/>
+                                <action selector="hamburgerPressed:" destination="0vF-FM-36x" id="O2J-2b-VRD"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="preferences.png" id="I2N-58-wQ4">
@@ -845,6 +845,7 @@
         <image name="Sidebar_glyph.png" width="27" height="25"/>
         <image name="addbarglyph.png" width="25" height="25"/>
         <image name="commandbar-bg.png" width="320" height="44"/>
+        <image name="hamburger.png" width="25" height="25"/>
         <image name="preferences.png" width="23" height="23"/>
     </resources>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

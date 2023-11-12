@@ -117,6 +117,8 @@
 		7D7862362B01190E00B9C099 /* addbarglyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862342B01190E00B9C099 /* addbarglyph@2x.png */; };
 		7DB223B82B01977C000D67F7 /* BGMask.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB223B62B01977C000D67F7 /* BGMask.png */; };
 		7DB223B92B01977C000D67F7 /* BGMask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB223B72B01977C000D67F7 /* BGMask@2x.png */; };
+		7DB223BC2B019B0A000D67F7 /* hamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB223BA2B019B0A000D67F7 /* hamburger.png */; };
+		7DB223BD2B019B0A000D67F7 /* hamburger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB223BB2B019B0A000D67F7 /* hamburger@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -266,6 +268,8 @@
 		7D7862342B01190E00B9C099 /* addbarglyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addbarglyph@2x.png"; sourceTree = "<group>"; };
 		7DB223B62B01977C000D67F7 /* BGMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BGMask.png; path = Images/UI/BGMask.png; sourceTree = "<group>"; };
 		7DB223B72B01977C000D67F7 /* BGMask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BGMask@2x.png"; path = "Images/UI/BGMask@2x.png"; sourceTree = "<group>"; };
+		7DB223BA2B019B0A000D67F7 /* hamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hamburger.png; sourceTree = "<group>"; };
+		7DB223BB2B019B0A000D67F7 /* hamburger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hamburger@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,8 +307,6 @@
 		096DD77621A6EB1800C7A3B1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				7DB223B62B01977C000D67F7 /* BGMask.png */,
-				7DB223B72B01977C000D67F7 /* BGMask@2x.png */,
 				09F4C6E621A6EBD40018F312 /* BButton */,
 				0952845F2055EFCF00760073 /* TRMalleableFrameView.h */,
 				095284602055EFD000760073 /* TRMalleableFrameView.m */,
@@ -519,6 +521,8 @@
 		2C11B4172AEA546F00BE66F6 /* Video Player */ = {
 			isa = PBXGroup;
 			children = (
+				7DB223B62B01977C000D67F7 /* BGMask.png */,
+				7DB223B72B01977C000D67F7 /* BGMask@2x.png */,
 				2CF920122AF7F36300249D6A /* PLVideoOverlayPlay.png */,
 				2CF920132AF7F36300249D6A /* PLVideoOverlayPlay@2x.png */,
 				2CF920142AF7F36300249D6A /* PLVideoOverlayPlayDown.png */,
@@ -562,6 +566,8 @@
 				7D7862332B01190E00B9C099 /* addbarglyph.png */,
 				7D7862342B01190E00B9C099 /* addbarglyph@2x.png */,
 				7D78622F2B01185E00B9C099 /* preferences.png */,
+				7DB223BA2B019B0A000D67F7 /* hamburger.png */,
+				7DB223BB2B019B0A000D67F7 /* hamburger@2x.png */,
 				7D7862302B01185E00B9C099 /* preferences@2x.png */,
 				7D7862252B00FC6100B9C099 /* Sidebar_glyph.png */,
 				7D78621C2B00F9F500B9C099 /* Home@2x.png */,
@@ -699,6 +705,7 @@
 				2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */,
 				7D4174582B01494E00449179 /* BarButton@2x.png in Resources */,
 				7D672E322B012D42003C1A78 /* commandbar-bg@2x.png in Resources */,
+				7DB223BC2B019B0A000D67F7 /* hamburger.png in Resources */,
 				7D7862312B01185E00B9C099 /* preferences.png in Resources */,
 				2CF9204D2AF9957300249D6A /* Icon-60@2x.png in Resources */,
 				7D7862162B00F1D100B9C099 /* ToolbarBG@2x.png in Resources */,
@@ -725,6 +732,7 @@
 				7D672E312B012D42003C1A78 /* commandbar-bg.png in Resources */,
 				2CF9204E2AF9957300249D6A /* Icon-72.png in Resources */,
 				2C0EBB8F2ADB16FB00A23EB8 /* DefaultAvatar4@2x.png in Resources */,
+				7DB223BD2B019B0A000D67F7 /* hamburger@2x.png in Resources */,
 				2C0EBB912ADB16FB00A23EB8 /* DefaultAvatar5@2x.png in Resources */,
 				2CF920502AF9957300249D6A /* Icon-76.png in Resources */,
 				2C0EBB892ADB16FB00A23EB8 /* DefaultAvatar1@2x.png in Resources */,

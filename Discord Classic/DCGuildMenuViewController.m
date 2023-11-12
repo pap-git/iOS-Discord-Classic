@@ -220,4 +220,41 @@
         [self.refreshControl endRefreshing];*/
 }
 
+- (IBAction)hamburgerPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose an option"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Enter a server", @"Create a server", nil];
+    
+    [actionSheet showInView:self.view];
+}
+
+
+//Decoration, for now.
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        UIAlertView *joinPrompt = [[UIAlertView alloc] initWithTitle:@"Enter invite code"
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:@"Join", nil];
+        
+        [joinPrompt setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [joinPrompt setDelegate:self];
+        [joinPrompt show];
+    } else if (buttonIndex == 1) {
+        UIAlertView *createGuildPrompt = [[UIAlertView alloc] initWithTitle:@"Create a server"
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:@"Continue", nil];
+        
+        [createGuildPrompt setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [createGuildPrompt setDelegate:self];
+        [createGuildPrompt show];
+    }
+}
+
+
 @end
