@@ -32,8 +32,8 @@
              if (range.location != NSNotFound) {
                  NSString *code = [text substringWithRange:range];
                  NSString *unicodeJs = self.emojiAliases[code];
-                 NSData *data = [unicodeJs dataUsingEncoding:NSASCIIStringEncoding];
-                 NSString *unicode = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
+                 NSData *data = [unicodeJs dataUsingEncoding:NSUTF8StringEncoding];
+                 NSString *unicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                  if (unicode) {
                      resultText = [resultText stringByReplacingOccurrencesOfString:code withString:unicode];
                  }
