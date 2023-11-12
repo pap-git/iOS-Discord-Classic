@@ -547,6 +547,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Guild and Channel Info" id="oWK-Gf-xlv"/>
+                    <connections>
+                        <outlet property="tableView" destination="He5-Op-Lan" id="N1H-Bg-Lyi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zwk-Gt-rgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
