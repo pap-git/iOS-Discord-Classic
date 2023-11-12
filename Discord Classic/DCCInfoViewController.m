@@ -1,24 +1,23 @@
 //
-//  DCMembersViewController.m
+//  DCCInfoViewController.m
 //  Discord Classic
 //
-//  Created by Daph357 on 08/11/23.
+//  Created by Defne on 12/11/23.
 //  Copyright (c) 2023 Julian Triveri. All rights reserved.
 //
 
-#import "DCMembersViewController.h"
+#import "DCCInfoViewController.h"
 #import "DCServerCommunicator.h"
 
-@interface DCMembersViewController ()
+@interface DCCInfoViewController ()
 
 @end
 
+@implementation DCCInfoViewController
 
-@implementation DCMembersViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -61,7 +60,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Members Cell"];
     if (!cell) cell = UITableViewCell.new;
     // Configure the cell...
-    cell.textLabel.text = [[DCServerCommunicator.sharedInstance.selectedChannel.users objectAtIndex:indexPath.row] valueForKey:@"global_name"];
+    cell.textLabel.text = [[DCServerCommunicator.sharedInstance.selectedChannel.users objectAtIndex:indexPath.row] valueForKey:@"username"];
     return cell;
 }
 
@@ -105,6 +104,7 @@
 
 /*
  #pragma mark - Navigation
+ 
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
