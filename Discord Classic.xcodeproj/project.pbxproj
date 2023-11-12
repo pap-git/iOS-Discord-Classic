@@ -127,8 +127,8 @@
 		09260EC920575BB200083813 /* DCChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCChannel.m; sourceTree = "<group>"; };
 		0952845F2055EFCF00760073 /* TRMalleableFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMalleableFrameView.h; path = "Discord Classic/TRMalleableFrameView.h"; sourceTree = "<group>"; };
 		095284602055EFD000760073 /* TRMalleableFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMalleableFrameView.m; path = "Discord Classic/TRMalleableFrameView.m"; sourceTree = "<group>"; };
-		09685285204D9D590089DE45 /* DCChannelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCChannelListViewController.h; sourceTree = "<group>"; };
-		09685286204D9D590089DE45 /* DCChannelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCChannelListViewController.m; sourceTree = "<group>"; };
+		09685285204D9D590089DE45 /* DCChannelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCChannelListViewController.h; path = "../../../GitHub/iOS-Discord-Classic/Discord Classic/DCChannelListViewController.h"; sourceTree = "<group>"; };
+		09685286204D9D590089DE45 /* DCChannelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCChannelListViewController.m; path = "../../../GitHub/iOS-Discord-Classic/Discord Classic/DCChannelListViewController.m"; sourceTree = "<group>"; };
 		096DD77321A6E62200C7A3B1 /* DCWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWelcomeViewController.h; sourceTree = "<group>"; };
 		096DD77421A6E62200C7A3B1 /* DCWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWelcomeViewController.m; sourceTree = "<group>"; };
 		09A3B6D121A0604400C2411F /* DCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCUser.h; sourceTree = "<group>"; };
@@ -172,8 +172,8 @@
 		09DD1FA1204F35FD00153EC7 /* DCChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCChatViewController.m; sourceTree = "<group>"; };
 		09E183B8205EF64700FE90E8 /* DCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCViewController.h; sourceTree = "<group>"; };
 		09E183B9205EF64700FE90E8 /* DCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCViewController.m; sourceTree = "<group>"; };
-		09E183BB205EF65000FE90E8 /* DCGuildListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCGuildListViewController.h; sourceTree = "<group>"; };
-		09E183BC205EF65000FE90E8 /* DCGuildListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCGuildListViewController.m; sourceTree = "<group>"; };
+		09E183BB205EF65000FE90E8 /* DCGuildListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCGuildListViewController.h; path = "../../../GitHub/iOS-Discord-Classic/Discord Classic/DCGuildListViewController.h"; sourceTree = "<group>"; };
+		09E183BC205EF65000FE90E8 /* DCGuildListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCGuildListViewController.m; path = "../../../GitHub/iOS-Discord-Classic/Discord Classic/DCGuildListViewController.m"; sourceTree = "<group>"; };
 		09E3ED242069F21200E90DA1 /* DCTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCTools.h; sourceTree = "<group>"; };
 		09E3ED252069F21200E90DA1 /* DCTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCTools.m; sourceTree = "<group>"; };
 		09F4C6E721A6EBD40018F312 /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
@@ -287,6 +287,7 @@
 		095284622055EFDA00760073 /* Etc */ = {
 			isa = PBXGroup;
 			children = (
+				7DE9C2552B018C000014BD25 /* deprecated */,
 				2CF9200B2AF7E2C400249D6A /* Emojize */,
 				2C4C757A2AF28480007E0E53 /* GIF */,
 				096DD77621A6EB1800C7A3B1 /* UI */,
@@ -343,10 +344,6 @@
 				09E183B9205EF64700FE90E8 /* DCViewController.m */,
 				7D4174A02B01596B00449179 /* DCGuildMenuViewController.h */,
 				7D4174A12B01596B00449179 /* DCGuildMenuViewController.m */,
-				09E183BB205EF65000FE90E8 /* DCGuildListViewController.h */,
-				09E183BC205EF65000FE90E8 /* DCGuildListViewController.m */,
-				09685285204D9D590089DE45 /* DCChannelListViewController.h */,
-				09685286204D9D590089DE45 /* DCChannelListViewController.m */,
 				09DD1FA0204F35FD00153EC7 /* DCChatViewController.h */,
 				09DD1FA1204F35FD00153EC7 /* DCChatViewController.m */,
 				09D84D0A205F36B90070020A /* DCSettingsViewController.h */,
@@ -613,6 +610,18 @@
 			);
 			name = UIToolBar;
 			path = Images/UI/UIToolBar;
+			sourceTree = "<group>";
+		};
+		7DE9C2552B018C000014BD25 /* deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				09E183BB205EF65000FE90E8 /* DCGuildListViewController.h */,
+				09E183BC205EF65000FE90E8 /* DCGuildListViewController.m */,
+				09685285204D9D590089DE45 /* DCChannelListViewController.h */,
+				09685286204D9D590089DE45 /* DCChannelListViewController.m */,
+			);
+			name = deprecated;
+			path = "../../Local/iOS-Discord-Classic/deprecated";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
