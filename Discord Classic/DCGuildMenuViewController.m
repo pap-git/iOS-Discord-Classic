@@ -20,6 +20,7 @@
 @interface DCGuildMenuViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *guildTableView;
+@property (strong, nonatomic) IBOutlet UILabel *channelLabel;
 @property (weak, nonatomic) IBOutlet UITableView *channelTableView;
 @property DCGuild *selectedGuild;
 @property DCChannel *selectedChannel;
