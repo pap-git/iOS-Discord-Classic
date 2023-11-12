@@ -25,7 +25,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WEX-yh-NfH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-833" y="-87"/>
+            <point key="canvasLocation" x="-563" y="-46"/>
         </scene>
         <!--Guild List View Controller - Servers-->
         <scene sceneID="QJ3-kn-Swx">
@@ -82,7 +82,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ody-1s-L6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-126" y="-87"/>
+            <point key="canvasLocation" x="-8" y="-46"/>
         </scene>
         <!--Settings View Controller - Settings-->
         <scene sceneID="qbG-hh-URF">
@@ -93,14 +93,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
-                            <tableViewSection headerTitle="Welcome to Discord Classic!" footerTitle="This is the ultimate client for old iOS! (add more text here later its 11pm im sleepy asf)" id="w1H-gf-jDC">
+                            <tableViewSection headerTitle="Welcome to Discord Classic!" footerTitle="In order to proceed" id="w1H-gf-jDC">
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="Token" id="rjG-ap-esH">
                                 <string key="footerTitle">Check that no extraneous quotation marks, spaces, or other characters are present in your token. You can email your token to your device or text it to yourself.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="OlX-dT-XQh">
-                                        <rect key="frame" x="0.0" y="158" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="122" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -137,7 +137,7 @@
                             <tableViewSection footerTitle="People who've taken part in this project and utilities used for this project are listed here." id="udd-qH-hM7">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="vmm-H9-f4G" style="IBUITableViewCellStyleDefault" id="Is3-Rc-SeZ">
-                                        <rect key="frame" x="0.0" y="326" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="290" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="43"/>
@@ -163,7 +163,7 @@
                             <tableViewSection id="oII-hd-38a">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="3G1-ET-AGm" style="IBUITableViewCellStyleDefault" id="NKw-61-zMJ">
-                                        <rect key="frame" x="0.0" y="458" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="422" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="280" height="43"/>
@@ -206,7 +206,7 @@
                     <color key="onTintColor" red="0.84636124319999995" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </switch>
             </objects>
-            <point key="canvasLocation" x="544" y="-654"/>
+            <point key="canvasLocation" x="544" y="-948"/>
         </scene>
         <!--Info Page View Controller - Info-->
         <scene sceneID="lRo-65-Yz3">
@@ -431,8 +431,8 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="graphic design" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jm8-l5-2cO">
-                                                    <rect key="frame" x="10" y="24" width="96" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Description TBD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jm8-l5-2cO">
+                                                    <rect key="frame" x="10" y="24" width="106" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -457,7 +457,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a8F-4i-Zjj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1089" y="-654"/>
+            <point key="canvasLocation" x="1089" y="-954"/>
         </scene>
         <!--Info View Controller - Info-->
         <scene sceneID="9Wi-Wb-3Wc">
@@ -537,7 +537,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zwk-Gt-rgn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1694" y="-634"/>
+            <point key="canvasLocation" x="1626" y="-954"/>
         </scene>
         <!--Channel List View Controller - Channels-->
         <scene sceneID="WWn-lO-edA">
@@ -558,7 +558,7 @@
                                         <label clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nkj-VC-WGR">
                                             <rect key="frame" x="10" y="0.0" width="280" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" red="0.1228475765" green="0.1228475765" blue="0.1228475765" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.15686274509803921" green="0.16078431372549018" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -584,7 +584,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gUp-Ca-Y38" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="544" y="70"/>
+            <point key="canvasLocation" x="544" y="-46"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="0a4-kq-TlO">
@@ -691,7 +691,7 @@
                 </searchDisplayController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dn2-PR-nJa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1089" y="70"/>
+            <point key="canvasLocation" x="1089" y="-46"/>
         </scene>
         <!--Image View Controller - View Embed-->
         <scene sceneID="f9C-bg-NlD">
@@ -728,7 +728,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a7p-Nr-Niu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1626" y="34"/>
+            <point key="canvasLocation" x="1626" y="-46"/>
         </scene>
     </scenes>
     <resources>
