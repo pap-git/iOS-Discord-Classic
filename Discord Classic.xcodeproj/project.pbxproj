@@ -91,12 +91,15 @@
 		7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */; };
 		7D41744C2B013B7A00449179 /* CBarButtonMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D41744A2B013B7A00449179 /* CBarButtonMap.png */; };
 		7D41744D2B013B7A00449179 /* CBarButtonMap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D41744B2B013B7A00449179 /* CBarButtonMap@2x.png */; };
+		7D4174572B01494E00449179 /* BarButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D41744F2B01494E00449179 /* BarButton.png */; };
+		7D4174582B01494E00449179 /* BarButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174502B01494E00449179 /* BarButton@2x.png */; };
+		7D4174592B01494E00449179 /* BarButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174512B01494E00449179 /* BarButtonPressed.png */; };
+		7D41745A2B01494E00449179 /* BarButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174522B01494E00449179 /* BarButtonPressed@2x.png */; };
+		7D41745B2B01494E00449179 /* NavigationButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174532B01494E00449179 /* NavigationButton.png */; };
+		7D41745C2B01494E00449179 /* NavigationButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174542B01494E00449179 /* NavigationButton@2x.png */; };
+		7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174552B01494E00449179 /* NavigationButtonPressed.png */; };
+		7D41745E2B01494E00449179 /* NavigationButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4174562B01494E00449179 /* NavigationButtonPressed@2x.png */; };
 		7D672E232B0122FF003C1A78 /* DCCInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D672E222B0122FF003C1A78 /* DCCInfoViewController.m */; };
-		7D672E292B0125B8003C1A78 /* barbutton_pressed@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E242B0125B8003C1A78 /* barbutton_pressed@2x.PNG */; };
-		7D672E2A2B0125B8003C1A78 /* barbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E252B0125B8003C1A78 /* barbutton.png */; };
-		7D672E2B2B0125B8003C1A78 /* barbutton@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E262B0125B8003C1A78 /* barbutton@2x.PNG */; };
-		7D672E2C2B0125B8003C1A78 /* navbutton_pressed@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E272B0125B8003C1A78 /* navbutton_pressed@2x.PNG */; };
-		7D672E2D2B0125B8003C1A78 /* navbutton@2x.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E282B0125B8003C1A78 /* navbutton@2x.PNG */; };
 		7D672E312B012D42003C1A78 /* commandbar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E2F2B012D42003C1A78 /* commandbar-bg.png */; };
 		7D672E322B012D42003C1A78 /* commandbar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E302B012D42003C1A78 /* commandbar-bg@2x.png */; };
 		7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862132B00F1D100B9C099 /* ToolbarBG.png */; };
@@ -232,13 +235,16 @@
 		7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TbarBG@2x.png"; sourceTree = "<group>"; };
 		7D41744A2B013B7A00449179 /* CBarButtonMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CBarButtonMap.png; sourceTree = "<group>"; };
 		7D41744B2B013B7A00449179 /* CBarButtonMap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CBarButtonMap@2x.png"; sourceTree = "<group>"; };
+		7D41744F2B01494E00449179 /* BarButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BarButton.png; sourceTree = "<group>"; };
+		7D4174502B01494E00449179 /* BarButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BarButton@2x.png"; sourceTree = "<group>"; };
+		7D4174512B01494E00449179 /* BarButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BarButtonPressed.png; sourceTree = "<group>"; };
+		7D4174522B01494E00449179 /* BarButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BarButtonPressed@2x.png"; sourceTree = "<group>"; };
+		7D4174532B01494E00449179 /* NavigationButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavigationButton.png; sourceTree = "<group>"; };
+		7D4174542B01494E00449179 /* NavigationButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavigationButton@2x.png"; sourceTree = "<group>"; };
+		7D4174552B01494E00449179 /* NavigationButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavigationButtonPressed.png; sourceTree = "<group>"; };
+		7D4174562B01494E00449179 /* NavigationButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavigationButtonPressed@2x.png"; sourceTree = "<group>"; };
 		7D672E212B0122FF003C1A78 /* DCCInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCInfoViewController.h; sourceTree = "<group>"; };
 		7D672E222B0122FF003C1A78 /* DCCInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCInfoViewController.m; sourceTree = "<group>"; };
-		7D672E242B0125B8003C1A78 /* barbutton_pressed@2x.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barbutton_pressed@2x.PNG"; sourceTree = "<group>"; };
-		7D672E252B0125B8003C1A78 /* barbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barbutton.png; sourceTree = "<group>"; };
-		7D672E262B0125B8003C1A78 /* barbutton@2x.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barbutton@2x.PNG"; sourceTree = "<group>"; };
-		7D672E272B0125B8003C1A78 /* navbutton_pressed@2x.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbutton_pressed@2x.PNG"; sourceTree = "<group>"; };
-		7D672E282B0125B8003C1A78 /* navbutton@2x.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbutton@2x.PNG"; sourceTree = "<group>"; };
 		7D672E2F2B012D42003C1A78 /* commandbar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commandbar-bg.png"; sourceTree = "<group>"; };
 		7D672E302B012D42003C1A78 /* commandbar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commandbar-bg@2x.png"; sourceTree = "<group>"; };
 		7D7862132B00F1D100B9C099 /* ToolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarBG.png; sourceTree = "<group>"; };
@@ -571,11 +577,14 @@
 		7D672E182B01210B003C1A78 /* Title-and toolbar buttons */ = {
 			isa = PBXGroup;
 			children = (
-				7D672E242B0125B8003C1A78 /* barbutton_pressed@2x.PNG */,
-				7D672E252B0125B8003C1A78 /* barbutton.png */,
-				7D672E262B0125B8003C1A78 /* barbutton@2x.PNG */,
-				7D672E272B0125B8003C1A78 /* navbutton_pressed@2x.PNG */,
-				7D672E282B0125B8003C1A78 /* navbutton@2x.PNG */,
+				7D41744F2B01494E00449179 /* BarButton.png */,
+				7D4174502B01494E00449179 /* BarButton@2x.png */,
+				7D4174512B01494E00449179 /* BarButtonPressed.png */,
+				7D4174522B01494E00449179 /* BarButtonPressed@2x.png */,
+				7D4174532B01494E00449179 /* NavigationButton.png */,
+				7D4174542B01494E00449179 /* NavigationButton@2x.png */,
+				7D4174552B01494E00449179 /* NavigationButtonPressed.png */,
+				7D4174562B01494E00449179 /* NavigationButtonPressed@2x.png */,
 			);
 			path = "Title-and toolbar buttons";
 			sourceTree = "<group>";
@@ -663,10 +672,10 @@
 				2C0EBB8E2ADB16FB00A23EB8 /* DefaultAvatar4.png in Resources */,
 				2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */,
 				2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */,
-				7D672E2A2B0125B8003C1A78 /* barbutton.png in Resources */,
 				7D7862362B01190E00B9C099 /* addbarglyph@2x.png in Resources */,
 				7D78622A2B010BFA00B9C099 /* separator.png in Resources */,
 				2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */,
+				7D4174582B01494E00449179 /* BarButton@2x.png in Resources */,
 				7D672E322B012D42003C1A78 /* commandbar-bg@2x.png in Resources */,
 				7D7862312B01185E00B9C099 /* preferences.png in Resources */,
 				2CF9204D2AF9957300249D6A /* Icon-60@2x.png in Resources */,
@@ -674,12 +683,16 @@
 				7D41744D2B013B7A00449179 /* CBarButtonMap@2x.png in Resources */,
 				2CF920532AF9957300249D6A /* Icon-Small-50@2x.png in Resources */,
 				7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */,
+				7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */,
 				2CF920182AF7F36300249D6A /* PLVideoOverlayPlayDown.png in Resources */,
 				2C0EBB882ADB16FB00A23EB8 /* DefaultAvatar1.png in Resources */,
 				2CF920512AF9957300249D6A /* Icon-76@2x.png in Resources */,
 				2CF9204B2AF9957300249D6A /* Icon-40@2x.png in Resources */,
+				7D4174592B01494E00449179 /* BarButtonPressed.png in Resources */,
 				2CF920552AF9957300249D6A /* Icon-Small@2x.png in Resources */,
 				7D7862322B01185E00B9C099 /* preferences@2x.png in Resources */,
+				7D41745A2B01494E00449179 /* BarButtonPressed@2x.png in Resources */,
+				7D41745C2B01494E00449179 /* NavigationButton@2x.png in Resources */,
 				7D7862212B00F9F500B9C099 /* Home@2x.png in Resources */,
 				2CF9204C2AF9957300249D6A /* Icon-60.png in Resources */,
 				09FF0301205EFB8800BCBA8D /* Default-568h@2x.png in Resources */,
@@ -690,7 +703,6 @@
 				2CF9204E2AF9957300249D6A /* Icon-72.png in Resources */,
 				2C0EBB8F2ADB16FB00A23EB8 /* DefaultAvatar4@2x.png in Resources */,
 				2C0EBB912ADB16FB00A23EB8 /* DefaultAvatar5@2x.png in Resources */,
-				7D672E2B2B0125B8003C1A78 /* barbutton@2x.PNG in Resources */,
 				2CF920502AF9957300249D6A /* Icon-76.png in Resources */,
 				2C0EBB892ADB16FB00A23EB8 /* DefaultAvatar1@2x.png in Resources */,
 				2CF920162AF7F36300249D6A /* PLVideoOverlayPlay.png in Resources */,
@@ -698,9 +710,8 @@
 				7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */,
 				2CF920522AF9957300249D6A /* Icon-Small-50.png in Resources */,
 				2C87A3D62AE99BA400DA6C21 /* DCChatVideoAttachment.xib in Resources */,
-				7D672E2D2B0125B8003C1A78 /* navbutton@2x.PNG in Resources */,
-				7D672E292B0125B8003C1A78 /* barbutton_pressed@2x.PNG in Resources */,
 				2CF9204F2AF9957300249D6A /* Icon-72@2x.png in Resources */,
+				7D4174572B01494E00449179 /* BarButton.png in Resources */,
 				2C0EBB702ADB15DC00A23EB8 /* DirectMessages.png in Resources */,
 				2C0EBB902ADB16FB00A23EB8 /* DefaultAvatar5.png in Resources */,
 				2CF920542AF9957300249D6A /* Icon-Small.png in Resources */,
@@ -709,8 +720,8 @@
 				2C0EBB8B2ADB16FB00A23EB8 /* DefaultAvatar2@2x.png in Resources */,
 				7D7862242B00F9F500B9C099 /* Sidebar_glyph@2x.png in Resources */,
 				2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */,
+				7D41745E2B01494E00449179 /* NavigationButtonPressed@2x.png in Resources */,
 				7D41744C2B013B7A00449179 /* CBarButtonMap.png in Resources */,
-				7D672E2C2B0125B8003C1A78 /* navbutton_pressed@2x.PNG in Resources */,
 				2CF9204A2AF9957300249D6A /* Icon-40.png in Resources */,
 				2C0EBB872ADB16FB00A23EB8 /* DefaultAvatar0@2x.png in Resources */,
 				2CF920572AF9957300249D6A /* Icon@2x.png in Resources */,
@@ -718,6 +729,7 @@
 				2CF920192AF7F36300249D6A /* PLVideoOverlayPlayDown@2x.png in Resources */,
 				09A4EA672079220E00DECFD6 /* DCChatTableCell.xib in Resources */,
 				09F4C6F121A6EBD40018F312 /* FontAwesome.ttf in Resources */,
+				7D41745B2B01494E00449179 /* NavigationButton.png in Resources */,
 				7D7862352B01190E00B9C099 /* addbarglyph.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
