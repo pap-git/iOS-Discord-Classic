@@ -57,6 +57,10 @@ static dispatch_queue_t chat_messages_queue;
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 	
+    UIImage *buttonbackgroundImage = [UIImage imageNamed:@"ToolbarBG"];
+    
+    [self.toolbar setBackgroundImage:buttonbackgroundImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    
 	lastTimeInterval = 0;
     
     [self.inputField setDelegate:self];
@@ -253,7 +257,8 @@ static dispatch_queue_t chat_messages_queue;
         cell.profileImage.layer.masksToBounds = YES;
     }
 	
-	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor orangeColor] : [UIColor clearColor]];
+    
+	[cell.contentView setBackgroundColor:messageAtRowIndex.pingingUser? [UIColor grayColor] : [UIColor clearColor]];
     
     cell.contentView.layer.cornerRadius = 4;
     cell.contentView.layer.masksToBounds = YES;
