@@ -580,9 +580,32 @@ static dispatch_queue_t chat_messages_queue;
         
         NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
         if ([extension caseInsensitiveCompare:@"png"] == NSOrderedSame)
-            extension = @"image/png";
-        
-        [DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:mimeType];
+            mimeType = @"image/png";
+        else if ([extension caseInsensitiveCompare:@"gif"] == NSOrderedSame)
+            mimeType = @"image/gif";
+        if ([mimeType isEqualToString:@"image/gif"]) {
+            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+            [library assetForURL:[info objectForKey:UIImagePickerControllerReferenceURL]
+                     resultBlock:^(ALAsset *asset) {
+                         ALAssetRepresentation *representation = [asset defaultRepresentation];
+                         
+                         Byte *buffer = (Byte*)malloc((NSUInteger)representation.size);
+                         NSUInteger buffered = [representation getBytes:buffer fromOffset:0 length:(NSUInteger)representation.size error:nil];
+                         NSData *data = [NSData dataWithBytesNoCopy:buffer length: buffered freeWhenDone:YES];
+                         
+                         [DCServerCommunicator.sharedInstance.selectedChannel sendData:data mimeType:mimeType];
+                         
+                     }
+                    failureBlock:^(NSError *error)
+             {
+                 NSLog(@"couldn't get asset: %@", error);
+                 
+             }
+             ];
+            
+        } else {
+            [DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:mimeType];
+        }
     }
 }
 

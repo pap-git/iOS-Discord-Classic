@@ -30,6 +30,7 @@
 - (void)sendMessage:(NSString*)message;
 - (void)ackMessage:(NSString*)message;
 - (void)sendImage:(UIImage*)image mimeType:(NSString*)type;
+- (void)sendData:(NSData*)data mimeType:(NSString*)type;
 - (void)sendVideo:(NSURL*)videoURL mimeType:(NSString*)type;
 - (NSArray*)getMessages:(int)numberOfMessages beforeMessage:(DCMessage*)message;
 @end

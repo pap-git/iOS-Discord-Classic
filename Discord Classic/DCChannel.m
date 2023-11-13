@@ -137,6 +137,52 @@ static dispatch_queue_t channel_send_queue;
 	});
 }
 
+- (void)sendData:(NSData*)data mimeType:(NSString*)type {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible++;
+    });
+    NSURL* channelURL = [NSURL URLWithString: [NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages", self.snowflake]];
+    
+    NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30];
+    [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
+    
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [urlRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [urlRequest addValue:DCServerCommunicator.sharedInstance.token forHTTPHeaderField:@"Authorization"];
+    
+    NSMutableData *postbody = NSMutableData.new;
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *extension = [type componentsSeparatedByString:@"/"][1];
+    [postbody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"upload.%@\"\r\n", extension] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [postbody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", type] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:data];
+    
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[@"Content-Disposition: form-data; name=\"content\"\r\n\r\n " dataUsingEncoding:NSUTF8StringEncoding]];
+    [postbody appendData:[[NSString stringWithFormat:@"\r\n--%@--", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [urlRequest setHTTPBody:postbody];
+    
+    
+    dispatch_async([self get_channel_send_queue], ^{
+        NSError *error = nil;
+		NSHTTPURLResponse *responseCode = nil;
+        
+        [DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if ([UIApplication sharedApplication].networkActivityIndicatorVisible > 0)
+                [UIApplication sharedApplication].networkActivityIndicatorVisible--;
+            else if ([UIApplication sharedApplication].networkActivityIndicatorVisible < 0)
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = 0;
+        });
+	});
+}
+
 - (void)sendVideo:(NSURL*)videoURL mimeType:(NSString*)type {
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIApplication sharedApplication].networkActivityIndicatorVisible++;

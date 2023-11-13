@@ -23,7 +23,6 @@
         regex = [[NSRegularExpression alloc] initWithPattern:@"(:[a-z0-9-+_]+:)" options:NSRegularExpressionCaseInsensitive error:NULL];
     });
     
-    
     __block NSString *resultText = text;
 
     NSRange matchingRange = NSMakeRange(0, [resultText length]);
