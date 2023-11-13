@@ -21,7 +21,7 @@
     static dispatch_once_t onceToken;
     static NSRegularExpression *regex = nil;
     dispatch_once(&onceToken, ^{
-        regex = [[NSRegularExpression alloc] initWithPattern:@"(:[a-z0-9-+_]+:)" options:NSRegularExpressionCaseInsensitive error:NULL];
+        regex = [[NSRegularExpression alloc] initWithPattern:@"((?<!\\):[a-z0-9-+_]+(?<!\\):)" options:NSRegularExpressionCaseInsensitive error:NULL];
     });
     
     __block NSString *resultText = text;
@@ -32,14 +32,15 @@
              if (range.location != NSNotFound) {
                  NSString *code = [text substringWithRange:range];
                  NSString *unicodeJs = self.emojiAliases[code];
-                 NSData *data = [unicodeJs dataUsingEncoding:NSASCIIStringEncoding];
-                 NSString *unicode = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
-                 if (unicode == nil || [unicode isEqualToString:@""]) {
-                     NSData *data = [unicodeJs dataUsingEncoding:NSUTF8StringEncoding];
-                     unicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
-                 }
-                 if (unicode) {
+                 
+                 if (unicodeJs) {
+                     NSData *data = [unicodeJs dataUsingEncoding:NSASCIIStringEncoding];
+                     NSString *unicode = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
+                     if (unicode == nil || [unicode isEqualToString:@""]) {
+                         NSData *data = [unicodeJs dataUsingEncoding:NSUTF8StringEncoding];
+                         unicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                         
+                     }
                      resultText = [resultText stringByReplacingOccurrencesOfString:code withString:unicode];
                  }
              }

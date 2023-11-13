@@ -576,12 +576,11 @@ static dispatch_queue_t chat_messages_queue;
         if (!originalImage) originalImage = [info objectForKey:UIImagePickerControllerCropRect];
         
         // Determine the MIME type for the image based on the data
-        NSString *mimeType;
-        if (UIImageJPEGRepresentation(originalImage, 1.0)) {
-            mimeType = @"image/jpeg";
-        } else {
-            mimeType = @"image/png";
-        }
+        NSString *mimeType = @"image/jpeg";
+        
+        NSString *extension = [info[UIImagePickerControllerReferenceURL] pathExtension];
+        if ([extension caseInsensitiveCompare:@"png"] == NSOrderedSame)
+            extension = @"image/png";
         
         [DCServerCommunicator.sharedInstance.selectedChannel sendImage:originalImage mimeType:mimeType];
     }
