@@ -12,8 +12,6 @@
 //#import "DCClient.h"
 #import "DCChannel.h"
 #import "DCChatViewController.h"
-//#import "RBGuildStore.h"
-//#import "RBNotificationEvent.h"
 #import "DCChatViewController.h"
 #import "DCServerCommunicator.h"
 
@@ -65,6 +63,7 @@
 	
 	if(tableView == self.guildTableView){
 		self.selectedGuild = [DCServerCommunicator.sharedInstance.guilds objectAtIndex:indexPath.row];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
 		[self.channelTableView reloadData];
 	}
     
@@ -78,6 +77,7 @@
         
         //Remove the blue indicator since the channel has been read
         [[self.channelTableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"guilds to chat" sender:self];
         
         [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -31,7 +31,14 @@
              NSRange range = result.range;
              if (range.location != NSNotFound) {
                  NSString *code = [text substringWithRange:range];
-                 NSString *unicode = self.emojiAliases[code];
+                 NSString *unicodeJs = self.emojiAliases[code];
+                 NSData *data = [unicodeJs dataUsingEncoding:NSASCIIStringEncoding];
+                 NSString *unicode = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
+                 if (unicode == nil || [unicode isEqualToString:@""]) {
+                     NSData *data = [unicodeJs dataUsingEncoding:NSUTF8StringEncoding];
+                     unicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                     
+                 }
                  if (unicode) {
                      resultText = [resultText stringByReplacingOccurrencesOfString:code withString:unicode];
                  }

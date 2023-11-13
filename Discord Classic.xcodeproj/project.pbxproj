@@ -103,6 +103,7 @@
 		7D672E232B0122FF003C1A78 /* DCCInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D672E222B0122FF003C1A78 /* DCCInfoViewController.m */; };
 		7D672E312B012D42003C1A78 /* commandbar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E2F2B012D42003C1A78 /* commandbar-bg.png */; };
 		7D672E322B012D42003C1A78 /* commandbar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D672E302B012D42003C1A78 /* commandbar-bg@2x.png */; };
+		7D6CD6422B01B7EB000F46FE /* iPadBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D6CD6412B01B7EB000F46FE /* iPadBoard.storyboard */; };
 		7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862132B00F1D100B9C099 /* ToolbarBG.png */; };
 		7D7862162B00F1D100B9C099 /* ToolbarBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7862142B00F1D100B9C099 /* ToolbarBG@2x.png */; };
 		7D7862212B00F9F500B9C099 /* Home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D78621C2B00F9F500B9C099 /* Home@2x.png */; };
@@ -254,6 +255,10 @@
 		7D672E222B0122FF003C1A78 /* DCCInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCInfoViewController.m; sourceTree = "<group>"; };
 		7D672E2F2B012D42003C1A78 /* commandbar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commandbar-bg.png"; sourceTree = "<group>"; };
 		7D672E302B012D42003C1A78 /* commandbar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commandbar-bg@2x.png"; sourceTree = "<group>"; };
+		7D6CD6412B01B7EB000F46FE /* iPadBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadBoard.storyboard; sourceTree = "<group>"; };
+		7D6CD6432B01BA78000F46FE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		7D6CD6442B01BA8A000F46FE /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		7D6CD6452B01BA95000F46FE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7D7862132B00F1D100B9C099 /* ToolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarBG.png; sourceTree = "<group>"; };
 		7D7862142B00F1D100B9C099 /* ToolbarBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ToolbarBG@2x.png"; sourceTree = "<group>"; };
 		7D78621C2B00F9F500B9C099 /* Home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home@2x.png"; sourceTree = "<group>"; };
@@ -317,6 +322,9 @@
 		09C6B915204A0F54007EAC26 = {
 			isa = PBXGroup;
 			children = (
+				7D6CD6452B01BA95000F46FE /* Default-568h@2x.png */,
+				7D6CD6442B01BA8A000F46FE /* Default~iphone.png */,
+				7D6CD6432B01BA78000F46FE /* Default.png */,
 				2CAEFBA82ADADC1000103C30 /* iPad */,
 				2C0EBB722ADB15F400A23EB8 /* Images */,
 				095284622055EFDA00760073 /* Etc */,
@@ -543,6 +551,7 @@
 		2CAEFBA82ADADC1000103C30 /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				7D6CD6412B01B7EB000F46FE /* iPadBoard.storyboard */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -719,6 +728,7 @@
 				2CF920512AF9957300249D6A /* Icon-76@2x.png in Resources */,
 				2CF9204B2AF9957300249D6A /* Icon-40@2x.png in Resources */,
 				7D4174592B01494E00449179 /* BarButtonPressed.png in Resources */,
+				7D6CD6422B01B7EB000F46FE /* iPadBoard.storyboard in Resources */,
 				2CF920552AF9957300249D6A /* Icon-Small@2x.png in Resources */,
 				7D7862322B01185E00B9C099 /* preferences@2x.png in Resources */,
 				7D41745A2B01494E00449179 /* BarButtonPressed@2x.png in Resources */,
@@ -922,6 +932,7 @@
 				);
 				INFOPLIST_FILE = "Discord Classic/Discord Classic-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos6.1;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
