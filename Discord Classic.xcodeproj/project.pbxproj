@@ -87,6 +87,7 @@
 		2CF920572AF9957300249D6A /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920472AF9957300249D6A /* Icon@2x.png */; };
 		2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920482AF9957300249D6A /* iTunesArtwork.png */; };
 		2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */; };
+		2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF9205A2B02A8DE00249D6A /* emoji.json */; };
 		7D00DBB72B00E86400B27C97 /* TbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB52B00E86400B27C97 /* TbarBG.png */; };
 		7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */; };
 		7D41744C2B013B7A00449179 /* CBarButtonMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D41744A2B013B7A00449179 /* CBarButtonMap.png */; };
@@ -207,7 +208,6 @@
 		2CBB33A42AD97F0700D28976 /* DCChatGroupedTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCChatGroupedTableCell.xib; sourceTree = SOURCE_ROOT; };
 		2CEBF2972AE2FE2500EC7812 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2CEBF2992AE2FE4500EC7812 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		2CF9200C2AF7E2D100249D6A /* emojis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emojis.h; sourceTree = "<group>"; };
 		2CF9200D2AF7E2D100249D6A /* NSString+Emojize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Emojize.h"; sourceTree = "<group>"; };
 		2CF9200E2AF7E2D100249D6A /* NSString+Emojize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Emojize.m"; sourceTree = "<group>"; };
 		2CF920102AF7F17B00249D6A /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -231,6 +231,7 @@
 		2CF920472AF9957300249D6A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icons/Icon@2x.png"; sourceTree = "<group>"; };
 		2CF920482AF9957300249D6A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iTunesArtwork.png; path = Images/Icons/iTunesArtwork.png; sourceTree = "<group>"; };
 		2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iTunesArtwork@2x.png"; path = "Images/Icons/iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		2CF9205A2B02A8DE00249D6A /* emoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
 		7D00DBB52B00E86400B27C97 /* TbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TbarBG.png; sourceTree = "<group>"; };
 		7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TbarBG@2x.png"; sourceTree = "<group>"; };
 		7D41744A2B013B7A00449179 /* CBarButtonMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CBarButtonMap.png; sourceTree = "<group>"; };
@@ -537,9 +538,9 @@
 		2CF9200B2AF7E2C400249D6A /* Emojize */ = {
 			isa = PBXGroup;
 			children = (
-				2CF9200C2AF7E2D100249D6A /* emojis.h */,
 				2CF9200D2AF7E2D100249D6A /* NSString+Emojize.h */,
 				2CF9200E2AF7E2D100249D6A /* NSString+Emojize.m */,
+				2CF9205A2B02A8DE00249D6A /* emoji.json */,
 			);
 			name = Emojize;
 			sourceTree = "<group>";
@@ -682,6 +683,7 @@
 				7D7862162B00F1D100B9C099 /* ToolbarBG@2x.png in Resources */,
 				7D41744D2B013B7A00449179 /* CBarButtonMap@2x.png in Resources */,
 				2CF920532AF9957300249D6A /* Icon-Small-50@2x.png in Resources */,
+				2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */,
 				7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */,
 				7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */,
 				2CF920182AF7F36300249D6A /* PLVideoOverlayPlayDown.png in Resources */,

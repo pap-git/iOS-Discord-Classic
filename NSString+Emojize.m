@@ -7,7 +7,6 @@
 //
 
 #import "NSString+Emojize.h"
-#import "emojis.h"
 
 @implementation NSString (Emojize)
 
@@ -21,26 +20,39 @@
     static dispatch_once_t onceToken;
     static NSRegularExpression *regex = nil;
     dispatch_once(&onceToken, ^{
-        regex = [[NSRegularExpression alloc] initWithPattern:@"((?<!\\):[a-z0-9-+_]+(?<!\\):)" options:NSRegularExpressionCaseInsensitive error:NULL];
+        regex = [[NSRegularExpression alloc] initWithPattern:@"(:[a-z0-9-+_]+:)" options:NSRegularExpressionCaseInsensitive error:NULL];
     });
     
+    
     __block NSString *resultText = text;
+
     NSRange matchingRange = NSMakeRange(0, [resultText length]);
+     
     [regex enumerateMatchesInString:resultText options:NSMatchingReportCompletion range:matchingRange usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
          if (result && ([result resultType] == NSTextCheckingTypeRegularExpression) && !(flags & NSMatchingInternalError)) {
              NSRange range = result.range;
              if (range.location != NSNotFound) {
                  NSString *code = [text substringWithRange:range];
-                 NSString *unicodeJs = self.emojiAliases[code];
                  
-                 if (unicodeJs) {
-                     NSData *data = [unicodeJs dataUsingEncoding:NSASCIIStringEncoding];
-                     NSString *unicode = [[NSString alloc] initWithData:data encoding:NSNonLossyASCIIStringEncoding];
-                     if (unicode == nil || [unicode isEqualToString:@""]) {
-                         NSData *data = [unicodeJs dataUsingEncoding:NSUTF8StringEncoding];
-                         unicode = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                         
+                 Boolean found = false;
+                 NSString *unicode = nil;
+                 // search through JSON for emoji
+                 for (NSString* type in self.emojiAliases){
+                     for(NSDictionary* emojiObject in [self.emojiAliases objectForKey:type]) {
+                         for(NSString* name in [emojiObject objectForKey:@"names"]) {
+                             if ([[NSString stringWithFormat:@":%@:", name] isEqualToString:code]) {
+                                 
+                                 found = true;
+                                 unicode = [emojiObject objectForKey:@"surrogates"];
+                                 break;
+                             }
+                         }
+                         if (found) break;
                      }
+                     if (found) break;
+                 }
+                 
+                 if (found) {
                      resultText = [resultText stringByReplacingOccurrencesOfString:code withString:unicode];
                  }
              }
@@ -54,7 +66,9 @@
     static NSDictionary *_emojiAliases;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _emojiAliases = EMOJI_HASH;
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"emoji" ofType:@"json"];
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        _emojiAliases = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     });
     return _emojiAliases;
 }
