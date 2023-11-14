@@ -19,6 +19,7 @@
 @property NSString* name;
 @property NSString* lastMessageId;
 @property NSString* lastReadMessageId;
+@property UIImage* icon; //Icon for a DM
 @property bool unread;
 @property bool muted;
 @property int type;

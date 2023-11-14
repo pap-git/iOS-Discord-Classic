@@ -25,6 +25,7 @@
 	[super viewDidLoad];
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"MESSAGE ACK" object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"RELOAD CHANNEL LIST" object:nil];
 }
 
 
@@ -58,6 +59,18 @@
     
 	//Channel name
 	[cell.textLabel setText:channelAtRowIndex.name];
+    
+    if (channelAtRowIndex.icon != nil && [channelAtRowIndex.icon class] == [UIImage class]) {
+        [cell.imageView setImage:channelAtRowIndex.icon];
+        cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        cell.imageView.clipsToBounds = YES;
+        
+        // make guild icons a fixed size
+        cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
+        cell.imageView.layer.masksToBounds = YES;
+        cell.imageView.frame = CGRectMake(2.0, 2.0, 40, 40);
+        [cell.imageView setNeedsDisplay];
+    }
 	
 	return cell;
 }
