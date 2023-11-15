@@ -245,7 +245,7 @@ static dispatch_queue_t chat_messages_queue;
 	[cell.contentTextView setHeight:[cell.contentTextView sizeThatFits:CGSizeMake(cell.contentTextView.width, MAXFLOAT)].height];
 	
     if (!messageAtRowIndex.isGrouped) {
-        if(messageAtRowIndex.author.avatarDecoration) {
+        if(messageAtRowIndex.author.avatarDecoration && [messageAtRowIndex.author.avatarDecoration class] == [UIImage class]) {
             [cell.avatarDecoration setImage:messageAtRowIndex.author.avatarDecoration];
             cell.avatarDecoration.layer.hidden = NO;
             cell.avatarDecoration.opaque = NO;

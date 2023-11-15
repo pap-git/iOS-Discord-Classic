@@ -71,15 +71,17 @@
     cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
     cell.imageView.clipsToBounds = YES;
     
-    // make guild icons a fixed size
-    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2;
-    cell.imageView.layer.masksToBounds = YES;
-    cell.imageView.frame = CGRectMake(2.0, 2.0, 40, 40);
-    [cell.imageView setNeedsDisplay];
-	
 	return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    // make guild icons a fixed size
+    cell.imageView.frame = CGRectMake(2.0, 2.0, 40, 40);
+    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
+    cell.imageView.layer.masksToBounds = YES;
+    [cell.imageView setNeedsDisplay];
+    [cell layoutIfNeeded];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 	

@@ -230,8 +230,8 @@ UIActivityIndicatorView *spinner;
                                 
                                 newChannel.icon = [DCUser defaultAvatars][selector];
                                 }
-                                /*if ([privateChannel objectForKey:@"icon"] != nil) {
-                                    NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@.png?size=80",
+                                if ([privateChannel objectForKey:@"icon"] != nil) {
+                                    NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/channel-icons/%@/%@.png?size=64",
                                                          newChannel.snowflake, [privateChannel valueForKey:@"icon"]];
                                     
                                     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
@@ -241,13 +241,19 @@ UIActivityIndicatorView *spinner;
                                     int selector = (int)(([longId longLongValue] >> 22) % 6);
                                     
                                     newChannel.icon = [DCUser defaultAvatars][selector];
+                                    CGSize itemSize = CGSizeMake(32, 32);
+                                    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+                                    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                                    [newChannel.icon  drawInRect:imageRect];
+                                    newChannel.icon = UIGraphicsGetImageFromCurrentImageContext();
+                                    UIGraphicsEndImageContext();
                                     
                                     [DCTools processImageDataWithURLString:iconURL andBlock:^(UIImage *imageData) {
                                         UIImage* icon = imageData;
                                         
                                         if (icon != nil) {
                                             newChannel.icon = icon;
-                                            CGSize itemSize = CGSizeMake(40, 40);
+                                            CGSize itemSize = CGSizeMake(32, 32);
                                             UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
                                             CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
                                             [newChannel.icon  drawInRect:imageRect];
@@ -261,39 +267,50 @@ UIActivityIndicatorView *spinner;
                                         
                                     }];
                                 } else {
-                                    
-                                }*/
-                                if (((NSArray*)[privateChannel valueForKey:@"recipients"]).count > 0) {
-                                NSDictionary *user = [[privateChannel valueForKey:@"recipients"] objectAtIndex:0];
-                                NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=80", [user  valueForKey:@"id"], [user valueForKey:@"avatar"]];
-                                [DCTools processImageDataWithURLString:avatarURL andBlock:^(UIImage *imageData){
-                                    UIImage *retrievedImage = imageData;
-                                    
-                                    if(imageData){
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            newChannel.icon = retrievedImage;
-                                            [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHANNEL LIST" object:nil];
-                                        });
-                                    } else {
-                                        int selector = 0;
-                                        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-                                        [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                                        NSNumber * discriminator = [f numberFromString:[user valueForKey:@"discriminator"]];
-                                        
-                                        if ([discriminator integerValue] == 0) {
-                                            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-                                            [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                                            NSNumber * longId = [f numberFromString:[user  valueForKey:@"id"]];
+                                    if (((NSArray*)[privateChannel valueForKey:@"recipients"]).count > 0) {
+                                        NSDictionary *user = [[privateChannel valueForKey:@"recipients"] objectAtIndex:0];
+                                        NSString* avatarURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/avatars/%@/%@.png?size=64", [user  valueForKey:@"id"], [user valueForKey:@"avatar"]];
+                                        [DCTools processImageDataWithURLString:avatarURL andBlock:^(UIImage *imageData){
+                                            UIImage *retrievedImage = imageData;
                                             
-                                            selector = (int)(([longId longLongValue] >> 22) % 6);
-                                        } else {
-                                            selector = (int)([discriminator integerValue] % 5);
-                                        }
-                                        newChannel.icon = [DCUser defaultAvatars][selector];
+                                            if(imageData){
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    newChannel.icon = retrievedImage;
+                                                    CGSize itemSize = CGSizeMake(32, 32);
+                                                    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+                                                    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                                                    [newChannel.icon  drawInRect:imageRect];
+                                                    newChannel.icon = UIGraphicsGetImageFromCurrentImageContext();
+                                                    [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHANNEL LIST" object:nil];
+                                                });
+                                            } else {
+                                                int selector = 0;
+                                                NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                                                [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                                NSNumber * discriminator = [f numberFromString:[user valueForKey:@"discriminator"]];
+                                                
+                                                if ([discriminator integerValue] == 0) {
+                                                    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                                                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                                    NSNumber * longId = [f numberFromString:[user  valueForKey:@"id"]];
+                                                    
+                                                    selector = (int)(([longId longLongValue] >> 22) % 6);
+                                                } else {
+                                                    selector = (int)([discriminator integerValue] % 5);
+                                                }
+                                                newChannel.icon = [DCUser defaultAvatars][selector];
+                                                CGSize itemSize = CGSizeMake(32, 32);
+                                                UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+                                                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                                                [newChannel.icon  drawInRect:imageRect];
+                                                newChannel.icon = UIGraphicsGetImageFromCurrentImageContext();
+                                                UIGraphicsEndImageContext();
+                                            }
+                                            
+                                        }];
                                     }
-                                    
-                                }];
                                 }
+                                
                             }
 							
 							NSString* privateChannelName = [privateChannel valueForKey:@"name"];

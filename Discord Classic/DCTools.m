@@ -59,14 +59,20 @@ static dispatch_queue_t dispatchQueues[MAX_IMAGE_THREADS];
         NSLog(@"Image %@ doesn't exist in cache", [url absoluteString]);
     }
     
-    if (!image || ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:url] isEqualToString:@"l"])) {
+    __block id cacheWait = [imageCache objectForKey:[url absoluteString]];
+    
+    if (!image || ([cacheWait isKindOfClass:[NSString class]] && [cacheWait isEqualToString:@"l"])) {
         dispatch_queue_t callerQueue = dispatchQueues[threadQueue];//(__bridge dispatch_queue_t)(dispatchQueues[threadQueue]);//dispatch_get_current_queue();
         threadQueue = (threadQueue+1) % MAX_IMAGE_THREADS;
 
             dispatch_async(callerQueue, ^{
                 //NSData* imageData = [NSData dataWithContentsOfURL:url];
-                while ([[imageCache objectForKey:[url absoluteString]] isKindOfClass:[NSString class]] && [[imageCache objectForKey:[url absoluteString]] isEqualToString:@"l"])
-                { }
+                cacheWait = [imageCache objectForKey:[url absoluteString]];
+
+                while ([cacheWait isKindOfClass:[NSString class]] && [cacheWait isEqualToString:@"l"])
+                {
+                    cacheWait = [imageCache objectForKey:[url absoluteString]];
+                }
                 
                 __block UIImage *image = [imageCache objectForKey:[url absoluteString]];
                 if (!image) {
@@ -86,7 +92,7 @@ static dispatch_queue_t dispatchQueues[MAX_IMAGE_THREADS];
                         if (image != nil)
                             [imageCache setObject:image forKey:[url absoluteString]];
                         else
-                            [imageCache setObject:@"" forKey:[url absoluteString]];
+                            [imageCache setObject:[NSNull alloc] forKey:[url absoluteString]];
                         NSLog(@"Image added to cache");
                     });
                 }
