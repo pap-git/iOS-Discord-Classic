@@ -222,13 +222,18 @@ UIActivityIndicatorView *spinner;
                             if ([privateChannel objectForKey:@"icon"] != nil || [privateChannel objectForKey:@"recipients"] != nil) {
                                 if (((NSArray*)[privateChannel valueForKey:@"recipients"]).count > 0) {
                                     NSDictionary *user = [[privateChannel valueForKey:@"recipients"] objectAtIndex:0];
-                                NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-                                [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                                NSNumber * longId = [f numberFromString:[user valueForKey:@"id"]];
+                                    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                                    NSNumber * longId = [f numberFromString:[user valueForKey:@"id"]];
                                 
-                                int selector = (int)(([longId longLongValue] >> 22) % 6);
+                                    int selector = (int)(([longId longLongValue] >> 22) % 6);
                                 
-                                newChannel.icon = [DCUser defaultAvatars][selector];
+                                    newChannel.icon = [DCUser defaultAvatars][selector];
+                                    CGSize itemSize = CGSizeMake(32, 32);
+                                    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+                                    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                                    [newChannel.icon  drawInRect:imageRect];
+                                    newChannel.icon = UIGraphicsGetImageFromCurrentImageContext();
                                 }
                                 if ([privateChannel objectForKey:@"icon"] != nil) {
                                     NSString* iconURL = [NSString stringWithFormat:@"https://cdn.discordapp.com/channel-icons/%@/%@.png?size=64",
@@ -414,6 +419,28 @@ UIActivityIndicatorView *spinner;
 							[channelOfMessage checkIfRead];
 								[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE ACK" object:weakSelf];
 						}
+                        });
+					}
+                    
+                    if([t isEqualToString:@"MESSAGE_UPDATE"]){
+						dispatch_async(dispatch_get_main_queue(), ^{
+                            NSString* channelIdOfMessage = [d objectForKey:@"channel_id"];
+                            NSString* messageId = [d objectForKey:@"id"];
+                            
+                            //Check if a channel is currently being viewed
+                            //and if so, if that channel is the same the message was sent in
+                            if(weakSelf.selectedChannel != nil && [channelIdOfMessage isEqualToString:weakSelf.selectedChannel.snowflake]) {
+                                
+								//Send notification with the new message
+								//will be recieved by DCChatViewController
+								[NSNotificationCenter.defaultCenter postNotificationName:@"MESSAGE EDIT" object:weakSelf userInfo:d];
+                                
+                                //Update current channel & read state last message
+                                [weakSelf.selectedChannel setLastMessageId:messageId];
+                                
+                                //Ack message since we are currently viewing this channel
+                                [weakSelf.selectedChannel ackMessage:messageId];
+                            }
                         });
 					}
 					

@@ -18,6 +18,7 @@
 @property int contentHeight;
 @property int authorNameWidth;
 @property NSDate* timestamp;
+@property NSDate* editedTimestamp;
 @property NSString* prettyTimestamp;
 @property bool pingingUser;
 @property bool isGrouped;

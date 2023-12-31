@@ -48,6 +48,8 @@ static dispatch_queue_t chat_messages_queue;
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageCreate:) name:@"MESSAGE CREATE" object:nil];
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageDelete:) name:@"MESSAGE DELETE" object:nil];
+    
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageEdit:) name:@"MESSAGE EDIT" object:nil];
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleAsyncReload) name:@"RELOAD CHAT DATA" object:nil];
 	
@@ -152,11 +154,84 @@ static dispatch_queue_t chat_messages_queue;
 		[self.chatTableView setContentOffset:CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height) animated:NO];
 }
 
+- (void)handleMessageEdit:(NSNotification*)notification {
+	DCMessage *compareMessage = DCMessage.new;
+	compareMessage.snowflake = [notification.userInfo valueForKey:@"id"];
+    
+    DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
+	
+    if (self.messages.count > 0) {
+        DCMessage* prevMessage = [self.messages objectAtIndex:[self.messages indexOfObject:compareMessage]-1];
+        if (prevMessage != nil) {
+            NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:newMessage.timestamp];
+            NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
+            
+            if (prevMessage.author.snowflake == newMessage.author.snowflake
+                && ([newMessage.timestamp timeIntervalSince1970] - [prevMessage.timestamp timeIntervalSince1970] < 420)
+                && curComponents.day == prevComponents.day
+                && curComponents.month == prevComponents.month
+                && curComponents.year == prevComponents.year) {
+                newMessage.isGrouped = newMessage.referencedMessage == nil;
+                
+                if (newMessage.isGrouped ) {
+                    float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                    CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                    
+                    newMessage.contentHeight -= authorNameSize.height + 4;
+                }
+            }
+        }
+    }
+    
+    //[self.messages addObject:newMessage];
+    [self.messages replaceObjectAtIndex:[self.messages indexOfObject:compareMessage] withObject:newMessage];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.chatTableView reloadData];
+    });
+    
+}
 
 - (void)handleMessageDelete:(NSNotification*)notification {
 	DCMessage *compareMessage = DCMessage.new;
 	compareMessage.snowflake = [notification.userInfo valueForKey:@"id"];
-		
+    
+    NSUInteger index = [self.messages indexOfObject:compareMessage];
+    index++;
+    
+    if (index < self.messages.count) {
+        DCMessage* newMessage = [self.messages objectAtIndex:index];
+        
+        if (newMessage != nil) {
+            DCMessage* prevMessage = [self.messages objectAtIndex:index-2];
+            if (prevMessage != nil) {
+                NSDateComponents* curComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:newMessage.timestamp];
+                NSDateComponents* prevComponents = [[NSCalendar currentCalendar] components:kCFCalendarUnitHour | kCFCalendarUnitDay | kCFCalendarUnitMonth | kCFCalendarUnitYear fromDate:prevMessage.timestamp];
+                
+                if (prevMessage.author.snowflake == newMessage.author.snowflake
+                    && ([newMessage.timestamp timeIntervalSince1970] - [prevMessage.timestamp timeIntervalSince1970] < 420)
+                    && curComponents.day == prevComponents.day
+                    && curComponents.month == prevComponents.month
+                    && curComponents.year == prevComponents.year) {
+                    Boolean oldGroupedFlag = newMessage.isGrouped;
+                    newMessage.isGrouped = newMessage.referencedMessage == nil;
+                    
+                    if (newMessage.isGrouped && (newMessage.isGrouped != oldGroupedFlag)) {
+                        float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                        CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                        
+                        newMessage.contentHeight -= authorNameSize.height + 4;
+                    }
+                } else if (newMessage.isGrouped) {
+                    newMessage.isGrouped = false;
+                    float contentWidth = UIScreen.mainScreen.bounds.size.width - 63;
+                    CGSize authorNameSize = [newMessage.author.globalName sizeWithFont:[UIFont boldSystemFontOfSize:15] constrainedToSize:CGSizeMake(contentWidth, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+                    newMessage.contentHeight += authorNameSize.height + 4;
+                }
+            }
+        }
+    }
+    
 	[self.messages removeObject:compareMessage];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.chatTableView reloadData];
@@ -240,7 +315,16 @@ static dispatch_queue_t chat_messages_queue;
         [cell.timestampLabel setFrame:CGRectMake(messageAtRowIndex.authorNameWidth, cell.timestampLabel.y, self.chatTableView.width-messageAtRowIndex.authorNameWidth, cell.timestampLabel.height)];
     }
 	
-	[cell.contentTextView setText:[messageAtRowIndex.content emojizedString]];
+    NSString* content = [messageAtRowIndex.content emojizedString];
+    
+    content = [content stringByReplacingOccurrencesOfString:@"\u2122\uFE0F" withString:@"™"];
+    content = [content stringByReplacingOccurrencesOfString:@"\u00AE\uFE0F" withString:@"®"];
+    
+    if (messageAtRowIndex.editedTimestamp != nil) {
+        content = [content stringByAppendingString:@" (edited)"];
+    }
+    
+	[cell.contentTextView setText:content];
 	
 	[cell.contentTextView setHeight:[cell.contentTextView sizeThatFits:CGSizeMake(cell.contentTextView.width, MAXFLOAT)].height];
 	

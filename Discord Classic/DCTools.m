@@ -272,6 +272,14 @@ static dispatch_queue_t dispatchQueues[MAX_IMAGE_THREADS];
     if (newMessage.timestamp == nil)
         NSLog(@"Invalid timestamp %@", [jsonMessage valueForKey:@"timestamp"]);
     
+    if ([jsonMessage valueForKey:@"edited_timestamp"] != [NSNull null]) {
+        newMessage.editedTimestamp = [dateFormatter dateFromString: [jsonMessage valueForKey:@"edited_timestamp"]];
+        if (newMessage.editedTimestamp == nil) {
+            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+            newMessage.editedTimestamp = [dateFormatter dateFromString: [jsonMessage valueForKey:@"edited_timestamp"]];
+        }
+    }
+    
     NSDateFormatter *prettyDateFormatter = [NSDateFormatter new];
     
     prettyDateFormatter.dateStyle = NSDateFormatterShortStyle;

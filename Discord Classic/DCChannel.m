@@ -266,7 +266,7 @@ static dispatch_queue_t channel_send_queue;
 	dispatch_async([self get_channel_event_queue], ^{
 		NSURL* channelURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://discord.com/api/v9/channels/%@/messages/%@/ack", self.snowflake, messageId]];
 		
-		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
+		NSMutableURLRequest *urlRequest=[NSMutableURLRequest requestWithURL:channelURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
         [urlRequest setValue:@"no-store" forHTTPHeaderField:@"Cache-Control"];
 		
 		[urlRequest setHTTPMethod:@"POST"];
@@ -275,6 +275,12 @@ static dispatch_queue_t channel_send_queue;
 		[urlRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 		NSError *error = nil;
 		NSHTTPURLResponse *responseCode = nil;
+        
+        NSMutableData *postbody = NSMutableData.new;
+        
+        [postbody appendData:[@"{\"token\":null,\"last_viewed\":3287}" dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [urlRequest setHTTPBody:postbody];
         
         //[UIApplication sharedApplication].networkActivityIndicatorVisible++;
         //[DCTools checkData:[NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&responseCode error:&error] withError:error];
