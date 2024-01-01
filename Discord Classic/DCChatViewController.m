@@ -184,6 +184,19 @@ static dispatch_queue_t chat_messages_queue;
     }
     
     //[self.messages addObject:newMessage];
+    
+    // fix any potential missing fields from a partial response
+    newMessage.author = compareMessage.author; // author won't change now, will it?
+    if (newMessage.content == nil)
+        newMessage.content = compareMessage.content;
+    if ((newMessage.attachments == nil || newMessage.attachments == [NSNull null]) && newMessage.attachmentCount > 0)
+        newMessage.attachments = compareMessage.attachments;
+    newMessage.timestamp = compareMessage.timestamp;
+    if (newMessage.editedTimestamp == nil || newMessage.editedTimestamp == [NSNull null])
+        newMessage.editedTimestamp = compareMessage.editedTimestamp;
+    newMessage.prettyTimestamp = compareMessage.prettyTimestamp;
+    newMessage.referencedMessage = compareMessage.referencedMessage;
+    
     [self.messages replaceObjectAtIndex:[self.messages indexOfObject:compareMessage] withObject:newMessage];
     
     dispatch_async(dispatch_get_main_queue(), ^{
