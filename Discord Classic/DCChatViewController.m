@@ -157,8 +157,21 @@ static dispatch_queue_t chat_messages_queue;
 - (void)handleMessageEdit:(NSNotification*)notification {
 	DCMessage *compareMessage = DCMessage.new;
 	compareMessage.snowflake = [notification.userInfo valueForKey:@"id"];
-    
+    // this makes no sense but it works??
+    compareMessage = [self.messages objectAtIndex:[self.messages indexOfObject:compareMessage]];
     DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
+    
+    // fix any potential missing fields from a partial response
+    newMessage.author = compareMessage.author; // author won't change now, will it?
+    if (newMessage.content == nil)
+        newMessage.content = compareMessage.content;
+    if ((newMessage.attachments == nil || newMessage.attachments == [NSNull null]) && newMessage.attachmentCount > 0)
+        newMessage.attachments = compareMessage.attachments;
+    newMessage.timestamp = compareMessage.timestamp;
+    if (newMessage.editedTimestamp == nil || newMessage.editedTimestamp == [NSNull null])
+        newMessage.editedTimestamp = compareMessage.editedTimestamp;
+    newMessage.prettyTimestamp = compareMessage.prettyTimestamp;
+    newMessage.referencedMessage = compareMessage.referencedMessage;
 	
     if (self.messages.count > 0) {
         DCMessage* prevMessage = [self.messages objectAtIndex:[self.messages indexOfObject:compareMessage]-1];
@@ -184,18 +197,6 @@ static dispatch_queue_t chat_messages_queue;
     }
     
     //[self.messages addObject:newMessage];
-    
-    // fix any potential missing fields from a partial response
-    newMessage.author = compareMessage.author; // author won't change now, will it?
-    if (newMessage.content == nil)
-        newMessage.content = compareMessage.content;
-    if ((newMessage.attachments == nil || newMessage.attachments == [NSNull null]) && newMessage.attachmentCount > 0)
-        newMessage.attachments = compareMessage.attachments;
-    newMessage.timestamp = compareMessage.timestamp;
-    if (newMessage.editedTimestamp == nil || newMessage.editedTimestamp == [NSNull null])
-        newMessage.editedTimestamp = compareMessage.editedTimestamp;
-    newMessage.prettyTimestamp = compareMessage.prettyTimestamp;
-    newMessage.referencedMessage = compareMessage.referencedMessage;
     
     [self.messages replaceObjectAtIndex:[self.messages indexOfObject:compareMessage] withObject:newMessage];
     
