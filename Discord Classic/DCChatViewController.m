@@ -162,8 +162,11 @@ static dispatch_queue_t chat_messages_queue;
     DCMessage* newMessage = [DCTools convertJsonMessage:notification.userInfo];
     
     // fix any potential missing fields from a partial response
-    newMessage.author = compareMessage.author; // author won't change now, will it?
-    if (newMessage.content == nil)
+    if (newMessage.author == nil || newMessage.author == [NSNull null]) {
+        newMessage.author = compareMessage.author;
+        newMessage.contentHeight += compareMessage.contentHeight; // assume it's an embed update
+    }
+    if (newMessage.content == nil || newMessage.content == [NSNull null])
         newMessage.content = compareMessage.content;
     if ((newMessage.attachments == nil || newMessage.attachments == [NSNull null]) && newMessage.attachmentCount > 0)
         newMessage.attachments = compareMessage.attachments;

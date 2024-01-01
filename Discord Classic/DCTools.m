@@ -225,7 +225,7 @@ static dispatch_queue_t dispatchQueues[MAX_IMAGE_THREADS];
 	DCMessage* newMessage = DCMessage.new;
 	NSString* authorId = [jsonMessage valueForKeyPath:@"author.id"];
 	
-	if(![DCServerCommunicator.sharedInstance.loadedUsers objectForKey:authorId])
+	if(![DCServerCommunicator.sharedInstance.loadedUsers objectForKey:authorId] && authorId != nil && authorId != [NSNull null])
 		[DCTools convertJsonUser:[jsonMessage valueForKeyPath:@"author"] cache:true];
 	
     // load referenced message if it exists
