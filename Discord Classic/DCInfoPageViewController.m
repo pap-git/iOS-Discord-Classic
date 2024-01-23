@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
-	self.creditLinks = [NSArray arrayWithObjects:@"https://twitter.com/_cellomonster", @"https://twitter.com/TyBrasher", @"https://twitter.com/IPGSecondary", @"https://twitter.com/TorutheRedFox", @"https://github.com/ndcube", @"https://discordapp.com", nil];
+	self.creditLinks = [NSArray arrayWithObjects:@"https://twitter.com/trev3d", @"https://twitter.com/TyBrasher", @"https://twitter.com/iownfivewiis", @"https://twitter.com/TorutheRedFox", @"https://github.com/ndcube", @"https://discord.com", nil];
 }
 
 - (void)didReceiveMemoryWarning{[super didReceiveMemoryWarning];}
