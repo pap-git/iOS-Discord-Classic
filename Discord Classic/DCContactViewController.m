@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *handleLable;
-
+@property (weak, nonatomic) IBOutlet UITextView *descriptionBox;
 @end
 
 @implementation DCContactViewController
@@ -30,6 +30,7 @@
     self.handleLable.text = user.username;
     self.profileImageView.image = user.profileImage;
     self.user = user;
+    self.descriptionBox.text = user.description;
 }
 
 @end

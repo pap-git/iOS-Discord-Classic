@@ -89,6 +89,12 @@
 		2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */; };
 		2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF9205A2B02A8DE00249D6A /* emoji.json */; };
 		2CF9205D2B02CAB700249D6A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF9205C2B02CAB700249D6A /* AssetsLibrary.framework */; };
+		5B23D11C2B65765A008B5587 /* Contactback.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D11B2B65765A008B5587 /* Contactback.PNG */; };
+		5B23D11E2B6579DD008B5587 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D11D2B6579DD008B5587 /* Images.xcassets */; };
+		5B23D1212B657F46008B5587 /* DescIntroducer.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D11F2B657F46008B5587 /* DescIntroducer.png */; };
+		5B23D1222B657F46008B5587 /* DescIntroducer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D1202B657F46008B5587 /* DescIntroducer@2x.png */; };
+		5B23D1242B6589D6008B5587 /* WelcomeBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D1232B6589D6008B5587 /* WelcomeBanner.png */; };
+		5B23D1272B658A77008B5587 /* DCWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B23D1262B658A77008B5587 /* DCWelcomeController.m */; };
 		5B9269E92B654033003351BB /* DCContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9269E82B654033003351BB /* DCContactViewController.m */; };
 		5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F352B65561400F5E66B /* ContactsBar.png */; };
 		5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */; };
@@ -238,6 +244,13 @@
 		2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iTunesArtwork@2x.png"; path = "Images/Icons/iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		2CF9205A2B02A8DE00249D6A /* emoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
 		2CF9205C2B02CAB700249D6A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		5B23D11B2B65765A008B5587 /* Contactback.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contactback.PNG; sourceTree = "<group>"; };
+		5B23D11D2B6579DD008B5587 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Discord/Images.xcassets; sourceTree = "<group>"; };
+		5B23D11F2B657F46008B5587 /* DescIntroducer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DescIntroducer.png; sourceTree = "<group>"; };
+		5B23D1202B657F46008B5587 /* DescIntroducer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DescIntroducer@2x.png"; sourceTree = "<group>"; };
+		5B23D1232B6589D6008B5587 /* WelcomeBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WelcomeBanner.png; sourceTree = "<group>"; };
+		5B23D1252B658A77008B5587 /* DCWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWelcomeController.h; sourceTree = "<group>"; };
+		5B23D1262B658A77008B5587 /* DCWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWelcomeController.m; sourceTree = "<group>"; };
 		5B9269E72B654033003351BB /* DCContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCContactViewController.h; sourceTree = "<group>"; };
 		5B9269E82B654033003351BB /* DCContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCContactViewController.m; sourceTree = "<group>"; };
 		5BCE5F352B65561400F5E66B /* ContactsBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactsBar.png; sourceTree = "<group>"; };
@@ -374,6 +387,8 @@
 				2C87A3D82AE99C3A00DA6C21 /* DCChatVideoAttachment.m */,
 				09A4EA6D2079266800DECFD6 /* DCChatTableCell.h */,
 				09A4EA6E2079266800DECFD6 /* DCChatTableCell.m */,
+				5B23D1252B658A77008B5587 /* DCWelcomeController.h */,
+				5B23D1262B658A77008B5587 /* DCWelcomeController.m */,
 				2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */,
 				2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */,
 				09A4EA662079220E00DECFD6 /* DCChatTableCell.xib */,
@@ -472,6 +487,7 @@
 		2C0EBB722ADB15F400A23EB8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5B23D11D2B6579DD008B5587 /* Images.xcassets */,
 				7D00DBAD2B00E27700B27C97 /* Button Glyphs */,
 				2C0EBB792ADB169D00A23EB8 /* Launch Images */,
 				2C0EBB782ADB169200A23EB8 /* Icons */,
@@ -484,6 +500,7 @@
 		2C0EBB732ADB15FB00A23EB8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5B23D11B2B65765A008B5587 /* Contactback.PNG */,
 				7D672E2E2B012D42003C1A78 /* Helpers */,
 				7D7862292B010BFA00B9C099 /* separator.png */,
 				7D7862122B00F1D100B9C099 /* UIToolBar */,
@@ -611,6 +628,9 @@
 		7D672E2E2B012D42003C1A78 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5B23D1232B6589D6008B5587 /* WelcomeBanner.png */,
+				5B23D11F2B657F46008B5587 /* DescIntroducer.png */,
+				5B23D1202B657F46008B5587 /* DescIntroducer@2x.png */,
 				5BCE5F352B65561400F5E66B /* ContactsBar.png */,
 				5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */,
 				7D672E2F2B012D42003C1A78 /* commandbar-bg.png */,
@@ -685,6 +705,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D7862222B00F9F500B9C099 /* Send.png in Resources */,
+				5B23D11E2B6579DD008B5587 /* Images.xcassets in Resources */,
 				7D7862262B00FC6100B9C099 /* Sidebar_glyph.png in Resources */,
 				09C6B92F204A0F54007EAC26 /* InfoPlist.strings in Resources */,
 				09C8E2ED204C3B64006A1422 /* Storyboard.storyboard in Resources */,
@@ -702,8 +723,10 @@
 				2CF9204D2AF9957300249D6A /* Icon-60@2x.png in Resources */,
 				7D7862162B00F1D100B9C099 /* ToolbarBG@2x.png in Resources */,
 				7D41744D2B013B7A00449179 /* CBarButtonMap@2x.png in Resources */,
+				5B23D1212B657F46008B5587 /* DescIntroducer.png in Resources */,
 				2CF920532AF9957300249D6A /* Icon-Small-50@2x.png in Resources */,
 				2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */,
+				5B23D1242B6589D6008B5587 /* WelcomeBanner.png in Resources */,
 				7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */,
 				7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */,
 				5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */,
@@ -731,6 +754,7 @@
 				2C0EBB892ADB16FB00A23EB8 /* DefaultAvatar1@2x.png in Resources */,
 				2CF920162AF7F36300249D6A /* PLVideoOverlayPlay.png in Resources */,
 				2CF920172AF7F36300249D6A /* PLVideoOverlayPlay@2x.png in Resources */,
+				5B23D1222B657F46008B5587 /* DescIntroducer@2x.png in Resources */,
 				7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */,
 				2CF920522AF9957300249D6A /* Icon-Small-50.png in Resources */,
 				2C87A3D62AE99BA400DA6C21 /* DCChatVideoAttachment.xib in Resources */,
@@ -755,6 +779,7 @@
 				09F4C6F121A6EBD40018F312 /* FontAwesome.ttf in Resources */,
 				7D41745B2B01494E00449179 /* NavigationButton.png in Resources */,
 				7D7862352B01190E00B9C099 /* addbarglyph.png in Resources */,
+				5B23D11C2B65765A008B5587 /* Contactback.PNG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,6 +825,7 @@
 				09C6B990204A256E007EAC26 /* NSString+Base64.m in Sources */,
 				09C6B991204A256E007EAC26 /* WSFrame.m in Sources */,
 				09C6B992204A256E007EAC26 /* WSMessage.m in Sources */,
+				5B23D1272B658A77008B5587 /* DCWelcomeController.m in Sources */,
 				09C6B993204A256E007EAC26 /* WSMessageProcessor.m in Sources */,
 				09C8E28B204C2BFD006A1422 /* DCServerCommunicator.m in Sources */,
 				09685287204D9D590089DE45 /* DCChannelListViewController.m in Sources */,
@@ -903,6 +929,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -929,6 +957,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
