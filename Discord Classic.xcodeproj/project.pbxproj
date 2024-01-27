@@ -89,6 +89,10 @@
 		2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */; };
 		2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF9205A2B02A8DE00249D6A /* emoji.json */; };
 		2CF9205D2B02CAB700249D6A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF9205C2B02CAB700249D6A /* AssetsLibrary.framework */; };
+		5B9269E92B654033003351BB /* DCContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9269E82B654033003351BB /* DCContactViewController.m */; };
+		5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F352B65561400F5E66B /* ContactsBar.png */; };
+		5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */; };
+		5BCE5F422B655EDF00F5E66B /* DCMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE5F412B655EDF00F5E66B /* DCMenuViewController.m */; };
 		7D00DBB72B00E86400B27C97 /* TbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB52B00E86400B27C97 /* TbarBG.png */; };
 		7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */; };
 		7D41744C2B013B7A00449179 /* CBarButtonMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D41744A2B013B7A00449179 /* CBarButtonMap.png */; };
@@ -234,6 +238,12 @@
 		2CF920492AF9957300249D6A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iTunesArtwork@2x.png"; path = "Images/Icons/iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		2CF9205A2B02A8DE00249D6A /* emoji.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji.json; sourceTree = "<group>"; };
 		2CF9205C2B02CAB700249D6A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		5B9269E72B654033003351BB /* DCContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCContactViewController.h; sourceTree = "<group>"; };
+		5B9269E82B654033003351BB /* DCContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCContactViewController.m; sourceTree = "<group>"; };
+		5BCE5F352B65561400F5E66B /* ContactsBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactsBar.png; sourceTree = "<group>"; };
+		5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ContactsBar@2x.png"; sourceTree = "<group>"; };
+		5BCE5F402B655EDF00F5E66B /* DCMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMenuViewController.h; sourceTree = "<group>"; };
+		5BCE5F412B655EDF00F5E66B /* DCMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMenuViewController.m; sourceTree = "<group>"; };
 		7D00DBB52B00E86400B27C97 /* TbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TbarBG.png; sourceTree = "<group>"; };
 		7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TbarBG@2x.png"; sourceTree = "<group>"; };
 		7D41744A2B013B7A00449179 /* CBarButtonMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CBarButtonMap.png; sourceTree = "<group>"; };
@@ -343,6 +353,8 @@
 				09C6B934204A0F54007EAC26 /* DCAppDelegate.m */,
 				09E183B8205EF64700FE90E8 /* DCViewController.h */,
 				09E183B9205EF64700FE90E8 /* DCViewController.m */,
+				5BCE5F402B655EDF00F5E66B /* DCMenuViewController.h */,
+				5BCE5F412B655EDF00F5E66B /* DCMenuViewController.m */,
 				09E183BB205EF65000FE90E8 /* DCGuildListViewController.h */,
 				09E183BC205EF65000FE90E8 /* DCGuildListViewController.m */,
 				09685285204D9D590089DE45 /* DCChannelListViewController.h */,
@@ -380,6 +392,8 @@
 				09A3B6D221A0604400C2411F /* DCUser.m */,
 				7D672E212B0122FF003C1A78 /* DCCInfoViewController.h */,
 				7D672E222B0122FF003C1A78 /* DCCInfoViewController.m */,
+				5B9269E72B654033003351BB /* DCContactViewController.h */,
+				5B9269E82B654033003351BB /* DCContactViewController.m */,
 				09C6B92B204A0F54007EAC26 /* Supporting Files */,
 			);
 			path = "Discord Classic";
@@ -597,6 +611,8 @@
 		7D672E2E2B012D42003C1A78 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5BCE5F352B65561400F5E66B /* ContactsBar.png */,
+				5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */,
 				7D672E2F2B012D42003C1A78 /* commandbar-bg.png */,
 				7D672E302B012D42003C1A78 /* commandbar-bg@2x.png */,
 			);
@@ -690,10 +706,12 @@
 				2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */,
 				7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */,
 				7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */,
+				5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */,
 				2CF920182AF7F36300249D6A /* PLVideoOverlayPlayDown.png in Resources */,
 				2C0EBB882ADB16FB00A23EB8 /* DefaultAvatar1.png in Resources */,
 				2CF920512AF9957300249D6A /* Icon-76@2x.png in Resources */,
 				2CF9204B2AF9957300249D6A /* Icon-40@2x.png in Resources */,
+				5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */,
 				7D4174592B01494E00449179 /* BarButtonPressed.png in Resources */,
 				2CF920552AF9957300249D6A /* Icon-Small@2x.png in Resources */,
 				7D7862322B01185E00B9C099 /* preferences@2x.png in Resources */,
@@ -788,8 +806,10 @@
 				09DD1FA2204F35FD00153EC7 /* DCChatViewController.m in Sources */,
 				095284612055EFD000760073 /* TRMalleableFrameView.m in Sources */,
 				09260EC720575AE900083813 /* DCGuild.m in Sources */,
+				5BCE5F422B655EDF00F5E66B /* DCMenuViewController.m in Sources */,
 				09260ECA20575BB200083813 /* DCChannel.m in Sources */,
 				2C11B41E2AEAF91600BE66F6 /* UIImage+animatedGIF.m in Sources */,
+				5B9269E92B654033003351BB /* DCContactViewController.m in Sources */,
 				09FF02F7205EF9DD00BCBA8D /* DCGuildListViewController.m in Sources */,
 				2C87A3D92AE99C3A00DA6C21 /* DCChatVideoAttachment.m in Sources */,
 				2CF9200F2AF7E2D100249D6A /* NSString+Emojize.m in Sources */,

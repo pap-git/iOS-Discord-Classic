@@ -32,9 +32,32 @@
 	if(DCServerCommunicator.sharedInstance.token.length)
 		[DCServerCommunicator.sharedInstance startCommunicator];
 	
+    //token shennanigans
+    /*NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if(![defaults objectForKey:@"token"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Welcome" message:@"Please enter your Discord token." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Done", nil];
+        alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        textField.placeholder = @"Token should go here";
+        [alertView show];
+        
+    }
+    */
 	return YES;
 }
-
+/*
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        NSString *enteredText = textField.text;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        [defaults setObject:enteredText forKey:@"token"];
+        [DCServerCommunicator.sharedInstance startCommunicator];
+        NSLog(@"Token alert fullfilled it's job");
+    }
+}*/
 
 - (void)applicationWillResignActive:(UIApplication *)application{
 	NSLog(@"Will resign active");

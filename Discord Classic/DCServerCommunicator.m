@@ -267,7 +267,7 @@ UIActivityIndicatorView *spinner;
                                         }
                                         
                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                            [NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHANNEL LIST" object:DCServerCommunicator.sharedInstance];
+                                            /*[NSNotificationCenter.defaultCenter postNotificationName:@"RELOAD CHANNEL LIST" object:DCServerCommunicator.sharedInstance];*/
                                         });
                                         
                                     }];

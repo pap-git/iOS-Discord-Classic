@@ -22,6 +22,7 @@
 		[self.tokenInputField setText:token];
 }
 
+
 - (void)viewWillDisappear:(BOOL)animated{
 	[NSUserDefaults.standardUserDefaults setObject:self.tokenInputField.text forKey:@"token"];
 	
@@ -44,6 +45,19 @@
 		[self performSegueWithIdentifier:@"Settings to Test Channel" sender:self];
 	}
 }
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.textLabel.textColor = [UIColor colorWithRed:116.0/255.0 green:116.0/255.0 blue:116.0/255.0 alpha:1.0];
+    header.textLabel.shadowOffset = CGSizeMake(0, 0);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
+    footer.textLabel.textColor = [UIColor colorWithRed:116.0/255.0 green:116.0/255.0 blue:116.0/255.0 alpha:1.0];
+    footer.textLabel.shadowOffset = CGSizeMake(0, 0);
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
 	if ([segue.identifier isEqualToString:@"Settings to Test Channel"]){

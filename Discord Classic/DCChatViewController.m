@@ -464,9 +464,10 @@ static dispatch_queue_t chat_messages_queue;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 	self.selectedMessage = self.messages[indexPath.row];
-	
+    [self performSegueWithIdentifier:@"chat to contact" sender:self];
+    
 	if([self.selectedMessage.author.snowflake isEqualToString: DCServerCommunicator.sharedInstance.snowflake]){
-		UIActionSheet *messageActionSheet = [[UIActionSheet alloc] initWithTitle:self.selectedMessage.content delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
+		UIActionSheet *messageActionSheet = [[UIActionSheet alloc] initWithTitle:self.selectedMessage.content delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"View Profile", nil];
 		[messageActionSheet setTag:1];
 		[messageActionSheet setDelegate:self];
 		[messageActionSheet showInView:self.view];
@@ -616,6 +617,11 @@ static dispatch_queue_t chat_messages_queue;
 			
 		}
 	}
+    
+    if([segue.destinationViewController class] == [DCContactViewController class]){
+        [((DCContactViewController*)segue.destinationViewController) setSelectedUser:self.selectedMessage.author];
+    }
+    
 }
 
 
