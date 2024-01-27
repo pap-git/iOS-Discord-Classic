@@ -903,6 +903,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Contact" id="CQe-Ky-RG8"/>
+                    <connections>
+                        <outlet property="descriptionBox" destination="S6s-ob-HXj" id="2h5-6V-GF1"/>
+                        <outlet property="handleLable" destination="h04-MN-RKA" id="eaV-GR-Q9L"/>
+                        <outlet property="nameLabel" destination="phj-fM-jWJ" id="ge5-zG-van"/>
+                        <outlet property="profileImageView" destination="DBL-lf-XJ2" id="KbD-Eq-Cau"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gix-yU-SKh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
