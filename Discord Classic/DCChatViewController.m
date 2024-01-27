@@ -613,7 +613,7 @@ static dispatch_queue_t chat_messages_queue;
 			
 			DCServerCommunicator.sharedInstance.selectedChannel = [DCServerCommunicator.sharedInstance.channels valueForKey:@"422135452657647622"];
 			
-			[rightSidebar.navigationItem setTitle:@"Channel Name"]; //toru idk how to do this
+			[rightSidebar.navigationItem setTitle:self.navigationItem.title]; //toru idk how to do this
 			
 		}
 	}
