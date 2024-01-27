@@ -106,7 +106,10 @@
     UITableViewCell *cell = nil;
     
     if (tableView == self.guildTableView) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"guild" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"guild"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"guild"];
+        }
         
         DCServerCommunicator.sharedInstance.guilds = [[DCServerCommunicator.sharedInstance.guilds sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
             NSString *first = [(DCGuild *)a name];
@@ -125,7 +128,10 @@
     }
     
     if (tableView == self.channelTableView) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"channel" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"channel"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"channel"];
+        }
         
         DCChannel *channelAtRowIndex = [self.selectedGuild.channels objectAtIndex:indexPath.row];
         if (channelAtRowIndex.unread) {
