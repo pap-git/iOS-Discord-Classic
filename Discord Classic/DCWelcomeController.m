@@ -7,7 +7,7 @@
 //
 
 #import "DCWelcomeController.h"
-
+#import "DCServerCommunicator.h"
 @interface DCWelcomeController ()
 
 @end
@@ -21,6 +21,10 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    self.authenticated = false;
 }
 
 - (void)viewDidLoad
@@ -40,12 +44,28 @@
 }
 
 - (IBAction)loginButtonWasClicked {
-//DCServerCommunicator
-	[self.loginIndicator startAnimating];
+    [self.loginIndicator startAnimating];
 	[self.loginIndicator setHidden:false];
+    [NSUserDefaults.standardUserDefaults setObject:self.tokenTextField.text forKey:@"token"];
+	
+	//Save the entered values and reauthenticate if the token has been changed
+	if(![DCServerCommunicator.sharedInstance.token isEqual:[NSUserDefaults.standardUserDefaults valueForKey:@"token"]]){
+		DCServerCommunicator.sharedInstance.token = self.tokenTextField.text;
+		[DCServerCommunicator.sharedInstance reconnect];
+        [self didLogin];
+    }
     [self.loginButton setHidden:true];
     
-    [self performSelector:@selector(checkAuth) withObject:nil afterDelay:10];
+}
+
+- (void)didLogin {
+    [self performSegueWithIdentifier:@"login to guilds" sender:self];
+    self.authenticated = true;
+    // user shouldn't be able to go back to this screen once logged in
+    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
+    [navigationArray removeObjectAtIndex:0];
+    self.navigationController.viewControllers = navigationArray;
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
@@ -61,3 +81,4 @@
 }
 
 @end
+

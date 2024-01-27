@@ -18,10 +18,10 @@
 - (void)viewDidLoad{
 	[super viewDidLoad];
 	
+    
 	//Go to settings if no token is set
 	if(!DCServerCommunicator.sharedInstance.token.length)
 		[self performSegueWithIdentifier:@"to Tokenpage" sender:self];
-        
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleReady) name:@"READY" object:nil];
 	
