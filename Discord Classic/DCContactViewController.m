@@ -21,11 +21,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"About";
 }
 
 -(void)setSelectedUser:(DCUser*)user{
     self.view = self.view;
+    self.navigationItem.title = user.globalName;
     self.nameLabel.text = user.globalName;
     self.handleLable.text = user.username;
     self.profileImageView.image = user.profileImage;

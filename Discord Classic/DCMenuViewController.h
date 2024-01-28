@@ -13,6 +13,7 @@
 #import "DCChatViewController.h"
 #import "DCServerCommunicator.h"
 #import "DCTools.h"
+#import "DCUser.h"
 
 @interface DCMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
@@ -20,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *channelTableView;
 @property DCGuild *selectedGuild;
 @property DCChannel *selectedChannel;
+@property UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
 @property NSOperationQueue* serverIconImageQueue;
 

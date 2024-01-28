@@ -462,23 +462,24 @@ static dispatch_queue_t chat_messages_queue;
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	self.selectedMessage = self.messages[indexPath.row];
-    [self performSegueWithIdentifier:@"chat to contact" sender:self];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedMessage = self.messages[indexPath.row];
     
-	if([self.selectedMessage.author.snowflake isEqualToString: DCServerCommunicator.sharedInstance.snowflake]){
-		UIActionSheet *messageActionSheet = [[UIActionSheet alloc] initWithTitle:self.selectedMessage.content delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"View Profile", nil];
-		[messageActionSheet setTag:1];
-		[messageActionSheet setDelegate:self];
-		[messageActionSheet showInView:self.view];
-	}
+    if ([self.selectedMessage.author.snowflake isEqualToString:DCServerCommunicator.sharedInstance.snowflake]) {
+        UIActionSheet *messageActionSheet = [[UIActionSheet alloc] initWithTitle:self.selectedMessage.content delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"View Profile", nil];
+        [messageActionSheet setTag:1];
+        [messageActionSheet setDelegate:self];
+        [messageActionSheet showInView:self.view];
+    }
 }
 
-
 - (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if ([popup tag] == 1) {
-        if(buttonIndex == 0)
+    if ([popup tag] == 1) {
+        if (buttonIndex == 0) {
             [self.selectedMessage deleteMessage];
+        } else if (buttonIndex == 1) {
+            [self performSegueWithIdentifier:@"chat to contact" sender:self];
+        }
     } else if ([popup tag] == 2) { // Image Source selection
         UIImagePickerController *picker = UIImagePickerController.new;
         // TODO: add video send function
@@ -503,8 +504,11 @@ static dispatch_queue_t chat_messages_queue;
         [picker viewWillAppear:YES];
         [self presentViewController:picker animated:YES completion:nil];
         [picker viewWillAppear:YES];
+    } else {
+        
     }
 }
+
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{

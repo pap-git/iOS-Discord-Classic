@@ -94,6 +94,7 @@
 		5B23D1222B657F46008B5587 /* DescIntroducer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D1202B657F46008B5587 /* DescIntroducer@2x.png */; };
 		5B23D1242B6589D6008B5587 /* WelcomeBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D1232B6589D6008B5587 /* WelcomeBanner.png */; };
 		5B23D1272B658A77008B5587 /* DCWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B23D1262B658A77008B5587 /* DCWelcomeController.m */; };
+		5B47489A2B65D17E00123A1F /* bag-xml.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4748992B65D17E00123A1F /* bag-xml.png */; };
 		5B9269E92B654033003351BB /* DCContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9269E82B654033003351BB /* DCContactViewController.m */; };
 		5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F352B65561400F5E66B /* ContactsBar.png */; };
 		5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */; };
@@ -248,6 +249,7 @@
 		5B23D1232B6589D6008B5587 /* WelcomeBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WelcomeBanner.png; sourceTree = "<group>"; };
 		5B23D1252B658A77008B5587 /* DCWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWelcomeController.h; sourceTree = "<group>"; };
 		5B23D1262B658A77008B5587 /* DCWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWelcomeController.m; sourceTree = "<group>"; };
+		5B4748992B65D17E00123A1F /* bag-xml.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bag-xml.png"; sourceTree = "<group>"; };
 		5B9269E72B654033003351BB /* DCContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCContactViewController.h; sourceTree = "<group>"; };
 		5B9269E82B654033003351BB /* DCContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCContactViewController.m; sourceTree = "<group>"; };
 		5BCE5F352B65561400F5E66B /* ContactsBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactsBar.png; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 		7D672E2E2B012D42003C1A78 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5B4748992B65D17E00123A1F /* bag-xml.png */,
 				5B23D1232B6589D6008B5587 /* WelcomeBanner.png */,
 				5B23D11F2B657F46008B5587 /* DescIntroducer.png */,
 				5B23D1202B657F46008B5587 /* DescIntroducer@2x.png */,
@@ -748,6 +751,7 @@
 				2CF920502AF9957300249D6A /* Icon-76.png in Resources */,
 				2C0EBB892ADB16FB00A23EB8 /* DefaultAvatar1@2x.png in Resources */,
 				2CF920162AF7F36300249D6A /* PLVideoOverlayPlay.png in Resources */,
+				5B47489A2B65D17E00123A1F /* bag-xml.png in Resources */,
 				2CF920172AF7F36300249D6A /* PLVideoOverlayPlay@2x.png in Resources */,
 				5B23D1222B657F46008B5587 /* DescIntroducer@2x.png in Resources */,
 				7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */,

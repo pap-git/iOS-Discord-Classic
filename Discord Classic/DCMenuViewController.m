@@ -35,6 +35,10 @@
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"MESSAGE ACK" object:nil];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"RELOAD CHANNEL LIST" object:nil];
+    
+    UIImage *buttonbackgroundImage = [UIImage imageNamed:@"ToolbarBG"];
+    
+    [self.toolbar setBackgroundImage:buttonbackgroundImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
 }
 
 //reload
@@ -64,7 +68,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     if (self.selectedGuild) {
         [self.navigationItem setTitle:self.selectedGuild.name];
+        [self.channelTableView reloadData];
         [DCServerCommunicator.sharedInstance setSelectedChannel:nil];
+        [self.channelTableView reloadData];
             if ([self.navigationItem.title isEqualToString:@"Direct Messages"]) {
                 NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastMessageId" ascending:NO selector:@selector(localizedStandardCompare:)];
                 [self.selectedGuild.channels sortUsingDescriptors:@[sortDescriptor]];
@@ -123,6 +129,9 @@
         // Guild name and icon
         cell.textLabel.text = @"";
         [cell.imageView setImage:guildAtRowIndex.icon];
+        cell.imageView.frame = CGRectMake(0, 0, 32, 32);
+        cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
+        cell.imageView.layer.masksToBounds = YES;
         cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
         cell.imageView.clipsToBounds = YES;
     }
