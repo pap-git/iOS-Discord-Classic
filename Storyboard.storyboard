@@ -31,7 +31,97 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WEX-yh-NfH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1237" y="-46"/>
+            <point key="canvasLocation" x="-1585" y="-56"/>
+        </scene>
+        <!--Introduction Page - Welcome!-->
+        <scene sceneID="EZs-Wv-Cwe">
+            <objects>
+                <tableViewController id="Hrc-Cx-cle" customClass="DCIntroductionPage" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="i6g-dS-TCJ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.15686274509803921" green="0.16078431372549018" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="Eby-pP-GIw">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WelcomeBanner.png" id="7OM-sy-y4u">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                            </subviews>
+                        </view>
+                        <sections>
+                            <tableViewSection headerTitle="Welcome to Discord!" id="HAa-60-6Sz">
+                                <string key="footerTitle">Discord is the ultimate platform to game on, to chat with friends, or to get into groups and servers correlating with your interests</string>
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="N7E-gB-3bV" detailTextLabel="zQP-0i-wSZ" imageView="zzZ-9e-1aL" rowHeight="110" style="IBUITableViewCellStyleSubtitle" id="mNZ-Oo-ZPc">
+                                        <rect key="frame" x="0.0" y="164" width="320" height="112"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="109"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Discord" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N7E-gB-3bV">
+                                                    <rect key="frame" x="85" y="35" width="65" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Discord.png" id="zzZ-9e-1aL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="109"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="The ultimate platform" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zQP-0i-wSZ">
+                                                    <rect key="frame" x="85" y="57" width="132" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="hOE-CN-3tc">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="tVq-gc-40g" style="IBUITableViewCellStyleDefault" id="M3B-hv-4uJ">
+                                        <rect key="frame" x="0.0" y="380" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Log in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tVq-gc-40g">
+                                                    <rect key="frame" x="10" y="0.0" width="260" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="Q0Y-QI-Rsb" kind="push" id="SFO-kb-7fC"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Hrc-Cx-cle" id="M7o-7r-9u9"/>
+                            <outlet property="delegate" destination="Hrc-Cx-cle" id="Oks-q6-648"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Welcome!" id="ywH-G4-Zvp"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mtA-up-yv0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-887" y="-56"/>
         </scene>
         <!--Settings View Controller - Settings-->
         <scene sceneID="qbG-hh-URF">
@@ -233,7 +323,7 @@
                                         <rect key="frame" x="0.0" y="135" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="'Trevir'" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CHC-wg-cGj">
@@ -630,7 +720,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bag.xml" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="prc-qg-ELz">
-                                                    <rect key="frame" x="1" y="0.0" width="132" height="22"/>
+                                                    <rect key="frame" x="1" y="-2" width="132" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -666,7 +756,7 @@
                         <outlet property="guildTableView" destination="CtL-8M-SL1" id="JXe-4g-qFn"/>
                         <outlet property="toolbar" destination="yuL-XJ-ihO" id="BtL-Qy-gmg"/>
                         <segue destination="SPS-Go-Xtj" kind="push" identifier="guilds to chat" id="Mag-g3-g6A"/>
-                        <segue destination="Q0Y-QI-Rsb" kind="push" identifier="to Tokenpage" id="non-0H-uCe"/>
+                        <segue destination="Hrc-Cx-cle" kind="push" identifier="to Tokenpage" id="FNY-yw-Dj1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JYL-jT-sEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -782,7 +872,7 @@
             </objects>
             <point key="canvasLocation" x="1626" y="614"/>
         </scene>
-        <!--Welcome Controller - Welcome!-->
+        <!--Welcome Controller - Log in-->
         <scene sceneID="fXv-Jb-rUm">
             <objects>
                 <tableViewController id="Q0Y-QI-Rsb" customClass="DCWelcomeController" sceneMemberID="viewController">
@@ -790,22 +880,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274510000001" green="0.16078431369999999" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="SmJ-QI-tZO">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="179"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WelcomeBanner.png" id="YMf-Ce-VWw">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" red="0.15686274510000001" green="0.16078431369999999" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
-                        </view>
                         <sections>
-                            <tableViewSection headerTitle="Welcome to Discord!" footerTitle="" id="ofZ-MS-Xtv">
+                            <tableViewSection headerTitle="Log in" footerTitle="" id="ofZ-MS-Xtv">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="tik-hu-Hmi">
-                                        <rect key="frame" x="0.0" y="215" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="46" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -830,7 +909,7 @@
                             <tableViewSection headerTitle="" footerTitle="" id="0NU-9B-DY3">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kqb-Ob-af6">
-                                        <rect key="frame" x="0.0" y="281" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="112" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -864,7 +943,7 @@
                             <outlet property="delegate" destination="Q0Y-QI-Rsb" id="1bc-HO-Uw6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Welcome!" id="wNx-Ii-wn8"/>
+                    <navigationItem key="navigationItem" title="Log in" id="wNx-Ii-wn8"/>
                     <connections>
                         <outlet property="loginButton" destination="nQ6-he-M2z" id="NkR-0n-oEA"/>
                         <outlet property="loginIndicator" destination="76d-zf-Gqh" id="013-14-Hou"/>
@@ -873,7 +952,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uQQ-iT-0uI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-770" y="-56"/>
+            <point key="canvasLocation" x="-186" y="-56"/>
         </scene>
         <!--Info View Controller - Members-->
         <scene sceneID="8hE-6e-T5s">
@@ -909,6 +988,7 @@
     <resources>
         <image name="Contactback.PNG" width="136" height="138"/>
         <image name="ContactsBar.png" width="160" height="57"/>
+        <image name="Discord.png" width="228" height="333"/>
         <image name="Send.png" width="23" height="20"/>
         <image name="Sidebar_glyph.png" width="27" height="25"/>
         <image name="WelcomeBanner.png" width="640" height="256"/>
@@ -924,6 +1004,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9jT-2C-guT"/>
+        <segue reference="Mag-g3-g6A"/>
     </inferredMetricsTieBreakers>
 </document>

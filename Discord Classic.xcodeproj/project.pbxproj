@@ -96,6 +96,8 @@
 		5B23D1272B658A77008B5587 /* DCWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B23D1262B658A77008B5587 /* DCWelcomeController.m */; };
 		5B47489A2B65D17E00123A1F /* bag-xml.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4748992B65D17E00123A1F /* bag-xml.png */; };
 		5B9269E92B654033003351BB /* DCContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9269E82B654033003351BB /* DCContactViewController.m */; };
+		5BB417582B66761A00735AC3 /* DCIntroductionPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB417572B66761A00735AC3 /* DCIntroductionPage.m */; };
+		5BB4175A2B667E8300735AC3 /* Discord.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BB417592B667E8300735AC3 /* Discord.png */; };
 		5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F352B65561400F5E66B /* ContactsBar.png */; };
 		5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */; };
 		5BCE5F422B655EDF00F5E66B /* DCMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE5F412B655EDF00F5E66B /* DCMenuViewController.m */; };
@@ -252,6 +254,9 @@
 		5B4748992B65D17E00123A1F /* bag-xml.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bag-xml.png"; sourceTree = "<group>"; };
 		5B9269E72B654033003351BB /* DCContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCContactViewController.h; sourceTree = "<group>"; };
 		5B9269E82B654033003351BB /* DCContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCContactViewController.m; sourceTree = "<group>"; };
+		5BB417562B66761A00735AC3 /* DCIntroductionPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntroductionPage.h; sourceTree = "<group>"; };
+		5BB417572B66761A00735AC3 /* DCIntroductionPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCIntroductionPage.m; sourceTree = "<group>"; };
+		5BB417592B667E8300735AC3 /* Discord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Discord.png; sourceTree = "<group>"; };
 		5BCE5F352B65561400F5E66B /* ContactsBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContactsBar.png; sourceTree = "<group>"; };
 		5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ContactsBar@2x.png"; sourceTree = "<group>"; };
 		5BCE5F402B655EDF00F5E66B /* DCMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMenuViewController.h; sourceTree = "<group>"; };
@@ -386,6 +391,8 @@
 				09A4EA6E2079266800DECFD6 /* DCChatTableCell.m */,
 				5B23D1252B658A77008B5587 /* DCWelcomeController.h */,
 				5B23D1262B658A77008B5587 /* DCWelcomeController.m */,
+				5BB417562B66761A00735AC3 /* DCIntroductionPage.h */,
+				5BB417572B66761A00735AC3 /* DCIntroductionPage.m */,
 				2C87A3D52AE99BA400DA6C21 /* DCChatVideoAttachment.xib */,
 				2C0EBB942ADB175E00A23EB8 /* DCChatReplyTableCell.xib */,
 				09A4EA662079220E00DECFD6 /* DCChatTableCell.xib */,
@@ -625,6 +632,7 @@
 		7D672E2E2B012D42003C1A78 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5BB417592B667E8300735AC3 /* Discord.png */,
 				5B4748992B65D17E00123A1F /* bag-xml.png */,
 				5B23D1232B6589D6008B5587 /* WelcomeBanner.png */,
 				5B23D11F2B657F46008B5587 /* DescIntroducer.png */,
@@ -708,6 +716,7 @@
 				09C6B92F204A0F54007EAC26 /* InfoPlist.strings in Resources */,
 				09C8E2ED204C3B64006A1422 /* Storyboard.storyboard in Resources */,
 				2C0EBB8C2ADB16FB00A23EB8 /* DefaultAvatar3.png in Resources */,
+				5BB4175A2B667E8300735AC3 /* Discord.png in Resources */,
 				2C0EBB712ADB15DC00A23EB8 /* DirectMessages@2x.png in Resources */,
 				2C0EBB8E2ADB16FB00A23EB8 /* DefaultAvatar4.png in Resources */,
 				2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */,
@@ -849,6 +858,7 @@
 				7D672E232B0122FF003C1A78 /* DCCInfoViewController.m in Sources */,
 				09F4C6F021A6EBD40018F312 /* NSString+FontAwesome.m in Sources */,
 				09F4C6F221A6EBD40018F312 /* UIColor+BButton.m in Sources */,
+				5BB417582B66761A00735AC3 /* DCIntroductionPage.m in Sources */,
 				091D28CA21A9D75700C60BEC /* DCInfoPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
