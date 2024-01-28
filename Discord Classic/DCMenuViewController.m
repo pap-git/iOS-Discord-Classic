@@ -62,25 +62,25 @@
     });
 }
 
-//misc end
-
-//TABLEVIEW(S)
 -(void)viewWillAppear:(BOOL)animated{
     if (self.selectedGuild) {
         [self.navigationItem setTitle:self.selectedGuild.name];
         [self.channelTableView reloadData];
         [DCServerCommunicator.sharedInstance setSelectedChannel:nil];
         [self.channelTableView reloadData];
-            if ([self.navigationItem.title isEqualToString:@"Direct Messages"]) {
-                NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastMessageId" ascending:NO selector:@selector(localizedStandardCompare:)];
-                [self.selectedGuild.channels sortUsingDescriptors:@[sortDescriptor]];
-        
-                [self.channelTableView reloadData];
-            }
+        if ([self.navigationItem.title isEqualToString:@"Direct Messages"]) {
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastMessageId" ascending:NO selector:@selector(localizedStandardCompare:)];
+            [self.selectedGuild.channels sortUsingDescriptors:@[sortDescriptor]];
+            
+            [self.channelTableView reloadData];
+        }
     } else {
         [self.navigationItem setTitle:@"Discord"];
     }
 }
+
+//misc end
+//TABLEVIEW(S)
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -150,7 +150,7 @@
         }
         
         [cell.textLabel setText:channelAtRowIndex.name];
-        
+        /*
         if (channelAtRowIndex.icon != nil && [channelAtRowIndex.icon class] == [UIImage class]) {
             [cell.imageView setImage:channelAtRowIndex.icon];
             cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -161,7 +161,7 @@
             cell.imageView.layer.masksToBounds = YES;
             [cell.imageView setNeedsDisplay];
             [cell layoutIfNeeded];
-        }
+        }*/
     }
     
     return cell;

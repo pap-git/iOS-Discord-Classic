@@ -45,6 +45,17 @@
 		[self performSegueWithIdentifier:@"Settings to Test Channel" sender:self];
 	}
 }
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.textLabel.textColor = [UIColor colorWithRed:116.0/255.0 green:116.0/255.0 blue:116.0/255.0 alpha:1.0];
+    header.textLabel.shadowOffset = CGSizeMake(0, 0);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
+    footer.textLabel.textColor = [UIColor colorWithRed:116.0/255.0 green:116.0/255.0 blue:116.0/255.0 alpha:1.0];
+    footer.textLabel.shadowOffset = CGSizeMake(0, 0);
+}
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -53,12 +64,12 @@
 		
 		if ([chatViewController isKindOfClass:DCChatViewController.class]){
 			
-			DCServerCommunicator.sharedInstance.selectedChannel = [DCServerCommunicator.sharedInstance.channels valueForKey:@"422135452657647622"];
+			DCServerCommunicator.sharedInstance.selectedChannel = [DCServerCommunicator.sharedInstance.channels valueForKey:@"1162446567488364627"];
 			
 			//Initialize messages
 			chatViewController.messages = NSMutableArray.new;
 			
-			[chatViewController.navigationItem setTitle:@"Testing server #general"];
+			[chatViewController.navigationItem setTitle:@"Discord Classic #general"];
 			
 			//Populate the message view with the last 50 messages
             //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
