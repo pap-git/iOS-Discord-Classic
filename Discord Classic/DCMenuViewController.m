@@ -62,9 +62,9 @@
     });
 }
 
+//idk what to do with this ngl
 -(void)viewWillAppear:(BOOL)animated{
     if (self.selectedGuild) {
-        [self.navigationItem setTitle:self.selectedGuild.name];
         [self.channelTableView reloadData];
         [DCServerCommunicator.sharedInstance setSelectedChannel:nil];
         [self.channelTableView reloadData];
@@ -88,6 +88,7 @@
 	if(tableView == self.guildTableView){
 		self.selectedGuild = [DCServerCommunicator.sharedInstance.guilds objectAtIndex:indexPath.row];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.navigationItem setTitle:self.selectedGuild.name];
 		[self.channelTableView reloadData];
 	}
     
@@ -150,17 +151,21 @@
         }
         
         [cell.textLabel setText:channelAtRowIndex.name];
-        /*
-        if (channelAtRowIndex.icon != nil && [channelAtRowIndex.icon class] == [UIImage class]) {
-            [cell.imageView setImage:channelAtRowIndex.icon];
-            cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-            cell.imageView.clipsToBounds = YES;
+        /*if ([self.navigationItem.title isEqualToString:@"Direct Messages"]) {
             
-            cell.imageView.frame = CGRectMake(0, 0, 32, 32);
-            cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
-            cell.imageView.layer.masksToBounds = YES;
-            [cell.imageView setNeedsDisplay];
-            [cell layoutIfNeeded];
+            if (channelAtRowIndex.icon != nil && [channelAtRowIndex.icon class] == [UIImage class]) {
+                [cell.imageView setImage:channelAtRowIndex.icon];
+                cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+                cell.imageView.clipsToBounds = YES;
+            
+                cell.imageView.frame = CGRectMake(0, 0, 32, 32);
+                cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
+                cell.imageView.layer.masksToBounds = YES;
+                [cell.imageView setNeedsDisplay];
+                [cell layoutIfNeeded];
+            } else {
+                //nothing, kill yourself
+            }
         }*/
     }
     
