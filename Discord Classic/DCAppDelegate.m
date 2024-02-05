@@ -16,6 +16,9 @@
 @implementation DCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOption{
+    
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR("com.Trevir.Discord.badgeReset"), NULL, NULL, true);
+    
 	self.window.backgroundColor = [UIColor clearColor];
 	self.window.opaque = NO;
 	
