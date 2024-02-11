@@ -23,6 +23,7 @@
 @property DCChannel *selectedChannel;
 @property UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UILabel *guildLabel;
 
 @property NSOperationQueue* serverIconImageQueue;
 

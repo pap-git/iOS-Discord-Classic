@@ -95,6 +95,16 @@
 		5B23D1242B6589D6008B5587 /* WelcomeBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B23D1232B6589D6008B5587 /* WelcomeBanner.png */; };
 		5B23D1272B658A77008B5587 /* DCWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B23D1262B658A77008B5587 /* DCWelcomeController.m */; };
 		5B47489A2B65D17E00123A1F /* bag-xml.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4748992B65D17E00123A1F /* bag-xml.png */; };
+		5B5D679C2B78CDFB006F7FC4 /* border.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67972B78CDFB006F7FC4 /* border.png */; };
+		5B5D679D2B78CDFB006F7FC4 /* DirectMessages.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67982B78CDFB006F7FC4 /* DirectMessages.png */; };
+		5B5D679E2B78CDFB006F7FC4 /* DirectMessages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67992B78CDFB006F7FC4 /* DirectMessages@2x.png */; };
+		5B5D679F2B78CDFB006F7FC4 /* Sar izmeli Mehmet Aa.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D679A2B78CDFB006F7FC4 /* Sar izmeli Mehmet Aa.mp3 */; };
+		5B5D67A02B78CDFB006F7FC4 /* ServerBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D679B2B78CDFB006F7FC4 /* ServerBanner.png */; };
+		5B5D67A52B78CF61006F7FC4 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67A12B78CF61006F7FC4 /* menu.png */; };
+		5B5D67A62B78CF61006F7FC4 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67A22B78CF61006F7FC4 /* menu@2x.png */; };
+		5B5D67A72B78CF61006F7FC4 /* TopLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67A32B78CF61006F7FC4 /* TopLogo.png */; };
+		5B5D67A82B78CF61006F7FC4 /* TopLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B5D67A42B78CF61006F7FC4 /* TopLogo@2x.png */; };
+		5B79C7B72B78B273001648BB /* reply.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B79C7B62B78B273001648BB /* reply.png */; };
 		5B9269E92B654033003351BB /* DCContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9269E82B654033003351BB /* DCContactViewController.m */; };
 		5BB417582B66761A00735AC3 /* DCIntroductionPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BB417572B66761A00735AC3 /* DCIntroductionPage.m */; };
 		5BB4175A2B667E8300735AC3 /* Discord.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BB417592B667E8300735AC3 /* Discord.png */; };
@@ -252,6 +262,16 @@
 		5B23D1252B658A77008B5587 /* DCWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWelcomeController.h; sourceTree = "<group>"; };
 		5B23D1262B658A77008B5587 /* DCWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWelcomeController.m; sourceTree = "<group>"; };
 		5B4748992B65D17E00123A1F /* bag-xml.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bag-xml.png"; sourceTree = "<group>"; };
+		5B5D67972B78CDFB006F7FC4 /* border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = border.png; sourceTree = "<group>"; };
+		5B5D67982B78CDFB006F7FC4 /* DirectMessages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DirectMessages.png; sourceTree = "<group>"; };
+		5B5D67992B78CDFB006F7FC4 /* DirectMessages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DirectMessages@2x.png"; sourceTree = "<group>"; };
+		5B5D679A2B78CDFB006F7FC4 /* Sar izmeli Mehmet Aa.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sar izmeli Mehmet Aa.mp3"; sourceTree = "<group>"; };
+		5B5D679B2B78CDFB006F7FC4 /* ServerBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ServerBanner.png; sourceTree = "<group>"; };
+		5B5D67A12B78CF61006F7FC4 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		5B5D67A22B78CF61006F7FC4 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
+		5B5D67A32B78CF61006F7FC4 /* TopLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TopLogo.png; sourceTree = "<group>"; };
+		5B5D67A42B78CF61006F7FC4 /* TopLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TopLogo@2x.png"; sourceTree = "<group>"; };
+		5B79C7B62B78B273001648BB /* reply.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reply.png; sourceTree = "<group>"; };
 		5B9269E72B654033003351BB /* DCContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCContactViewController.h; sourceTree = "<group>"; };
 		5B9269E82B654033003351BB /* DCContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCContactViewController.m; sourceTree = "<group>"; };
 		5BB417562B66761A00735AC3 /* DCIntroductionPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntroductionPage.h; sourceTree = "<group>"; };
@@ -491,6 +511,7 @@
 		2C0EBB722ADB15F400A23EB8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5B5D67962B78CDFB006F7FC4 /* New */,
 				5B23D11D2B6579DD008B5587 /* Images.xcassets */,
 				7D00DBAD2B00E27700B27C97 /* Button Glyphs */,
 				2C0EBB792ADB169D00A23EB8 /* Launch Images */,
@@ -504,6 +525,7 @@
 		2C0EBB732ADB15FB00A23EB8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5B79C7B62B78B273001648BB /* reply.png */,
 				5B23D11B2B65765A008B5587 /* Contactback.PNG */,
 				7D672E2E2B012D42003C1A78 /* Helpers */,
 				7D7862292B010BFA00B9C099 /* separator.png */,
@@ -582,6 +604,23 @@
 				2CF9205A2B02A8DE00249D6A /* emoji.json */,
 			);
 			name = Emojize;
+			sourceTree = "<group>";
+		};
+		5B5D67962B78CDFB006F7FC4 /* New */ = {
+			isa = PBXGroup;
+			children = (
+				5B5D67A12B78CF61006F7FC4 /* menu.png */,
+				5B5D67A22B78CF61006F7FC4 /* menu@2x.png */,
+				5B5D67A32B78CF61006F7FC4 /* TopLogo.png */,
+				5B5D67A42B78CF61006F7FC4 /* TopLogo@2x.png */,
+				5B5D67972B78CDFB006F7FC4 /* border.png */,
+				5B5D67982B78CDFB006F7FC4 /* DirectMessages.png */,
+				5B5D67992B78CDFB006F7FC4 /* DirectMessages@2x.png */,
+				5B5D679A2B78CDFB006F7FC4 /* Sar izmeli Mehmet Aa.mp3 */,
+				5B5D679B2B78CDFB006F7FC4 /* ServerBanner.png */,
+			);
+			name = New;
+			path = Images/New;
 			sourceTree = "<group>";
 		};
 		7D00DBAD2B00E27700B27C97 /* Button Glyphs */ = {
@@ -719,11 +758,13 @@
 				5BB4175A2B667E8300735AC3 /* Discord.png in Resources */,
 				2C0EBB712ADB15DC00A23EB8 /* DirectMessages@2x.png in Resources */,
 				2C0EBB8E2ADB16FB00A23EB8 /* DefaultAvatar4.png in Resources */,
+				5B5D67A62B78CF61006F7FC4 /* menu@2x.png in Resources */,
 				2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */,
 				2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */,
 				7D7862362B01190E00B9C099 /* addbarglyph@2x.png in Resources */,
 				7D78622A2B010BFA00B9C099 /* separator.png in Resources */,
 				2CBB33A52AD97F0700D28976 /* DCChatGroupedTableCell.xib in Resources */,
+				5B5D679F2B78CDFB006F7FC4 /* Sar izmeli Mehmet Aa.mp3 in Resources */,
 				7D4174582B01494E00449179 /* BarButton@2x.png in Resources */,
 				7D672E322B012D42003C1A78 /* commandbar-bg@2x.png in Resources */,
 				7D7862312B01185E00B9C099 /* preferences.png in Resources */,
@@ -733,10 +774,12 @@
 				5B23D1212B657F46008B5587 /* DescIntroducer.png in Resources */,
 				2CF920532AF9957300249D6A /* Icon-Small-50@2x.png in Resources */,
 				2CF9205B2B02A8DE00249D6A /* emoji.json in Resources */,
+				5B5D67A72B78CF61006F7FC4 /* TopLogo.png in Resources */,
 				5B23D1242B6589D6008B5587 /* WelcomeBanner.png in Resources */,
 				7D7862152B00F1D100B9C099 /* ToolbarBG.png in Resources */,
 				7D41745D2B01494E00449179 /* NavigationButtonPressed.png in Resources */,
 				5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */,
+				5B5D67A02B78CDFB006F7FC4 /* ServerBanner.png in Resources */,
 				2CF920182AF7F36300249D6A /* PLVideoOverlayPlayDown.png in Resources */,
 				2C0EBB882ADB16FB00A23EB8 /* DefaultAvatar1.png in Resources */,
 				2CF920512AF9957300249D6A /* Icon-76@2x.png in Resources */,
@@ -744,6 +787,7 @@
 				5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */,
 				7D4174592B01494E00449179 /* BarButtonPressed.png in Resources */,
 				2CF920552AF9957300249D6A /* Icon-Small@2x.png in Resources */,
+				5B5D67A52B78CF61006F7FC4 /* menu.png in Resources */,
 				7D7862322B01185E00B9C099 /* preferences@2x.png in Resources */,
 				7D41745A2B01494E00449179 /* BarButtonPressed@2x.png in Resources */,
 				7D41745C2B01494E00449179 /* NavigationButton@2x.png in Resources */,
@@ -753,12 +797,14 @@
 				7D00DBB72B00E86400B27C97 /* TbarBG.png in Resources */,
 				2C0EBB8A2ADB16FB00A23EB8 /* DefaultAvatar2.png in Resources */,
 				2CF920562AF9957300249D6A /* Icon.png in Resources */,
+				5B5D679D2B78CDFB006F7FC4 /* DirectMessages.png in Resources */,
 				7D672E312B012D42003C1A78 /* commandbar-bg.png in Resources */,
 				2CF9204E2AF9957300249D6A /* Icon-72.png in Resources */,
 				2C0EBB8F2ADB16FB00A23EB8 /* DefaultAvatar4@2x.png in Resources */,
 				2C0EBB912ADB16FB00A23EB8 /* DefaultAvatar5@2x.png in Resources */,
 				2CF920502AF9957300249D6A /* Icon-76.png in Resources */,
 				2C0EBB892ADB16FB00A23EB8 /* DefaultAvatar1@2x.png in Resources */,
+				5B79C7B72B78B273001648BB /* reply.png in Resources */,
 				2CF920162AF7F36300249D6A /* PLVideoOverlayPlay.png in Resources */,
 				5B47489A2B65D17E00123A1F /* bag-xml.png in Resources */,
 				2CF920172AF7F36300249D6A /* PLVideoOverlayPlay@2x.png in Resources */,
@@ -768,11 +814,13 @@
 				2C87A3D62AE99BA400DA6C21 /* DCChatVideoAttachment.xib in Resources */,
 				2CF9204F2AF9957300249D6A /* Icon-72@2x.png in Resources */,
 				7D4174572B01494E00449179 /* BarButton.png in Resources */,
+				5B5D679C2B78CDFB006F7FC4 /* border.png in Resources */,
 				2C0EBB702ADB15DC00A23EB8 /* DirectMessages.png in Resources */,
 				2C0EBB902ADB16FB00A23EB8 /* DefaultAvatar5.png in Resources */,
 				2CF920542AF9957300249D6A /* Icon-Small.png in Resources */,
 				2C0EBB8D2ADB16FB00A23EB8 /* DefaultAvatar3@2x.png in Resources */,
 				7D7862232B00F9F500B9C099 /* Send@2x.png in Resources */,
+				5B5D67A82B78CF61006F7FC4 /* TopLogo@2x.png in Resources */,
 				2C0EBB8B2ADB16FB00A23EB8 /* DefaultAvatar2@2x.png in Resources */,
 				7D7862242B00F9F500B9C099 /* Sidebar_glyph@2x.png in Resources */,
 				2CF920592AF9957300249D6A /* iTunesArtwork@2x.png in Resources */,
@@ -780,6 +828,7 @@
 				7D41744C2B013B7A00449179 /* CBarButtonMap.png in Resources */,
 				2CF9204A2AF9957300249D6A /* Icon-40.png in Resources */,
 				2C0EBB872ADB16FB00A23EB8 /* DefaultAvatar0@2x.png in Resources */,
+				5B5D679E2B78CDFB006F7FC4 /* DirectMessages@2x.png in Resources */,
 				2CF920572AF9957300249D6A /* Icon@2x.png in Resources */,
 				2C0EBB862ADB16FB00A23EB8 /* DefaultAvatar0.png in Resources */,
 				2CF920192AF7F36300249D6A /* PLVideoOverlayPlayDown@2x.png in Resources */,

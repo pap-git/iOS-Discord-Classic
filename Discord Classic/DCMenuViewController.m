@@ -89,6 +89,7 @@
 		self.selectedGuild = [DCServerCommunicator.sharedInstance.guilds objectAtIndex:indexPath.row];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.navigationItem setTitle:self.selectedGuild.name];
+        self.guildLabel.text = self.selectedGuild.name;
 		[self.channelTableView reloadData];
 	}
     
