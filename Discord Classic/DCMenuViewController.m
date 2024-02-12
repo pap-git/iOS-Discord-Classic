@@ -36,10 +36,59 @@
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"RELOAD CHANNEL LIST" object:nil];
     
+    //NOTIF OBSERVERS
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotificationTap:) name:@"NavigateToChannel" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitedChatController) name:@"ChannelSelectionCleared" object:nil];
+    //NOTIF OBSERVERS END
+    
+    //TOOLBAR IMAGE LOGIC
     UIImage *buttonbackgroundImage = [UIImage imageNamed:@"ToolbarBG"];
     
     [self.toolbar setBackgroundImage:buttonbackgroundImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    //toolbar image logic end
 }
+
+
+//block that handles what the app does if you open it via a push ntoification
+
+
+- (void)handleNotificationTap:(NSNotification *)notification {
+    NSLog(@"HANDLE NOTIFICATION TAP CALLED");
+    NSString *channelId = notification.userInfo[@"channelId"];
+    if (channelId) {
+        NSLog(@"Navigating to channel with ID: %@", channelId);
+        [self navigateToChannelWithId:channelId];
+    }
+}
+
+-(void)exitedChatController {
+    NSLog(@"EXITING CHAT VIEW");
+    self.selectedChannel = nil;
+}
+
+- (void)navigateToChannelWithId:(NSString *)channelId {
+    for (DCGuild *guild in DCServerCommunicator.sharedInstance.guilds) {
+        for (DCChannel *channel in guild.channels) {
+            if ([channel.snowflake isEqualToString:channelId]) {
+                NSLog(@"channel id: %@", channelId);
+                if (self.selectedChannel && [self.selectedChannel.snowflake isEqualToString:channelId]) {
+                    NSLog(@"ok");
+                    return;
+                }
+                self.selectedGuild = guild;
+                self.selectedChannel = channel;
+                DCServerCommunicator.sharedInstance.selectedChannel = channel;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSegueWithIdentifier:@"guilds to chat" sender:self];
+                });
+                return;
+            }
+        }
+    }
+}
+//end of block
 
 //reload
 - (void)handleReady {
@@ -176,11 +225,13 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     // make guild icons a fixed size
+    if(tableView == self.guildTableView) {
     cell.imageView.frame = CGRectMake(0, 0, 32, 32);
     cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
     cell.imageView.layer.masksToBounds = YES;
     [cell.imageView setNeedsDisplay];
     [cell layoutIfNeeded];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

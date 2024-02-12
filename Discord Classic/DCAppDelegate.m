@@ -15,39 +15,59 @@
 
 @implementation DCAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOption{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window.backgroundColor = [UIColor clearColor];
+    self.window.opaque = NO;
+    self.shouldReload = false;
     
-    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR("com.Trevir.Discord.badgeReset"), NULL, NULL, true);
-    
-	self.window.backgroundColor = [UIColor clearColor];
-	self.window.opaque = NO;
-	
-	self.shouldReload = false;
-	
-	[UINavigationBar.appearance setBackgroundImage:[UIImage imageNamed:@"TbarBG"] forBarMetrics:UIBarMetricsDefault];
+    [UINavigationBar.appearance setBackgroundImage:[UIImage imageNamed:@"TbarBG"] forBarMetrics:UIBarMetricsDefault];
     
     NSURLCache *urlCache = [[NSURLCache alloc] initWithMemoryCapacity:1024*1024*8  // 8MB mem cache
                                                          diskCapacity:1024*1024*60 // 60MB disk cache
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:urlCache];
-    //[urlCache release];
-	
-	if(DCServerCommunicator.sharedInstance.token.length)
-		[DCServerCommunicator.sharedInstance startCommunicator];
-	
-    //token shennanigans
-    /*NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    application.applicationIconBadgeNumber = 0;
     
-    if(![defaults objectForKey:@"token"]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Welcome" message:@"Please enter your Discord token." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Done", nil];
-        alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-        UITextField *textField = [alertView textFieldAtIndex:0];
-        textField.placeholder = @"Token should go here";
-        [alertView show];
-        
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR("com.Trevir.Discord.badgeReset"), NULL, NULL, true);
+    
+    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        NSDictionary *notification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSDictionary *aps = notification[@"aps"];
+        NSString *channelId = aps[@"channelId"]; // Adjusted to reflect your payload structure
+        NSLog(@"Channel id: %@", channelId);
+        if (channelId) {
+            NSLog(@"App launched with notification, channelId: %@", channelId);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"NavigateToChannel" object:nil userInfo:@{@"channelId": channelId}];
+            });
+        }
     }
-    */
-	return YES;
+    
+    if (DCServerCommunicator.sharedInstance.token.length)
+        [DCServerCommunicator.sharedInstance startCommunicator];
+    
+    return YES;
+}
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"RECEIVED REMOTE NOTIFICATION");
+    
+    NSDictionary *aps = userInfo[@"aps"];
+    NSString *channelId = aps[@"channelId"];
+    NSLog(@"Received notification with Channel id: %@", channelId);
+    
+    if (channelId) {
+        UIApplicationState state = [application applicationState];
+        if (state == UIApplicationStateInactive || state == UIApplicationStateBackground) {
+            // App was in the background or not running, meaning the user tapped the notification
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"NavigateToChannel" object:nil userInfo:@{@"channelId": channelId}];
+            });
+        } else {
+            NSLog(@"FUCK YOU LJB I HATE YOU");
+        }
+    }
 }
 /*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
