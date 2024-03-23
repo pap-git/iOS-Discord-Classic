@@ -617,7 +617,7 @@ static dispatch_queue_t chat_messages_queue;
 		
 		if ([rightSidebar isKindOfClass:DCCInfoViewController.class]){
 			DCServerCommunicator.sharedInstance.selectedChannel.users.count;
-			[rightSidebar.navigationItem setTitle:self.navigationItem.title]; //toru idk how to do this
+			[rightSidebar.navigationItem setTitle:self.navigationItem.title];
 			
 		}
 	}

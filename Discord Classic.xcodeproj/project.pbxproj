@@ -111,6 +111,7 @@
 		5BCE5F372B65561400F5E66B /* ContactsBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F352B65561400F5E66B /* ContactsBar.png */; };
 		5BCE5F382B65561400F5E66B /* ContactsBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */; };
 		5BCE5F422B655EDF00F5E66B /* DCMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE5F412B655EDF00F5E66B /* DCMenuViewController.m */; };
+		5BE57B662BAECDB4000ECC53 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BE57B652BAECDB4000ECC53 /* Settings.bundle */; };
 		7D00DBB72B00E86400B27C97 /* TbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB52B00E86400B27C97 /* TbarBG.png */; };
 		7D00DBB82B00E86400B27C97 /* TbarBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */; };
 		7D41744C2B013B7A00449179 /* CBarButtonMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D41744A2B013B7A00449179 /* CBarButtonMap.png */; };
@@ -281,6 +282,7 @@
 		5BCE5F362B65561400F5E66B /* ContactsBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ContactsBar@2x.png"; sourceTree = "<group>"; };
 		5BCE5F402B655EDF00F5E66B /* DCMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMenuViewController.h; sourceTree = "<group>"; };
 		5BCE5F412B655EDF00F5E66B /* DCMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMenuViewController.m; sourceTree = "<group>"; };
+		5BE57B652BAECDB4000ECC53 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = SOURCE_ROOT; };
 		7D00DBB52B00E86400B27C97 /* TbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TbarBG.png; sourceTree = "<group>"; };
 		7D00DBB62B00E86400B27C97 /* TbarBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TbarBG@2x.png"; sourceTree = "<group>"; };
 		7D41744A2B013B7A00449179 /* CBarButtonMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CBarButtonMap.png; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 		09C6B915204A0F54007EAC26 = {
 			isa = PBXGroup;
 			children = (
+				5B57A5612B9DA0AB00BE95C3 /* Bundles */,
 				2CAEFBA82ADADC1000103C30 /* iPad */,
 				2C0EBB722ADB15F400A23EB8 /* Images */,
 				095284622055EFDA00760073 /* Etc */,
@@ -606,6 +609,14 @@
 			name = Emojize;
 			sourceTree = "<group>";
 		};
+		5B57A5612B9DA0AB00BE95C3 /* Bundles */ = {
+			isa = PBXGroup;
+			children = (
+				5BE57B652BAECDB4000ECC53 /* Settings.bundle */,
+			);
+			path = Bundles;
+			sourceTree = "<group>";
+		};
 		5B5D67962B78CDFB006F7FC4 /* New */ = {
 			isa = PBXGroup;
 			children = (
@@ -758,6 +769,7 @@
 				5BB4175A2B667E8300735AC3 /* Discord.png in Resources */,
 				2C0EBB712ADB15DC00A23EB8 /* DirectMessages@2x.png in Resources */,
 				2C0EBB8E2ADB16FB00A23EB8 /* DefaultAvatar4.png in Resources */,
+				5BE57B662BAECDB4000ECC53 /* Settings.bundle in Resources */,
 				5B5D67A62B78CF61006F7FC4 /* menu@2x.png in Resources */,
 				2CF920582AF9957300249D6A /* iTunesArtwork.png in Resources */,
 				2C0EBB952ADB175E00A23EB8 /* DCChatReplyTableCell.xib in Resources */,

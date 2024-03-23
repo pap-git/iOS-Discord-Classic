@@ -23,29 +23,26 @@
 	if(!DCServerCommunicator.sharedInstance.token.length)
 		[self performSegueWithIdentifier:@"to Tokenpage" sender:self];
 	
+    //NOTIF OBSERVERS
+    
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleReady) name:@"READY" object:nil];
 	
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleReady) name:@"MESSAGE ACK" object:nil];
 	
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"MESSAGE ACK" object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"RELOAD CHANNEL LIST" object:nil];
-    
 	[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleReady) name:@"RELOAD GUILD LIST" object:nil];
-    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"MESSAGE ACK" object:nil];
-    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(handleMessageAck) name:@"RELOAD CHANNEL LIST" object:nil];
-    
-    //NOTIF OBSERVERS
+    //pns observers
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotificationTap:) name:@"NavigateToChannel" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitedChatController) name:@"ChannelSelectionCleared" object:nil];
     //NOTIF OBSERVERS END
     
     //TOOLBAR IMAGE LOGIC
-    UIImage *buttonbackgroundImage = [UIImage imageNamed:@"ToolbarBG"];
+    UIImage *toolbarBGImage = [UIImage imageNamed:@"ToolbarBG"];
     
-    [self.toolbar setBackgroundImage:buttonbackgroundImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.toolbar setBackgroundImage:toolbarBGImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
     //toolbar image logic end
 }
 
@@ -91,14 +88,33 @@
 //end of block
 
 //reload
-- (void)handleReady {
+/*- (void)handleReady {
     [self.guildTableView reloadData];
     [self.channelTableView reloadData];
+}*/
+
+- (void)handleReady {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.guildTableView reloadData];
+        [self.channelTableView reloadData];
+        
+        if(VERSION_MIN(@"6.0") && !self.refreshControl){
+            self.refreshControl = UIRefreshControl.new;
+            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Reauthenticate"];
+            
+            [self.guildTableView addSubview:self.refreshControl];
+            
+            [self.refreshControl addTarget:self action:@selector(reconnect) forControlEvents:UIControlEventValueChanged];
+        }
+    });
 }
 
 - (void)reconnect {
 	[DCServerCommunicator.sharedInstance reconnect];
+    if (VERSION_MIN(@"6.0"))
+        [self.refreshControl endRefreshing];
 }
+
 //reload end
 //misc
 - (void)didReceiveMemoryWarning {
@@ -129,6 +145,14 @@
 }
 
 //misc end
+- (IBAction)moreInfo:(id)sender {
+    UIActionSheet *messageActionSheet = [[UIActionSheet alloc] initWithTitle:self.selectedGuild.name delegate:self cancelButtonTitle:@"Okay" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+    [messageActionSheet setDelegate:self];
+    [messageActionSheet showInView:self.view];
+}
+//BUTTON ACTIONS
+
+//BUTTON ACTIONS END
 //TABLEVIEW(S)
 
 
@@ -201,22 +225,6 @@
         }
         
         [cell.textLabel setText:channelAtRowIndex.name];
-        /*if ([self.navigationItem.title isEqualToString:@"Direct Messages"]) {
-            
-            if (channelAtRowIndex.icon != nil && [channelAtRowIndex.icon class] == [UIImage class]) {
-                [cell.imageView setImage:channelAtRowIndex.icon];
-                cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-                cell.imageView.clipsToBounds = YES;
-            
-                cell.imageView.frame = CGRectMake(0, 0, 32, 32);
-                cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
-                cell.imageView.layer.masksToBounds = YES;
-                [cell.imageView setNeedsDisplay];
-                [cell layoutIfNeeded];
-            } else {
-                //nothing, kill yourself
-            }
-        }*/
     }
     
     return cell;
@@ -226,9 +234,8 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     // make guild icons a fixed size
     if(tableView == self.guildTableView) {
-    cell.imageView.frame = CGRectMake(0, 0, 32, 32);
+    cell.imageView.frame = CGRectMake(0, 0, 34, 34);
     cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
-    cell.imageView.layer.masksToBounds = YES;
     [cell.imageView setNeedsDisplay];
     [cell layoutIfNeeded];
     }
@@ -259,20 +266,13 @@
                 
                 //Initialize messages
                 chatViewController.messages = NSMutableArray.new;
-                
-                //Add a '#' if appropriate to the chanel name in the navigation bar
                 NSString* formattedChannelName;
                 if(DCServerCommunicator.sharedInstance.selectedChannel.type == 0)
                     formattedChannelName = [@"#" stringByAppendingString:DCServerCommunicator.sharedInstance.selectedChannel.name];
                 else
                     formattedChannelName = DCServerCommunicator.sharedInstance.selectedChannel.name;
                 [chatViewController.navigationItem setTitle:formattedChannelName];
-                
-                //Populate the message view with the last 50 messages
-                
                 [chatViewController getMessages:50 beforeMessage:nil];
-                
-                //Chat view is watching the present conversation (auto scroll with new messages)
                 [chatViewController setViewingPresentTime:true];
             }
         }

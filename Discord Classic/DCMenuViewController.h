@@ -15,6 +15,8 @@
 #import "DCTools.h"
 #import "DCUser.h"
 
+#define VERSION_MIN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @interface DCMenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *guildTableView;
