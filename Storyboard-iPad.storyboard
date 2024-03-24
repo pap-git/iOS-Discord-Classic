@@ -822,7 +822,7 @@
                                 <rect key="frame" x="56" y="0.0" width="264" height="146"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="13AE72DD-637B-4AAA-B9BA-9836DED1769E" id="QQ6-gO-kMI">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="90EA3978-D5AB-45E7-A399-CEE0CA1D08EA" id="QQ6-gO-kMI">
                                         <rect key="frame" x="0.0" y="0.0" width="264" height="146"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -1013,7 +1013,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="13AE72DD-637B-4AAA-B9BA-9836DED1769E" width="260" height="146">
+        <image name="90EA3978-D5AB-45E7-A399-CEE0CA1D08EA" width="260" height="146">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

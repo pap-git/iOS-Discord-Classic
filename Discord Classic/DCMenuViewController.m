@@ -234,8 +234,9 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     // make guild icons a fixed size
     if(tableView == self.guildTableView) {
-    cell.imageView.frame = CGRectMake(0, 0, 34, 34);
-    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 2.0;
+    cell.imageView.frame = CGRectMake(0, 0, 32, 32);
+    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height / 4.0;
+    cell.imageView.layer.masksToBounds = YES;
     [cell.imageView setNeedsDisplay];
     [cell layoutIfNeeded];
     }
