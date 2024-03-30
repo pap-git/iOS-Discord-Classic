@@ -28,9 +28,9 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSMainNibFile~ipad</key>
+	<string>Storyboard-iPad</string>
 	<key>UIMainStoryboardFile</key>
-	<string>Storyboard</string>
-	<key>UIMainStoryboardFile~ipad</key>
 	<string>Storyboard</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
@@ -49,6 +49,7 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

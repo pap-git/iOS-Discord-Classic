@@ -69,18 +69,6 @@
         }
     }
 }
-/*
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        UITextField *textField = [alertView textFieldAtIndex:0];
-        NSString *enteredText = textField.text;
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
-        [defaults setObject:enteredText forKey:@"token"];
-        [DCServerCommunicator.sharedInstance startCommunicator];
-        NSLog(@"Token alert fullfilled it's job");
-    }
-}*/
 
 - (void)applicationWillResignActive:(UIApplication *)application{
 	NSLog(@"Will resign active");

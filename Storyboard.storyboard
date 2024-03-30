@@ -124,14 +124,14 @@
             </objects>
             <point key="canvasLocation" x="-1147" y="-978"/>
         </scene>
-        <!--Settings View Controller - Settings-->
+        <!--Settings View Controller - User-->
         <scene sceneID="qbG-hh-URF">
             <objects>
                 <tableViewController extendedLayoutIncludesOpaqueBars="YES" id="Y2n-LQ-P1S" customClass="DCSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ttu-Xo-7OV">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.15686274510000001" green="0.16078431369999999" blue="0.18039215689999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.12156862745098039" green="0.12549019607843137" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="Nfh-Fu-H8n">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="122"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -207,7 +207,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="oII-hd-38a">
+                            <tableViewSection footerTitle="The app settings have moved, to change your settings, visit the settings app." id="oII-hd-38a">
                                 <cells/>
                             </tableViewSection>
                         </sections>
@@ -216,7 +216,7 @@
                             <outlet property="delegate" destination="Y2n-LQ-P1S" id="zc4-tc-XnM"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="p8A-x4-fml">
+                    <navigationItem key="navigationItem" title="User" id="p8A-x4-fml">
                         <barButtonItem key="backBarButtonItem" title="Back" id="dL7-KM-PJ2"/>
                     </navigationItem>
                 </tableViewController>
@@ -462,7 +462,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="FQU-uE-jCg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="456"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.16078431372549018" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="0.15686274509803921" green="0.16078431372549018" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
@@ -473,7 +473,7 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="naG-kY-gaA">
-                                <rect key="frame" x="0.0" y="456" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="k6t-xf-CZQ"/>
@@ -822,7 +822,7 @@
                                 <rect key="frame" x="56" y="0.0" width="264" height="146"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="13AE72DD-637B-4AAA-B9BA-9836DED1769E" id="QQ6-gO-kMI">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="13B5CA39-FC88-4CDD-92D6-97C8CCACC2CA" id="QQ6-gO-kMI">
                                         <rect key="frame" x="0.0" y="0.0" width="264" height="146"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -933,45 +933,6 @@
                                 <rect key="frame" x="56" y="461" width="264" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem style="plain" id="bGI-Sh-OET">
-                                        <view key="customView" contentMode="scaleToFill" id="axu-v3-zxb">
-                                            <rect key="frame" x="12" y="6" width="33" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bag-xml.png" id="D1t-b4-ZAA">
-                                                    <rect key="frame" x="0.0" y="0.0" width="33" height="33"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        </view>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Rm5-4t-xNR"/>
-                                    <barButtonItem style="plain" id="mHS-EP-ozo">
-                                        <view key="customView" contentMode="scaleToFill" id="cIc-Nb-U9v">
-                                            <rect key="frame" x="52" y="6" width="153" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bag.xml" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hjD-NS-4LW">
-                                                    <rect key="frame" x="1" y="-2" width="132" height="22"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bag.xml" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DAz-dh-hnn">
-                                                    <rect key="frame" x="1" y="15" width="132" height="19"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.80398070249999998" green="1" blue="0.68321973800000002" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        </view>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1z9-LC-mkN"/>
                                     <barButtonItem image="Sidebar_glyph.png" id="p3w-3V-2OJ">
                                         <connections>
@@ -1013,7 +974,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="13AE72DD-637B-4AAA-B9BA-9836DED1769E" width="260" height="146">
+        <image name="13B5CA39-FC88-4CDD-92D6-97C8CCACC2CA" width="260" height="146">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -3624,7 +3585,6 @@ AAAAAAAABAEAAAAAAAAAPwAAAAAAAAAAAAAAAAACX+w
         <image name="TopLogo.png" width="120" height="30"/>
         <image name="WelcomeBanner.png" width="640" height="256"/>
         <image name="addbarglyph.png" width="25" height="25"/>
-        <image name="bag-xml.png" width="286" height="286"/>
         <image name="border.png" width="260" height="146"/>
         <image name="menu.png" width="24" height="24"/>
         <image name="separator.png" width="320" height="4"/>

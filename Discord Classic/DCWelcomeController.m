@@ -47,7 +47,8 @@
     [self.loginIndicator startAnimating];
 	[self.loginIndicator setHidden:false];
     [NSUserDefaults.standardUserDefaults setObject:self.tokenTextField.text forKey:@"token"];
-	
+	[[NSUserDefaults standardUserDefaults] synchronize];
+    
 	//Save the entered values and reauthenticate if the token has been changed
 	if(![DCServerCommunicator.sharedInstance.token isEqual:[NSUserDefaults.standardUserDefaults valueForKey:@"token"]]){
 		DCServerCommunicator.sharedInstance.token = self.tokenTextField.text;
